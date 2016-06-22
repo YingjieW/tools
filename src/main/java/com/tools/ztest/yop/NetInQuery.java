@@ -23,8 +23,6 @@ public class NetInQuery {
 
     public static void main(String[] args) {
 
-
-
         String yopUrlQa = "http://10.151.30.80:18064/yop-center";
         String customerNoQa = "10040030491";
         String keyQa = "D08hwt6r413m0Pkqoj36X66r3Eb5K8lXKYP5A151R7041SkgP2Q6nfw5v8ke";
