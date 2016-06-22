@@ -1,4 +1,4 @@
-package com.tools.script;
+package com.tools.ztest.script;
 
 import com.csvreader.CsvReader;
 import com.tools.utils.FileUtils;

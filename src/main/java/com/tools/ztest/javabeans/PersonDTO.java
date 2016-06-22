@@ -14,6 +14,8 @@ public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = -484375399579394512L;
 
+    private Integer aaa;
+
     private String name;
 
     private int age;
@@ -29,6 +31,14 @@ public class PersonDTO implements Serializable {
     public PersonDTO(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Integer getAaa() {
+        return aaa;
+    }
+
+    public void setAaa(Integer aaa) {
+        this.aaa = aaa;
     }
 
     public String getName() {

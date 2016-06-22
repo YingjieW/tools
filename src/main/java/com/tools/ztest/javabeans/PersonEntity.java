@@ -14,12 +14,11 @@ public class PersonEntity implements Serializable {
 
     private static final long serialVersionUID = -2401373486315501895L;
 
-    private String aaa;
+    private Integer aaa;
 
     private String name;
 
     private int age;
-
 
     private Float score;
 
@@ -36,11 +35,11 @@ public class PersonEntity implements Serializable {
         this.age = age;
     }
 
-    public String getAaa() {
+    public Integer getAaa() {
         return aaa;
     }
 
-    public void setAaa(String aaa) {
+    public void setAaa(Integer aaa) {
         this.aaa = aaa;
     }
 

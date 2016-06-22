@@ -328,4 +328,12 @@ public class PropertyUtils {
         return false;
     }
 
+    /**
+     * 判断是否为常见的引用类型
+     * @param propertyType
+     * @return
+     */
+    public static boolean isCommonReferenceType(Class propertyType) {
+        return false;
+    }
 }

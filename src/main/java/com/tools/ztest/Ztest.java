@@ -45,8 +45,8 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testJavaBean();
-//        testPropertyCopy();
+//        testJavaBean();
+        testPropertyCopy();
 //        org.apache.commons.beanutils.BeanUtils.createCache();
     }
 
@@ -84,11 +84,14 @@ public class Ztest {
 
     // BeanUtils.copyProperties()为浅拷贝，有可能引发一些潜在的问题
     private static void testPropertyCopy() throws Exception {
+        String deepName = "DeepName";
         PersonEntity source = new PersonEntity("ZhangSan", 23);
-        source.setAaa("AAAAA");
+        Integer aaa = 18;
+        source.setAaa(aaa);
         Float score = 89.5f;
         source.setScore(score);
         PersonDTO personDTO = new PersonDTO("personDTO", 99);
+        personDTO.setName(deepName);
         source.setPersonDTO(personDTO);
         Map map = new HashMap();
         map.put("key1", "value1");
@@ -101,7 +104,9 @@ public class Ztest {
 
         PersonDTO target = new PersonDTO();
 
-        BeanUtils.copyProperties(source, target);
+//        BeanUtils.copyProperties(source, target);
+        BeanUtils.deepCopyProperties(source, target);
+        personDTO.setName("sjdfsf");
         print("   source: " + JSON.toJSONString(source));
         print("   target: " + JSON.toJSONString(target));
     }
