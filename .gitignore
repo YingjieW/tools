@@ -1,0 +1,6 @@
+#过滤idea配置文件  
+*.iml  
+  
+#过滤文件夹
+logs/  
+target/  
