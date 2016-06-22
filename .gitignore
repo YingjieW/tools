@@ -3,4 +3,5 @@
   
 #过滤文件夹
 logs/  
-target/  
+target/
+.idea/
