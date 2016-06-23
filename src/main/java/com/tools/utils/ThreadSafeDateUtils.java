@@ -82,7 +82,7 @@ public class ThreadSafeDateUtils {
      * @param date
      * @return
      */
-    public static String formatDateTimeMillisecond(Date date) {
+    public static String formatDateTimeMillis(Date date) {
         return getDateTimeMillisFormat().format(date);
     }
 

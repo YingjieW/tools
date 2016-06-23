@@ -46,8 +46,13 @@ public class Ztest {
 
     public static void main(String[] args) throws Throwable {
 //        testJavaBean();
-        testPropertyCopy();
-//        org.apache.commons.beanutils.BeanUtils.createCache();
+//        testPropertyCopy();
+        testString();
+    }
+
+    private static void testString() throws Exception {
+        String text = "银行订单不可重复使用sdnsofn";
+        print("   : " + text.indexOf("1银行订单不可重复使用"));
     }
 
     private static void testJavaBean() throws Throwable {
@@ -115,8 +120,8 @@ public class Ztest {
         Date date1 = new Date();
         Thread.sleep(10);
         Date date2 = new Date();
-        print("date1: " + ThreadSafeDateUtils.formatDateTimeMillisecond(date1));
-        print("date2: " + ThreadSafeDateUtils.formatDateTimeMillisecond(date2));
+        print("date1: " + ThreadSafeDateUtils.formatDateTimeMillis(date1));
+        print("date2: " + ThreadSafeDateUtils.formatDateTimeMillis(date2));
         print(date1.before(date2));
     }
 

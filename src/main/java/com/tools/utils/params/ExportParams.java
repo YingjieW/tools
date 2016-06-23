@@ -1,4 +1,4 @@
-package com.tools.params;
+package com.tools.utils.params;
 
 import java.util.List;
 
