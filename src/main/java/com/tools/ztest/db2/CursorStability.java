@@ -24,6 +24,7 @@ public class CursorStability extends DataBaseConnection {
 
         Thread.sleep(20000);
 
+
         System.out.println("Second query : ");
         resultSet = statement.executeQuery(sql);
         print(resultSet);
