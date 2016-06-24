@@ -1,8 +1,10 @@
 package com.tools.ztest.javabeans;
 
+import com.tools.ztest.reflect.enumtype.CommonType;
+
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Descripe:
@@ -20,11 +22,29 @@ public class PersonDTO implements Serializable {
 
     private int age;
 
-    private PersonDTO personDTO;
+//    private PersonDTO personDTO;
+
+    private List list;
+
+    private LinkedList linkedList;
+
+    private ArrayList arrayList;
+
+    private Set set;
+
+    private HashSet hashSet;
+
+    private TreeSet treeSet;
 
     private Map map;
 
-    private List list;
+    private HashMap hashMap;
+
+    private TreeMap treeMap;
+
+    private BigDecimal bigDecimal;
+
+    private CommonType commonType;
 
     public PersonDTO(){}
 
@@ -57,12 +77,60 @@ public class PersonDTO implements Serializable {
         this.age = age;
     }
 
-    public PersonDTO getPersonDTO() {
-        return personDTO;
+//    public PersonDTO getPersonDTO() {
+//        return personDTO;
+//    }
+//
+//    public void setPersonDTO(PersonDTO personDTO) {
+//        this.personDTO = personDTO;
+//    }
+//
+    public List getList() {
+        return list;
     }
 
-    public void setPersonDTO(PersonDTO personDTO) {
-        this.personDTO = personDTO;
+    public void setList(List list) {
+        this.list = list;
+    }
+
+    public LinkedList getLinkedList() {
+        return linkedList;
+    }
+
+    public void setLinkedList(LinkedList linkedList) {
+        this.linkedList = linkedList;
+    }
+
+    public ArrayList getArrayList() {
+        return arrayList;
+    }
+
+    public void setArrayList(ArrayList arrayList) {
+        this.arrayList = arrayList;
+    }
+
+    public Set getSet() {
+        return set;
+    }
+
+    public void setSet(Set set) {
+        this.set = set;
+    }
+
+    public HashSet getHashSet() {
+        return hashSet;
+    }
+
+    public void setHashSet(HashSet hashSet) {
+        this.hashSet = hashSet;
+    }
+
+    public TreeSet getTreeSet() {
+        return treeSet;
+    }
+
+    public void setTreeSet(TreeSet treeSet) {
+        this.treeSet = treeSet;
     }
 
     public Map getMap() {
@@ -73,11 +141,35 @@ public class PersonDTO implements Serializable {
         this.map = map;
     }
 
-    public List getList() {
-        return list;
+    public HashMap getHashMap() {
+        return hashMap;
     }
 
-    public void setList(List list) {
-        this.list = list;
+    public void setHashMap(HashMap hashMap) {
+        this.hashMap = hashMap;
+    }
+
+    public TreeMap getTreeMap() {
+        return treeMap;
+    }
+
+    public void setTreeMap(TreeMap treeMap) {
+        this.treeMap = treeMap;
+    }
+
+    public BigDecimal getBigDecimal() {
+        return bigDecimal;
+    }
+
+    public void setBigDecimal(BigDecimal bigDecimal) {
+        this.bigDecimal = bigDecimal;
+    }
+
+    public CommonType getCommonType() {
+        return commonType;
+    }
+
+    public void setCommonType(CommonType commonType) {
+        this.commonType = commonType;
     }
 }

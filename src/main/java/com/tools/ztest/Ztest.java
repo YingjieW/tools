@@ -7,6 +7,7 @@ import com.tools.utils.PropertiesFileUtils;
 import com.tools.utils.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
+import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.yop.entity.TestEntity;
 import com.tools.ztest.yop.entity.YeepayProductEntity;
 import org.slf4j.Logger;
@@ -46,8 +47,8 @@ public class Ztest {
 
     public static void main(String[] args) throws Throwable {
 //        testJavaBean();
-//        testPropertyCopy();
-        testString();
+        testPropertyCopy();
+//        testString();
     }
 
     private static void testString() throws Exception {
@@ -89,29 +90,76 @@ public class Ztest {
 
     // BeanUtils.copyProperties()为浅拷贝，有可能引发一些潜在的问题
     private static void testPropertyCopy() throws Exception {
-        String deepName = "DeepName";
         PersonEntity source = new PersonEntity("ZhangSan", 23);
+
         Integer aaa = 18;
-        source.setAaa(aaa);
+
         Float score = 89.5f;
-        source.setScore(score);
+
+        BigDecimal bigDecimal = new BigDecimal("99.5");
+
         PersonDTO personDTO = new PersonDTO("personDTO", 99);
-        personDTO.setName(deepName);
-        source.setPersonDTO(personDTO);
+
         Map map = new HashMap();
         map.put("key1", "value1");
         map.put("key2", "value2");
-        source.setMap(map);
-        List list = new ArrayList();
+
+        List list = new LinkedList();
+        list.add("element0");
         list.add("element1");
-        list.add("element2");
+        list.add(personDTO);
+
+        LinkedList linkedList = new LinkedList();
+        linkedList.add("linkedList0");
+        linkedList.add("linkedList1");
+
+        HashSet hashSet = new HashSet();
+        hashSet.add("hashSet0");
+        hashSet.add("hashSet1");
+
+        TreeSet treeSet = new TreeSet();
+        treeSet.add("treeSet0");
+        treeSet.add("treeSet1");
+
+        HashMap hashMap = new HashMap<String, String>();
+        hashMap.put("hkey0", "hvalue0");
+        hashMap.put("hkey1", "hvalue1");
+
+        TreeMap treeMap = new TreeMap<String, PersonDTO>();
+        PersonDTO personDTO0 = new PersonDTO("treeMap0", 0);
+        PersonDTO personDTO1 = new PersonDTO("treeMap1", 1);
+        treeMap.put("tkey0", personDTO0);
+        treeMap.put("tkey1", personDTO1);
+
+        CommonType commonType = CommonType.BIGDECIMAL;
+
+        source.setAaa(aaa);
+        source.setScore(score);
+        source.setBigDecimal(bigDecimal);
+//        source.setPersonDTO(personDTO);
+//        source.setMap(map);
         source.setList(list);
+        source.setLinkedList(linkedList);
+        source.setHashSet(hashSet);
+        source.setTreeSet(treeSet);
+        source.setHashMap(hashMap);
+        source.setTreeMap(treeMap);
+        source.setCommonType(commonType);
 
         PersonDTO target = new PersonDTO();
 
 //        BeanUtils.copyProperties(source, target);
         BeanUtils.deepCopyProperties(source, target);
+
         personDTO.setName("sjdfsf");
+        list.add("element2");
+        linkedList.add("linkedList2");
+        hashSet.add("hashSet2");
+        treeSet.add("treeSet2");
+        hashMap.put("hkey0", "00000");
+        hashMap.put("hkey2", "hvalue2");
+        personDTO0.setAaa(9999);
+
         print("   source: " + JSON.toJSONString(source));
         print("   target: " + JSON.toJSONString(target));
     }

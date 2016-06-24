@@ -7,6 +7,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -27,9 +28,12 @@ public class PropertyUtils {
 
     private static final String KEY_PREFIX = "PropertyUtils";
 
-    private static final List<Class> PRIMITIVE_TYPES = new ArrayList<Class>(8);
+    public static final List<Class> PRIMITIVE_TYPES = new ArrayList<Class>(8);
+
+    public static final List<Class> COMMON_REFERENCE_TYPES = new ArrayList<Class>();
 
     static {
+        // 基本数据类型有8种
         PRIMITIVE_TYPES.add(int.class);
         PRIMITIVE_TYPES.add(short.class);
         PRIMITIVE_TYPES.add(long.class);
@@ -38,6 +42,24 @@ public class PropertyUtils {
         PRIMITIVE_TYPES.add(byte.class);
         PRIMITIVE_TYPES.add(char.class);
         PRIMITIVE_TYPES.add(boolean.class);
+
+        // JVM提供的JavaBean中常用的引用数据类型(待进一步补充)
+        COMMON_REFERENCE_TYPES.add(String.class);
+        COMMON_REFERENCE_TYPES.add(Integer.class);
+        COMMON_REFERENCE_TYPES.add(Long.class);
+        COMMON_REFERENCE_TYPES.add(Float.class);
+        COMMON_REFERENCE_TYPES.add(Double.class);
+        COMMON_REFERENCE_TYPES.add(BigDecimal.class);
+        COMMON_REFERENCE_TYPES.add(Boolean.class);
+        COMMON_REFERENCE_TYPES.add(List.class);
+        COMMON_REFERENCE_TYPES.add(ArrayList.class);
+        COMMON_REFERENCE_TYPES.add(LinkedList.class);
+        COMMON_REFERENCE_TYPES.add(Set.class);
+        COMMON_REFERENCE_TYPES.add(HashSet.class);
+        COMMON_REFERENCE_TYPES.add(TreeSet.class);
+        COMMON_REFERENCE_TYPES.add(Map.class);
+        COMMON_REFERENCE_TYPES.add(HashMap.class);
+        COMMON_REFERENCE_TYPES.add(TreeMap.class);
     }
 
     /**
@@ -320,20 +342,19 @@ public class PropertyUtils {
         if(propertyType == null) {
             return false;
         }
-        for(Class clz : PRIMITIVE_TYPES) {
-            if(propertyType == clz) {
-                return true;
-            }
-        }
-        return false;
+        return PRIMITIVE_TYPES.contains(propertyType);
     }
 
     /**
      * 判断是否为常见的引用类型
+     * 该方法写的极烂,待优化
      * @param propertyType
      * @return
      */
     public static boolean isCommonReferenceType(Class propertyType) {
-        return false;
+        if(propertyType == null) {
+            return false;
+        }
+        return COMMON_REFERENCE_TYPES.contains(propertyType);
     }
 }
