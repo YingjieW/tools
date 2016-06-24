@@ -1,10 +1,8 @@
 package com.tools.action.image;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tools.action.BaseAction;
 import com.tools.utils.CheckUtils;
-import com.tools.utils.ExpressionUtils;
 import com.tools.utils.FileUtils;
 import com.tools.utils.ImageUtils;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -25,7 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 ;
@@ -61,13 +58,6 @@ public class CompressAction extends BaseAction{
         test.testStatic();
         logger.info("###   testString: " + test.testString());
         logger.info("###   appName : " + applicationContext.getApplicationName());
-        try {
-            String expression = "JsonBase->List:[\"test1\",\"key2\",\"key3\"]";
-            List<String> list = (List) ExpressionUtils.parseJsonBaseExpression(expression);
-            logger.info("###   list: " + JSON.toJSONString(list));
-        } catch (Throwable t) {
-            logger.error("!!! expression parse exception.");
-        }
         return mav;
     }
     
