@@ -1,4 +1,4 @@
-package com.tools.ztest.db2;
+package com.tools.ztest.database;
 
 import com.tools.utils.ThreadSafeDateUtils;
 
@@ -11,7 +11,7 @@ import java.util.Date;
  * @author yingjie.wang
  * @since 16/6/28 下午3:13
  */
-public class LeftJoin extends DataBaseConnection {
+public class LeftJoin extends DBSetup {
 
     public static void main(String[] args) throws Exception {
 

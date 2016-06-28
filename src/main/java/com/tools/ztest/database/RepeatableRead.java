@@ -1,4 +1,4 @@
-package com.tools.ztest.db2;
+package com.tools.ztest.database;
 
 import com.tools.utils.ThreadSafeDateUtils;
 
@@ -11,7 +11,7 @@ import java.util.Date;
  * @author yingjie.wang
  * @since 16/6/23 下午11:23
  */
-public class RepeatableRead extends DataBaseConnection {
+public class RepeatableRead extends DBSetup {
 
     public static void main(String[] args) throws Exception {
         Date startTime = new Date();

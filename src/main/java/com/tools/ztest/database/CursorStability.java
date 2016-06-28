@@ -1,4 +1,4 @@
-package com.tools.ztest.db2;
+package com.tools.ztest.database;
 
 import com.tools.utils.ThreadSafeDateUtils;
 
@@ -9,14 +9,15 @@ import java.util.Date;
  * Descripe:
  *
  * @author yingjie.wang
- * @since 16/6/23 上午10:26
+ * @since 16/6/23 下午6:27
  */
-public class ReadStability extends DataBaseConnection {
+public class CursorStability extends DBSetup {
 
     public static void main(String[] args) throws Exception {
+        DBSetup.connectToMySql();
         Date startTime = new Date();
-        System.out.println("ReadStability start time: " + ThreadSafeDateUtils.formatDateTimeMillis(startTime));
-        String sql = "select * from cs.tbl_ztest_student where id >= 1 and id <= 9 order by id with rs";
+        System.out.println("CursorStability start time: " + ThreadSafeDateUtils.formatDateTimeMillis(startTime));
+        String sql = "select * from cs.tbl_ztest_student where id >= 1 and id <= 9 order by id with cs";
 
         System.out.println("First query : ");
         ResultSet resultSet = statement.executeQuery(sql);
@@ -30,11 +31,10 @@ public class ReadStability extends DataBaseConnection {
 
         connection.commit();
         Date endTime =  new Date();
-        System.out.println("ReadStability end time: " + ThreadSafeDateUtils.formatDateTimeMillis(endTime)
+        System.out.println("CursorStability end time: " + ThreadSafeDateUtils.formatDateTimeMillis(endTime)
                 + ", cost: " + (endTime.getTime() - startTime.getTime()) + " millis");
 
         statement.close();
         connection.close();
     }
-
 }

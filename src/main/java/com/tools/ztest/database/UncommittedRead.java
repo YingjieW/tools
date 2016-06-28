@@ -1,4 +1,4 @@
-package com.tools.ztest.db2;
+package com.tools.ztest.database;
 
 import com.tools.utils.ThreadSafeDateUtils;
 
@@ -11,12 +11,13 @@ import java.util.Date;
  * @author yingjie.wang
  * @since 16/6/23 下午5:37
  */
-public class UncommittedRead extends DataBaseConnection {
+public class UncommittedRead extends DBSetup {
 
     public static void main(String[] args) throws Exception {
+        DBSetup.connectToMySql();
         Date startTime = new Date();
         System.out.println("UncommittedRead start time: " + ThreadSafeDateUtils.formatDateTimeMillis(startTime));
-        String sql = "select * from cs.tbl_ztest_student where id >= 1 and id <= 9 order by id with ur";
+        String sql = "select * from test.tbl_ztest_student where id >= 1 and id <= 9 order by id";
 
         System.out.println("First read: ");
         ResultSet resultSet = statement.executeQuery(sql);

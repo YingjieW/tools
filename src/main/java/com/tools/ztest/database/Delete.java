@@ -1,4 +1,4 @@
-package com.tools.ztest.db2;
+package com.tools.ztest.database;
 
 import com.tools.utils.ThreadSafeDateUtils;
 
@@ -10,7 +10,7 @@ import java.util.Date;
  * @author yingjie.wang
  * @since 16/6/23 上午10:28
  */
-public class Delete extends DataBaseConnection {
+public class Delete extends DBSetup {
 
     public static void main(String[] args) throws Exception {
         Date startTime = new Date();
