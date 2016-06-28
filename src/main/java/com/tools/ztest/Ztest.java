@@ -47,7 +47,7 @@ public class Ztest {
 
     public static void main(String[] args) throws Throwable {
 //        testJavaBean();
-        testPropertyCopy();
+//        testPropertyCopy();
 //        testString();
     }
 
