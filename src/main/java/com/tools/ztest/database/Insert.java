@@ -18,7 +18,7 @@ public class Insert extends DBSetup {
     public static void main(String[] args) throws Exception {
         Date startTime = new Date();
         System.out.println("insert start time: " + ThreadSafeDateUtils.formatDateTimeMillis(startTime));
-        String sql = "insert into test.tbl_ztest_student(id, name, score) values(7, 'Seven', 99)";
+        String sql = "insert into cs.tbl_ztest_student(id, name, score) values(1, 'one', 100)";
         statement.execute(sql);
 
 //        Thread.sleep(20000);

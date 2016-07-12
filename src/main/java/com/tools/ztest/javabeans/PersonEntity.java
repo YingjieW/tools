@@ -24,7 +24,7 @@ public class PersonEntity implements Serializable {
 
     private Float score;
 
-//    private PersonDTO personDTO;
+    private PersonDTO personDTO;
 
     private List list;
 
@@ -87,14 +87,14 @@ public class PersonEntity implements Serializable {
         this.score = score;
     }
 
-//    public PersonDTO getPersonDTO() {
-//        return personDTO;
-//    }
-//
-//    public void setPersonDTO(PersonDTO personDTO) {
-//        this.personDTO = personDTO;
-//    }
-//
+    public PersonDTO getPersonDTO() {
+        return personDTO;
+    }
+
+    public void setPersonDTO(PersonDTO personDTO) {
+        this.personDTO = personDTO;
+    }
+
     public List getList() {
         return list;
     }

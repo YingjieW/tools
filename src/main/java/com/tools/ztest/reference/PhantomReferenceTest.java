@@ -19,7 +19,7 @@ public class PhantomReferenceTest {
         String str = new String("Hello world.");
         // 创建一个虚引用
         PhantomReference phantomReference = new PhantomReference(str, referenceQueue);
-        // 去掉强引用,这样该对象只剩虚引用,才能够被垃圾回收
+        // 去掉强引用,这样该对象只剩虚引用,才能够被垃im回收
         str = null;
         // 垃圾回收,for循环提高垃圾回收触发
         for(int i = 0; i < 100; i++) {

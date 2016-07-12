@@ -27,8 +27,8 @@ public class DBSetup {
      * 设置默认链接的数据库
      */
     static {
-//        connectToDB2();
-        connectToMySql();
+        connectToDB2();
+//        connectToMySql();
     }
 
     /**

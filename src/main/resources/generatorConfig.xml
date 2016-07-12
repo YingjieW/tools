@@ -34,7 +34,7 @@
                      <property name="enableSubPackages" value="false"/>
               </javaClientGenerator>
               <!--生成对应表及类名，使用时请删除下面的例子-->
-              <table schema="CS" tableName="TBL_PROCESS_REFUND_DETAIL" domainObjectName="RefundDetailEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+              <table schema="CS" tableName="TBL_PROCESS_REFUND_ORDER" domainObjectName="RefundOrderEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
        </context>
        <!--使用方法 -->
        <!--   仔细阅读以上注释，并修改对应的参数                                                                                                      -->
