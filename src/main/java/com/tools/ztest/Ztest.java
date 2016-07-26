@@ -21,6 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -48,8 +49,17 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Thread.currentThread().getContextClassLoader();
-        testBigDecimal();
+    }
+
+    private static void testCalRefundFee() throws Exception {
+        BigDecimal refundAmount = new BigDecimal("1");
+        BigDecimal refundedAmount = new BigDecimal("250");
+        BigDecimal tradeAmount = new BigDecimal("300");
+        BigDecimal tradeFee = new BigDecimal("10");
+        BigDecimal refundedFee = new BigDecimal("8.33");
+        BigDecimal shouldRefundFee = BigDecimal.ZERO;
+        BigDecimal fee = refundAmount.add(refundedAmount).divide(tradeAmount, 4, RoundingMode.HALF_UP).multiply(tradeFee).subtract(refundedFee).subtract(shouldRefundFee).setScale(2, RoundingMode.HALF_UP);
+        print(fee.toString());
     }
 
     private static void testCollections() throws Exception {

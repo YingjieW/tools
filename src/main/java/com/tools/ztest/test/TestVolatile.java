@@ -1,4 +1,4 @@
-package com.tools.ztest;
+package com.tools.ztest.test;
 
 /**
  * Descripe:
@@ -20,7 +20,7 @@ public class TestVolatile {
         counter++;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         for(int i = 1; i <= 1000; i++) {
             new Thread(new Runnable() {
                 public void run() {
@@ -28,6 +28,8 @@ public class TestVolatile {
                 }
             }).start();
         }
+        // 睡眠10ms, 是为了等待上面这1000个线程全部执行完毕
+        Thread.sleep(10);
         System.out.println("###  counter = " + TestVolatile.counter);
     }
 }
