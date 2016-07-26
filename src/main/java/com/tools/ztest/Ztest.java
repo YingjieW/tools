@@ -48,7 +48,29 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testFinal("Hello");
+        Thread.currentThread().getContextClassLoader();
+        testBigDecimal();
+    }
+
+    private static void testCollections() throws Exception {
+        List<String> list1 = new ArrayList<String>(3);
+        list1.add("1");
+        list1.add("2");
+        list1.add("3");
+        List<String> list2 = new ArrayList<String>(list1);
+        print("list1: " + JSON.toJSONString(list1));
+        print("list2: " + JSON.toJSONString(list2));
+        list1.add("AAA");
+        print("list1: " + JSON.toJSONString(list1));
+        print("list2: " + JSON.toJSONString(list2));
+    }
+
+    private static void testMap() throws Exception {
+        Map<String, String> map = new HashMap<String, String>(99);
+        print("map.size = " + map.size());
+        map.put("key1", "value1");
+        map.put("key2", null);
+        print("map.get = " + map.get("key2"));
     }
 
     private static void testFinal(final String s) throws Exception {
@@ -67,11 +89,7 @@ public class Ztest {
     }
 
     private static void testBigDecimal() throws Exception {
-        BigDecimal b1 = new BigDecimal(1.2);
-        BigDecimal b2 = new BigDecimal(1.1);
-        print(b1.doubleValue());
-        print(b1.add(b2).doubleValue());
-        print(b1.doubleValue());
+
 
         BigDecimal a = new BigDecimal(1.256);
         print(a.setScale(2, BigDecimal.ROUND_DOWN));
@@ -86,10 +104,18 @@ public class Ztest {
         String str3 = String.valueOf(bigDecimal);
         print(str3);
 
+        BigDecimal b1 = new BigDecimal(1.2);
+        BigDecimal b2 = new BigDecimal(1.1);
+        print(b1.doubleValue());
+        print(b1.add(b2).doubleValue());
+        print(b1.doubleValue());
 
-        BigDecimal b3 = new BigDecimal("");
+        BigDecimal b3 = new BigDecimal("0.01");
         print("scale:" + b3.scale());
         print("scale:" + BigDecimalUtil.reconstruct(b3).scale());
+
+        BigDecimal b4 = BigDecimal.valueOf(0.03);
+        print("b4 = " + b4);
     }
 
     private static void testAlibabaJson() throws Exception {
@@ -124,6 +150,11 @@ public class Ztest {
     }
 
     private static void testString() throws Exception {
+
+        String statuses = "INIT";
+        List<String> list = Arrays.asList(statuses.split(","));
+        print(JSON.toJSONString(list));
+
         String a = "hello";
         String b = a;
         b.toUpperCase();
@@ -287,6 +318,12 @@ public class Ztest {
         sb.substring(0, sb.length()-1);
         logger.info("sb: [" + sb.toString() + "]");
         logger.info("sb: [" + sb.substring(0, sb.length()-1).toString() + "]");
+
+        StringBuffer buffer = new StringBuffer();
+        print("buffer.size = " + buffer.length());
+
+        StringBuffer defaultMsg = new StringBuffer("清算中心未正常入账邮件监控：<br> \r\n");
+        print("defaultMsg.length = " + defaultMsg.length());
     }
 
     private static void testSplit() throws Exception {
