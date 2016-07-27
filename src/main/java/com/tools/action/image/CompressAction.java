@@ -54,10 +54,7 @@ public class CompressAction extends BaseAction{
     public ModelAndView compress(HttpServletRequest request, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("image/compress");
-        test.printLog();
-        test.testStatic();
-        logger.info("###   testString: " + test.testString());
-        logger.info("###   appName : " + applicationContext.getApplicationName());
+//        logger.info("=========================compress=======================");
         return mav;
     }
     

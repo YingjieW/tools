@@ -19,20 +19,26 @@ public class RequestInterceptorTest extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String className = "";
         Object target = null;
-        if (handler instanceof HandlerMethod) {
-            target = ((HandlerMethod) handler).getBean();
-            className = target.getClass().getSimpleName();
-            logger.info("###   className: " + className);
-            logger.info("###   handler: " + JSON.toJSONString(handler));
+        try {
+            if (handler instanceof HandlerMethod) {
+                target = ((HandlerMethod) handler).getBean();
+                className = target.getClass().getSimpleName();
+                logger.info("###   className: " + className);
+                logger.info("###   handler: " + JSON.toJSONString(handler));
+            }
+        } catch (Throwable t) {
+            logger.error("###   RequestInterceptorTest.preHandle unknown exception.", t);
         }
         return true;  
     }
     
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {  
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        logger.info("###   postHandle....");
     }
     
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {  
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        logger.info("###   afterCompletion....");
     }
 }

@@ -1,18 +1,18 @@
 package com.tools.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 public class ConsumeTimeInterceptor extends HandlerInterceptorAdapter {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumeTimeInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsumeTimeInterceptor.class);
     
     private NamedThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("StartTime_Watcher");
     
@@ -28,6 +28,7 @@ public class ConsumeTimeInterceptor extends HandlerInterceptorAdapter {
     
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        logger.info("============postHandle.....");
     }
     
     @Override
@@ -37,7 +38,6 @@ public class ConsumeTimeInterceptor extends HandlerInterceptorAdapter {
         //得到线程绑定的局部变量（开始时间）
         long beginTime = startTimeThreadLocal.get();
         long consumeTime = endTime - beginTime;
-        LOGGER.info("==============   Consume Time : " + consumeTime + " mills.");
+        logger.info("==============   Consume Time : " + consumeTime + " mills.");
     }  
-
 }
