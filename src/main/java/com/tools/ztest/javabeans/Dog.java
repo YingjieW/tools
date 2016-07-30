@@ -6,9 +6,21 @@ package com.tools.ztest.javabeans;
  * @author yingjie.wang
  * @since 16/7/13 下午11:45
  */
+//@Repository("dog")
 public class Dog extends Mammal{
 
     public Dog() {
+    }
+
+    private int x = 0;
+    private int y = 0;
+    public void move(int dx, int dy) {
+        x = x + dx;
+        y = y + dy;
+    }
+
+    public String toString() {
+        return "x = " + x + ", y = " + y;
     }
 
     public void test() {

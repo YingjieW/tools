@@ -8,11 +8,11 @@ import java.util.concurrent.CountDownLatch;
  * @author yingjie.wang
  * @since 16/7/26 下午6:52
  */
-public class CountDownLatchThread extends Thread {
+public class TestCountDownLatchThread extends Thread {
 
     private CountDownLatch countDownLatch;
 
-    public CountDownLatchThread(CountDownLatch countDownLatch) {
+    public TestCountDownLatchThread(CountDownLatch countDownLatch) {
         this.countDownLatch = countDownLatch;
     }
 

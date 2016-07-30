@@ -1,6 +1,8 @@
 package com.tools.action.ztest;
 
 import com.tools.ztest.facade.RmiMockTester;
+import com.tools.ztest.javabeans.Dog;
+import javassist.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,12 @@ public class TestAnything extends HttpServlet {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("ztest/home");
 
-        // test RmiMockInterceptor
-        int i = rmiMockTester.getInt();
-        logger.info("###   getInt(): {}", i);
+        // 测试代码 - start
+
+//        testMakeClass();
+        testGetClass();
+
+        // 测试代码 - end
 
         return mav;
     }
@@ -50,6 +55,47 @@ public class TestAnything extends HttpServlet {
             printWriter.write("param : " + param);
         } catch (Throwable t) {
             logger.error("requestParamTest unknown error.", t);
+        }
+    }
+
+    private void testMakeClass() {
+        try {
+            String className = "com.tools.ztest.javabeans.Dog";
+            ClassPool classPool = ClassPool.getDefault();
+            // 生成类
+            CtClass ctClass = classPool.makeClass(className);
+            // 添加属性
+            CtField ctField = new CtField(CtClass.intType, "i", ctClass);
+            ctClass.addField(ctField);
+            // 添加方法
+            CtMethod ctMethod = CtMethod.make("public String toString() {  return (\"Hello world. this.i = \" + this.i); }", ctClass);
+            ctClass.addMethod(ctMethod);
+            Class clazz = ctClass.toClass();
+            logger.info("=====  clazz.newInstance: " + clazz.newInstance());
+            logger.info("=====  clazz.getName: " + clazz.getName());
+        } catch (Throwable t) {
+            logger.error("testMakeClass error.", t);
+        }
+    }
+
+    private void testGetClass() {
+        try {
+            String className = "com.tools.ztest.javabeans.Dog";
+            ClassPool classPool = ClassPool.getDefault();
+            // 将tomcat的路径注入到ClassPool中
+            classPool.insertClassPath(new ClassClassPath(this.getClass()));
+            CtClass ctClass = classPool.get(className);
+            CtMethod ctMethod = ctClass.getDeclaredMethod("move");
+            ctMethod.insertBefore("System.out.println(\"###  x = \" + x + \", y = \" + y);");
+            ctMethod.insertBefore("System.out.println(\"##  dx = \" + dx + \",dy = \" + dy);");
+            ctMethod.insertAfter("System.out.println(\"###  x = \" + x + \", y = \" + y);");
+            Class clazz = ctClass.toClass();
+            Dog dog = (Dog) clazz.newInstance();
+            logger.info("=====   before: " + dog.toString());
+            dog.move(1, 1);
+            logger.info("=====   after : " + dog.toString());
+        } catch (Throwable t) {
+            logger.error("testGetClass error.", t);
         }
     }
 }

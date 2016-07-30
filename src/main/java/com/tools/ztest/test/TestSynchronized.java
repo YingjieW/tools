@@ -27,7 +27,7 @@ public class TestSynchronized {
         // 创建总数为1000的计数器
         CountDownLatch countDownLatch = new CountDownLatch(1000);
         for(int i = 0; i < 1000; i++) {
-            Thread thread = new CountDownLatchThread(countDownLatch);
+            Thread thread = new TestCountDownLatchThread(countDownLatch);
             thread.start();
         }
         // 等待子线程结束
