@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @author yingjie.wang
  * @since 16/5/27 下午4:54
  */
-@Component
+@Component("test")
 public class Test {
     private static final Logger logger = LoggerFactory.getLogger(Test.class);
 

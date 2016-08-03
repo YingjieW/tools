@@ -40,26 +40,26 @@
 	</filter-mapping>
 
 	<!-- 过滤器 测试 -->
-	<filter>
-		<filter-name>logFilter</filter-name>
-		<filter-class>com.tools.filter.LogFilter</filter-class>
-		<init-param>
-			<param-name>flag</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>logFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<filter>
-		<filter-name>filterTest</filter-name>
-		<filter-class>com.tools.filter.FilterTest</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>filterTest</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<!--<filter>-->
+		<!--<filter-name>logFilter</filter-name>-->
+		<!--<filter-class>com.tools.filter.LogFilter</filter-class>-->
+		<!--<init-param>-->
+			<!--<param-name>flag</param-name>-->
+			<!--<param-value>true</param-value>-->
+		<!--</init-param>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>logFilter</filter-name>-->
+		<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
+	<!--<filter>-->
+		<!--<filter-name>filterTest</filter-name>-->
+		<!--<filter-class>com.tools.filter.FilterTest</filter-class>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>filterTest</filter-name>-->
+		<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
 
 	<!-- Spring监听器 -->
 	<listener>
@@ -72,10 +72,10 @@
 	</listener>
 
 	<!-- 监听器测试 -->
-	<listener>
-		<listener-class>com.tools.listener.ServletRequestListenerImpl
-		</listener-class>
-	</listener>
+	<!--<listener>-->
+		<!--<listener-class>com.tools.listener.ServletRequestListenerImpl-->
+		<!--</listener-class>-->
+	<!--</listener>-->
 
 	<!-- Spring MVC servlet -->
 	<servlet>

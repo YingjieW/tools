@@ -1,6 +1,7 @@
 package com.tools.action.ztest;
 
 import com.tools.ztest.facade.RmiMockTester;
+import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
 import javassist.*;
 import org.slf4j.Logger;
@@ -31,6 +32,8 @@ public class TestAnything extends HttpServlet {
 
     @Autowired
     RmiMockTester rmiMockTester;
+    @Autowired
+    InterfaceTest interfaceTest;
 
     @RequestMapping("/home")
     public ModelAndView compress(HttpServletRequest request, HttpSession session) {
@@ -39,8 +42,9 @@ public class TestAnything extends HttpServlet {
 
         // 测试代码 - start
 
+        System.out.println("---------> print " + interfaceTest.getStr());
 //        testMakeClass();
-        testGetClass();
+//        testGetClass();
 
         // 测试代码 - end
 

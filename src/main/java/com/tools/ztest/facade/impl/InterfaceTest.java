@@ -1,14 +1,17 @@
 package com.tools.ztest.facade.impl;
 
-import com.tools.ztest.facade.InterfaceOne;
-import com.tools.ztest.facade.InterfaceTwo;
+import org.springframework.stereotype.Service;
 
+@Service("interfaceTest")
+public class InterfaceTest {
 
-public class InterfaceTest implements InterfaceOne, InterfaceTwo {
-
-    @Override
     public void print() {
-        System.out.println("test");
+        System.out.println("---------> print().");
+    }
+
+    public String getStr() {
+        System.out.println("---------> In getStr().");
+        return "getStr().";
     }
 
     public static void main(String[] args) {

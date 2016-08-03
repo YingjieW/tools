@@ -68,25 +68,35 @@
 	</bean>
 
 	<!-- 拦截器配置 -->
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<!-- 全路径拦截 -->
-			<mvc:mapping path="/**" />
-			<!-- 不需要拦截的路径 -->
-			<mvc:exclude-mapping path="/images/**"/>
-			<mvc:exclude-mapping path="/js/**"/>
-			<mvc:exclude-mapping path="/cs/**"/>
-			<bean class="com.tools.interceptor.ConsumeTimeInterceptor" />
-		</mvc:interceptor>
+	<!--<mvc:interceptors>-->
+		<!--<mvc:interceptor>-->
+			<!--&lt;!&ndash; 全路径拦截 &ndash;&gt;-->
+			<!--<mvc:mapping path="/**" />-->
+			<!--&lt;!&ndash; 不需要拦截的路径 &ndash;&gt;-->
+			<!--<mvc:exclude-mapping path="/images/**"/>-->
+			<!--<mvc:exclude-mapping path="/js/**"/>-->
+			<!--<mvc:exclude-mapping path="/cs/**"/>-->
+			<!--<bean class="com.tools.interceptor.ConsumeTimeInterceptor" />-->
+		<!--</mvc:interceptor>-->
 		<!--<mvc:interceptor>-->
 			<!--<mvc:mapping path="/image/*" />-->
 			<!--<bean class="com.tools.interceptor.RequestInterceptor" />-->
 		<!--</mvc:interceptor>-->
-	</mvc:interceptors>
+	<!--</mvc:interceptors>-->
 
-	<bean id="rmiMockInterceptor" class="com.tools.aop.RmiMockInterceptor"></bean>
+	<!--<bean id="rmiMockInterceptor" class="com.tools.aop.RmiMockInterceptor"></bean>-->
+	<!--<aop:config>-->
+		<!--<aop:advisor advice-ref="rmiMockInterceptor"-->
+					 <!--pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />-->
+	<!--</aop:config>-->
+	<bean id="testInterceptor" class="com.tools.aop.TestInterceptor"></bean>
 	<aop:config>
-		<aop:advisor advice-ref="rmiMockInterceptor"
+		<aop:advisor advice-ref="testInterceptor"
+					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
+	</aop:config>
+	<bean id="testInterceptor1" class="com.tools.aop.TestInterceptor1"></bean>
+	<aop:config>
+		<aop:advisor advice-ref="testInterceptor1"
 					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
 	</aop:config>
 </beans>

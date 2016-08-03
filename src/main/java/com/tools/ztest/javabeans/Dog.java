@@ -39,6 +39,7 @@ public class Dog extends Mammal{
         Dog dog = new Dog();
         Mammal mammal = dog;
         mammal.eat();
+        dog.move(1, 1);
 //        Mammal mammal1 = new Mammal();
 //        Dog dog1 = (Dog)mammal;
 //        dog1.test();
