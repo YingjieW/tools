@@ -34,7 +34,7 @@ import java.util.Map;
  * @version:
  */
 @Controller
-@RequestMapping("/image")
+@RequestMapping("/compress")
 public class CompressAction extends BaseAction{
 
     private static final Logger logger = LoggerFactory.getLogger(CompressAction.class);
@@ -50,7 +50,7 @@ public class CompressAction extends BaseAction{
      * @param session
      * @return
      */
-    @RequestMapping("/compress")
+    @RequestMapping("/home")
     public ModelAndView compress(HttpServletRequest request, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("image/compress");

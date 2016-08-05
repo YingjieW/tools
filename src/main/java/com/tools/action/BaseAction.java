@@ -46,6 +46,7 @@ public class BaseAction {
             response.getWriter().print(json);
         } catch (IOException e) {
             logger.error("Object2JSON 转换异常", e);
+            return;
         }
     }
    

@@ -53,7 +53,7 @@
 		function uploadImage() {
 			var targetSize = $("#targetSize").val();
 			var scale = $("#scale").val()/100;
-			var url = ctxPath + "/image/doCompress";
+			var url = ctxPath + "/compress/doCompress";
 
 			//获取文件名
 			var fullName = $("#imageToUpload").val();
