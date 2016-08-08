@@ -182,8 +182,22 @@ public class FileUtils {
      * @throws IOException
      */
     public static File createFile(String path) throws IOException{
+        return createFile(path, false);
+    }
+
+    /**
+     * 新建file
+     * @param path
+     * @param deleteOldFile
+     * @return
+     * @throws IOException
+     */
+    public static File createFile(String path, boolean deleteOldFile) throws IOException {
         File file   = new File(path);
         file.getParentFile().mkdirs();
+        if(deleteOldFile) {
+            file.delete();
+        }
         file.createNewFile();
         return file;
     }

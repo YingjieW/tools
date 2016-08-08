@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Ztest {
@@ -49,6 +50,22 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+
+    }
+
+    private static void testPayApiAmount() throws Exception {
+        String amount = "10000000.09";
+        double amountD = Double.valueOf(amount);
+        amount = String.valueOf(amountD);
+        Pattern pattern = Pattern.compile("^[0-9]+(.[0-9]{0,2})?");
+        Matcher matcher = pattern.matcher(amount);
+        System.out.println("amountD = " + amountD);
+        System.out.println("amount = " + amount);
+        if (!matcher.matches()) {
+            System.out.println("参数[amount]格式不合法,小数点位数超限");
+        } else {
+            System.out.println("success");
+        }
     }
 
     private static void testCalRefundFee() throws Exception {
