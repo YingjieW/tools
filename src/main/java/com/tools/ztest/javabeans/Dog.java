@@ -9,7 +9,13 @@ package com.tools.ztest.javabeans;
 //@Repository("dog")
 public class Dog extends Mammal{
 
+    private String name;
+
     public Dog() {
+    }
+
+    public Dog(String name) {
+        this.name = name;
     }
 
     private int x = 0;
@@ -20,7 +26,8 @@ public class Dog extends Mammal{
     }
 
     public String toString() {
-        return "x = " + x + ", y = " + y;
+//        return "x = " + x + ", y = " + y;
+        return this.name;
     }
 
     public void test() {

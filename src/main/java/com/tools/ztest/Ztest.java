@@ -50,7 +50,8 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-
+        char c = (char) -1;
+        System.out.println("c: " + c);
     }
 
     private static void testPayApiAmount() throws Exception {
