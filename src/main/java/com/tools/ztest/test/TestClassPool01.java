@@ -13,6 +13,7 @@ public class TestClassPool01 {
     public static void main(String[] args) throws Exception {
         ClassPool classPool = ClassPool.getDefault();
         // 生成类
+        CtClass ctClass1 = classPool.get("Test02");
         CtClass ctClass = classPool.makeClass("Test01");
         // 添加属性
         CtField ctField = new CtField(CtClass.intType, "i", ctClass);
