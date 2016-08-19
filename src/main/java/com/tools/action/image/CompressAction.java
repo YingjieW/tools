@@ -129,7 +129,6 @@ public class CompressAction extends BaseAction{
             // 释放资源
             paramMap = null;
             targetImg = null;
-            System.gc();
             // 返回jsp页面
             writeResponse(response, true, jsonObject.toJSONString());
         } catch (Throwable t) {

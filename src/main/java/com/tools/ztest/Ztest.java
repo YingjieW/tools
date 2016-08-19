@@ -31,6 +31,8 @@ public class Ztest {
 
     public Ztest() {};
 
+
+
     public Ztest(String str) {
         logger.info("Ztest str : " + str);
     }
@@ -50,7 +52,15 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        test();
+    }
 
+    public static int a = 0;
+
+    public static void test() {
+        int a = 1;
+        System.out.println("a = " + a);
+        System.out.println("a = " + Ztest.a);
     }
 
     private static void testPayApiAmount() throws Exception {
