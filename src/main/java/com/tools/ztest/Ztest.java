@@ -58,9 +58,13 @@ public class Ztest {
     public static int a = 0;
 
     public static void test() {
-        int a = 1;
-        System.out.println("a = " + a);
-        System.out.println("a = " + Ztest.a);
+        while(true) {
+            int a = 5;
+            if(a > 1) {
+                System.out.println("break");
+                break;
+            }
+        }
     }
 
     private static void testPayApiAmount() throws Exception {
