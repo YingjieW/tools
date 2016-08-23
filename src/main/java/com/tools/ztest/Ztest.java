@@ -52,7 +52,6 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        test();
     }
 
     public static int a = 0;

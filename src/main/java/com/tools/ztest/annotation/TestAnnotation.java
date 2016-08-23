@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author yingjie.wang
  * @since 16/8/11 下午2:40
  */
-@Target({ElementType.METHOD, ElementType.TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR})
+@Target({ElementType.PACKAGE, ElementType.METHOD, ElementType.TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TestAnnotation {
 

@@ -1,3 +1,4 @@
+//@TestAnnotation(id = 0, name = "package-info", gid = Long.class)
 package com.tools.ztest.annotation;
 
 /**
