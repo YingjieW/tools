@@ -39,7 +39,7 @@ public class Ztest {
 
     private static final Logger logger = LoggerFactory.getLogger(Ztest.class);
 
-    private static void scanner() {
+    private static void scanner(String methodName) throws Exception {
         while(true) {
             System.out.print("Please enter something: ");
             Scanner scanner = new Scanner(System.in);
@@ -47,11 +47,13 @@ public class Ztest {
             if("quit".equalsIgnoreCase(text) || "exit".equalsIgnoreCase(text) || "q".equalsIgnoreCase(text)) {
                 break;
             }
-            test03(text);
+            Method method = Ztest.class.getDeclaredMethod(methodName, String.class);
+            method.invoke(null, text);
         }
     }
 
     public static void main(String[] args) throws Throwable {
+        scanner("test03");
     }
 
     public static int a = 0;
