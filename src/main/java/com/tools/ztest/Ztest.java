@@ -44,6 +44,7 @@ public class Ztest {
             System.out.print("Please enter something: ");
             Scanner scanner = new Scanner(System.in);
             String text = scanner.next();
+            text.notify();
             if("quit".equalsIgnoreCase(text) || "exit".equalsIgnoreCase(text) || "q".equalsIgnoreCase(text)) {
                 break;
             }
