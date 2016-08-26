@@ -4,16 +4,14 @@ package com.tools.ztest.proxy.jdk;
  * Descripe:
  *
  * @author yingjie.wang
- * @since 16/5/24 下午3:59
+ * @since 16/8/26 上午10:04
  */
-public class JdkRealSubject implements JdkInterface {
+public class JdkRealSubjectX {
 
-    @Override
     public void visit() {
         System.out.println("*** I am 'RealSubject',I am the execution method");
     }
 
-    @Override
     public String toCapital(String text) {
         return text == null ? null : text.toUpperCase();
     }

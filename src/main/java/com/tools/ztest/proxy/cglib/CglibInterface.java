@@ -1,12 +1,12 @@
-package com.tools.ztest.proxy.jdk;
+package com.tools.ztest.proxy.cglib;
 
 /**
  * Descripe:
  *
  * @author yingjie.wang
- * @since 16/5/24 下午4:00
+ * @since 16/8/26 上午9:59
  */
-public interface JdkInterface {
+public interface CglibInterface {
 
     void visit();
 

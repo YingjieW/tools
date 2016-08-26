@@ -14,7 +14,9 @@ public class JdkDynamicProxy implements InvocationHandler {
 
     private Object target;
 
-    JdkDynamicProxy(Object target) {
+    public JdkDynamicProxy(){}
+
+    public JdkDynamicProxy(Object target) {
         super();
         this.target = target;
     }
@@ -25,11 +27,9 @@ public class JdkDynamicProxy implements InvocationHandler {
     }
 
     public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-        System.out.println("BBBBBBOREEEEEEEEE");
+        System.out.println(".....before.");
         Object result = method.invoke(this.target, objects);
-        System.out.println("AAAAAAFTERRRRRRRR");
+        System.out.println(".....after..");
         return result;
     }
-
-
 }

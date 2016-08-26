@@ -54,19 +54,25 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        scanner("test03");
+        testMethodReflect();
     }
 
-    public static int a = 0;
+    public static void testMethodReflect() throws Exception {
+        // 利用反射调用静态方法时,无需指定具体的对象。
+        Method method1 = Ztest.class.getDeclaredMethod("reflectStaticMethod", String.class);
+        method1.invoke(null, "hello");
 
-    public static void test() {
-        while(true) {
-            int a = 5;
-            if(a > 1) {
-                System.out.println("break");
-                break;
-            }
-        }
+        // 利用反射调用非静态方法是,必须指定具体的对象,否则报错。
+        Method method2 = Ztest.class.getDeclaredMethod("reflectNonStaticMethod", String.class);
+        method2.invoke(null, "world"); // 该句会抛出NullPointerException.
+    }
+
+    public static void reflectStaticMethod(String text) {
+        System.out.println("===> static.methcod...text: " + text);
+    }
+
+    public void reflectNonStaticMethod(String text) {
+        System.out.println("===> non.static.method...text: " + text);
     }
 
     private static void testPayApiAmount() throws Exception {
