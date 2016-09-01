@@ -31,8 +31,6 @@ public class Ztest {
 
     public Ztest() {};
 
-
-
     public Ztest(String str) {
         logger.info("Ztest str : " + str);
     }
@@ -54,7 +52,23 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testMethodReflect();
+        testLinkedHashMap();
+    }
+
+    public static void testLinkedHashMap() throws Exception {
+        LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>(16, 0.75f, true);
+        linkedHashMap.put(2, "two");
+        linkedHashMap.put(3, "three");
+        linkedHashMap.put(1, "one");
+        for(Map.Entry<Integer, String> entry : linkedHashMap.entrySet()) {
+            System.out.println("===> key:[" + entry.getKey() + "], value:[" + entry.getValue() + "].");
+        }
+        System.out.println();
+
+        linkedHashMap.get(3);
+        for(Map.Entry<Integer, String> entry : linkedHashMap.entrySet()) {
+            System.out.println("===> key:[" + entry.getKey() + "], value:[" + entry.getValue() + "].");
+        }
     }
 
     public static void testMethodReflect() throws Exception {
@@ -441,16 +455,19 @@ public class Ztest {
         hashMap.put(k1, "aaa");
         hashMap.put(k2, "bbb");
 
-        logger.info("###   weakHashMap: " + JSON.toJSONString(weakHashMap));
-        logger.info("###   hashMap: " + JSON.toJSONString(hashMap));
+        System.out.println("###   weakHashMap: " + JSON.toJSONString(weakHashMap));
+        System.out.println("###   hashMap: " + JSON.toJSONString(hashMap));
 
+        // remove去掉了HashMap中Entry元素对"a"的强引用
         hashMap.remove(k1);
+        // 去掉k1对"a"的强引用
         k1 = null;
-        //k2 = null;
-        System.gc();
 
-        logger.info("###   weakHashMap: " + JSON.toJSONString(weakHashMap));
-        logger.info("###   hashMap: " + JSON.toJSONString(hashMap));
+        System.gc();
+        Thread.sleep(1000); // 等待gc的执行
+
+        System.out.println("###   weakHashMap: " + JSON.toJSONString(weakHashMap));
+        System.out.println("###   hashMap: " + JSON.toJSONString(hashMap));
     }
 
     private static void testGetConstructor() throws Exception {

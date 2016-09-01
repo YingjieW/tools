@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Descripe:
+ * Descripe: 模拟生成JDK动态代理生成代理类
  *
  * @author yingjie.wang
  * @since 16/8/25 下午4:11
