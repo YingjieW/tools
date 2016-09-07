@@ -1,7 +1,10 @@
 package com.tools.utils;
 
+import com.tools.ztest.test.DeepClone;
+
 import java.beans.Beans;
 import java.beans.IntrospectionException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -235,5 +238,86 @@ public class BeanUtils {
             return targetTreeMap;
         }
         throw new RuntimeException("Unsupport common reference type: " + targetType.getName() + ", sourceValueType: " + sourceValue.getClass());
+    }
+
+
+    /**
+     * target必须已实现java.lang.Serializable接口
+     * 利用JVM实现深度克隆
+     *
+     * @param target
+     * @return
+     */
+    public static Object clone(Object target) {
+
+        if(!(target instanceof Serializable)) {
+            throw new RuntimeException("target must implement Serializable Interface!");
+        }
+
+        Object result = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = null;
+        ObjectInputStream objectInputStream = null;
+
+        try {
+            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(target);
+            objectOutputStream.flush();
+            objectInputStream = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+            result = objectInputStream.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (objectOutputStream != null) {
+                    objectOutputStream.close();
+                    objectOutputStream = null;
+                }
+                if (objectInputStream != null) {
+                    objectInputStream.close();
+                    objectInputStream = null;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) throws Exception {
+        DeepClone clone1 = new DeepClone("deepClone", 1, 97l, new Date());
+        DeepClone clone2 = (DeepClone) BeanUtils.clone(clone1);
+
+
+        System.out.println("===> " + (clone1 == clone2));
+        System.out.println("===> " + (clone1.equals(clone2)));
+        System.out.println("===> " + (clone1.name == clone2.name));
+        System.out.println("===> " + (clone1.age == clone2.age));
+        System.out.println("===> " + (clone1.score == clone2.score));
+        System.out.println("===> " + (clone1.date == clone2.date));
+
+        System.out.println();
+        System.out.println("===> clone1: " + clone1);
+        System.out.println("===> clone2: " + clone2);
+        System.out.println();
+
+        Thread.sleep(1000);
+
+        clone1.name = "aaa";
+        clone1.age = 2;
+        clone1.score = 99l;
+        clone1.date = new Date();
+
+        System.out.println("===> clone1: " + clone1);
+        System.out.println("===> clone2: " + clone2);
+
+        System.out.println();
+        System.out.println("===> " + (clone1 == clone2));
+        System.out.println("===> " + (clone1.equals(clone2)));
+        System.out.println("===> " + (clone1.name == clone2.name));
+        System.out.println("===> " + (clone1.age == clone2.age));
+        System.out.println("===> " + (clone1.score == clone2.score));
+        System.out.println("===> " + (clone1.date == clone2.date));
+
     }
 }

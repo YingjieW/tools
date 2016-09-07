@@ -3,7 +3,7 @@ package com.tools.ztest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.tools.utils.BeanUtils;
-import com.tools.utils.BigDecimalUtil;
+import com.tools.utils.BigDecimalUtils;
 import com.tools.utils.PropertiesFileUtils;
 import com.tools.utils.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
@@ -175,7 +175,7 @@ public class Ztest {
 
         BigDecimal b3 = new BigDecimal("0.01");
         print("scale:" + b3.scale());
-        print("scale:" + BigDecimalUtil.reconstruct(b3).scale());
+        print("scale:" + BigDecimalUtils.reconstruct(b3).scale());
 
         BigDecimal b4 = BigDecimal.valueOf(0.03);
         print("b4 = " + b4);

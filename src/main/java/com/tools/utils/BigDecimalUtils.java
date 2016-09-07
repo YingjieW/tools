@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @author yingjie.wang
  * @since 16/7/10 下午4:19
  */
-public class BigDecimalUtil {
+public class BigDecimalUtils {
 
     /**
      *  使用BigDecimal(String)构造方法,重新精确构造BigDecimal
