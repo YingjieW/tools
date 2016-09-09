@@ -52,7 +52,22 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testLinkedHashMap();
+        Integer i = null;
+        System.out.println(i > 0);
+    }
+
+    public static void testArrayCopy() throws Exception {
+        int[] arr = {0, 1, 2, 3, 4, 5, 0};
+        for(int i : arr) {
+            System.out.print(i + ", ");
+        }
+        System.out.println();
+
+        System.arraycopy(arr, 3, arr, 4, 3);
+        for(int i : arr) {
+            System.out.print(i + ", ");
+        }
+        System.out.println();
     }
 
     public static void testLinkedHashMap() throws Exception {

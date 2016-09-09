@@ -318,6 +318,5 @@ public class BeanUtils {
         System.out.println("===> " + (clone1.age == clone2.age));
         System.out.println("===> " + (clone1.score == clone2.score));
         System.out.println("===> " + (clone1.date == clone2.date));
-
     }
 }

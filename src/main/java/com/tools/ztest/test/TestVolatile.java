@@ -1,5 +1,8 @@
 package com.tools.ztest.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Descripe:
  *
@@ -8,28 +11,30 @@ package com.tools.ztest.test;
  */
 public class TestVolatile {
 
-    // 用volatile修饰的变量，线程在每次使用变量的时候，都会读取变量修改后的最的值。
     public volatile static int counter = 0;
 
     public static void add() {
-        try {
-            Thread.sleep(1);
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
         counter++;
     }
 
     public static void main(String[] args) throws Exception {
-        for(int i = 1; i <= 1000; i++) {
-            new Thread(new Runnable() {
+        List<Thread> list = new ArrayList<Thread>();
+        for(int i = 0; i < 10; i++) {
+            Thread thread = new Thread(new Runnable() {
                 public void run() {
-                    TestVolatile.add();
+                    for(int i = 0; i < 1000; i++) {
+                        TestVolatile.add();
+                    }
                 }
-            }).start();
+            });
+            list.add(thread);
+            thread.start();
         }
-        // 睡眠10ms, 是为了等待上面这1000个线程全部执行完毕
-        Thread.sleep(10);
-        System.out.println("###  counter = " + TestVolatile.counter);
+
+        for(Thread thread : list) {
+            thread.join();
+        }
+
+        System.out.println("===> counter: " + TestVolatile.counter);
     }
 }

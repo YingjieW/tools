@@ -90,6 +90,7 @@ public class PropertyUtils {
             throw new IllegalArgumentException("Bean class must be specified.");
         }
 
+        // 首先尝试从缓存中获取
         String key = KEY_PREFIX  + ".getPropertyDescriptors(" + beanClass.getName() + ")";
         PropertyDescriptor[] propertyDescriptors = (PropertyDescriptor[]) propertyUtilsCache.get(key);
         if(propertyDescriptors != null) {
@@ -161,6 +162,7 @@ public class PropertyUtils {
             throw new IllegalArgumentException("Bean class must be specified.");
         }
 
+        // 首先尝试从缓存中获取该属性
         String key = KEY_PREFIX  + ".getPropertyNames(" + beanClass.getName() + ")";
         String[] propertyNames = (String[]) propertyUtilsCache.get(key);
         if(propertyNames != null) {
@@ -205,6 +207,7 @@ public class PropertyUtils {
             throw new IllegalArgumentException("propertyName must be specified.");
         }
 
+        // 首先尝试从缓存中获取
         Class beanClass = bean.getClass();
         String key = KEY_PREFIX  + ".getPropertyValue(" + beanClass.getName() + "," + propertyName + ")";
         Object propertyValue = propertyUtilsCache.get(key);
@@ -254,6 +257,7 @@ public class PropertyUtils {
         }
 
         Class beanClass = bean.getClass();
+        // 尝试从本地缓存中获取该属性
         String key = KEY_PREFIX  + ".getPropertyValues(" + beanClass.getName() + ")";
         Map<String, Object> propertyValues = (Map<String, Object>) propertyUtilsCache.get(key);
         if(propertyValues != null) {
