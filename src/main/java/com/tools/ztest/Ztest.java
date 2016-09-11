@@ -52,8 +52,6 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Integer i = null;
-        System.out.println(i > 0);
     }
 
     public static void testArrayCopy() throws Exception {

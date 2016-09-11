@@ -1,5 +1,8 @@
 package com.tools.ztest.test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Descripe:
  *
@@ -10,7 +13,8 @@ public class Cat extends Animal {
 
     int num = 80;
     static int age = 90;
-    String name = "tomCat";
+    public String name = "tomCat";
+    private int kkk = 1;
 
     @Override
     public boolean equals(Object o) {
@@ -44,7 +48,9 @@ public class Cat extends Animal {
         System.out.println("猫在抓老鼠");
     }
 
-    public static void main(String[] args) {
+    private void testPrivate() {}
+
+    public static void main(String[] args) throws Exception {
         // Animal am = new Cat();
         // 该语句在堆内存中开辟了子类(Cat)的对象
         // 并把栈内存中的父类(Animal)的引用指向了这个Cat对象。
@@ -69,5 +75,23 @@ public class Cat extends Animal {
         ct.catchMouse();
         System.out.println(ct.num);
         System.out.println(ct.age);
+
+        System.out.println("\t ===========================");
+        Class clazz = Cat.class;
+        Method[] methods = clazz.getDeclaredMethods();
+//        Method[] methods = clazz.getMethods();
+        for(Method method : methods) {
+//     (public)       System.out.println("===> " + method.getName());
+        }
+//        Method method = clazz.getDeclaredMethod("testPrivate");
+//        Method method = clazz.getDeclaredMethod("testPublickkk");
+        Method method = clazz.getMethod("testPrivate");
+        System.out.println("---> " + method.getName());
+
+        Field[] fields = clazz.getDeclaredFields();
+//        Field[] fields = clazz.getFields();
+        for(Field field : fields) {
+//            System.out.println("===> " + field.getName());
+        }
     }
 }

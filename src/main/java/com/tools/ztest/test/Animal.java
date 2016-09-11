@@ -8,8 +8,9 @@ package com.tools.ztest.test;
  */
 public class Animal {
 
-    int num = 10;
+    public int num = 10;
     static int age = 20;
+    public int animal;
 
     public void eat() {
         System.out.println("动物吃饭");
@@ -22,4 +23,8 @@ public class Animal {
     public void run(){
         System.out.println("动物在奔跑");
     }
+
+    private void testPrivateKKK() {}
+
+    public void testPublicKKK() {}
 }
