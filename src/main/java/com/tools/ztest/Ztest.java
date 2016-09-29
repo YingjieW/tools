@@ -52,6 +52,17 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        int i = 10000000;
+    }
+
+    private static void testkk(Integer i) {
+        i = null;
+    }
+    private static void testOctHex() {
+        int a = 011;
+        System.out.println("===> a: " + a);
+        int b = 0x11;
+        System.out.println("===> b: " + b);
     }
 
     public static void testArrayCopy() throws Exception {

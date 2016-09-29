@@ -36,6 +36,11 @@
 		</tr>
 		<tr>
 			<td align="left">
+				<a href="/tools/display/home" style="text-decoration:none;">3. 图片展示</a>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
 				<a href="/tools/ztest/home" style="text-decoration:none;">X. 测试页面</a>
 			</td>
 		</tr>
