@@ -15,7 +15,8 @@
     <script type="text/javascript" src="/tools/js/jquery-1.3.2.min.js"></script>
     <script type="text/javascript" src="/tools/js/jquery-foxibox-0.2.min.js"></script>
     <style type="text/css">
-        .imgDisplay {height: 80%;}
+        /*.imgDisplay {height: 80%;}*/
+        .imgDisplay {height: 62%;}
         tr td {border: none;}
         .topBottom {width: 50%;}
         #updown{position:fixed; top:35%; right:-5%;}
@@ -24,6 +25,9 @@
         $(document).ready(function(){
             $('a[rel]').foxibox();
         });
+        function jump(childDirectory, parent) {
+            window.open(encodeURI(encodeURI("/tools/display/images?childDirectory="+childDirectory+"&parent="+parent)));
+        }
     </script>
 </head>
 <body>
@@ -38,8 +42,9 @@
         <tr>
             <td align="left">
                 <a type="text" target="_blank"
-                   style="cursor: pointer; text-decoration: underline;"
-                   href="/tools/display/images?childDirectory=${childDirectory}&parent=${parent}">${childDirectory}</a>
+                   style="cursor: pointer; text-decoration: underline; color: #00F"
+                   onclick="jump('${childDirectory}','${parent}')">${childDirectory}</a>
+                   <%--href="/tools/display/images?childDirectory=${childDirectory}&parent=${parent}">${childDirectory}</a>--%>
             </td>
         </tr>
     </c:forEach>

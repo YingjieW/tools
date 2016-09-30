@@ -1,6 +1,5 @@
 package com.tools.action.image;
 
-import com.alibaba.fastjson.JSON;
 import com.tools.action.BaseAction;
 import com.tools.utils.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +35,15 @@ public class DisplayAction extends BaseAction {
 
     private final String DOT_MARKER = ".";
 
-    private final String ROOT_PATH = "/Users/YJ/Pictures/看大图";
+    private final String ROOT_PATH = "/Users/YJ/Pictures";
 
     private final String[] IMG_TYPES = {"jpg", "jpeg", "png", "gif", "bmp"};
 
-    private final String CHARSET = "UTF-8";
+    private final String CHARSET_UTF8 = "UTF-8";
+
+    private final String CHARSET_ISO = "ISO8859-1";
+
+    private final String[] FILTER_NAMES = {"iPhoto 图库.migratedphotolibrary", "Photo Booth 图库", "照片 图库.photoslibrary"};
 
     /**
      *
@@ -72,13 +76,16 @@ public class DisplayAction extends BaseAction {
      */
     @RequestMapping("/images")
     public ModelAndView displayImages(HttpServletRequest request, HttpSession session) {
-        logger.info("displayImages: " + JSON.toJSONString(getReqeustParams(request)));
         ModelAndView modelAndView = new ModelAndView();
 
         try {
-            request.setCharacterEncoding(CHARSET);
-            String parent = request.getParameter("parent");
-            String childDirectory = request.getParameter("childDirectory");
+            request.setCharacterEncoding(CHARSET_UTF8);
+            String parent = null;
+            if(StringUtils.isNotBlank(request.getParameter("parent"))) {
+                parent = URLDecoder.decode(request.getParameter("parent"), CHARSET_UTF8);
+            }
+            String childDirectory = URLDecoder.decode(request.getParameter("childDirectory"), CHARSET_UTF8);
+            logger.info("=====> parent:[" + parent + "], childDirectory:[" + childDirectory + "].");
             String tempPath = StringUtils.isBlank(parent) ? childDirectory : (parent + File.separator + childDirectory);
             String childPath = ROOT_PATH + File.separator + tempPath;
             logger.info("childPath: " + childPath);
@@ -110,11 +117,20 @@ public class DisplayAction extends BaseAction {
         }
         List<String> childFileNameList = new ArrayList<String>();
         for(File childFile : parentFile.listFiles()) {
-            if(!childFile.getName().startsWith(DOT_MARKER) && childFile.isDirectory()) {
+            if(!childFile.getName().startsWith(DOT_MARKER) && !inFilter(childFile.getName()) && childFile.isDirectory()) {
                 childFileNameList.add(childFile.getName());
             }
         }
         return childFileNameList;
+    }
+
+    private boolean inFilter(String name) {
+        for(String filter : FILTER_NAMES) {
+            if(filter.equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String getImgData(String url) {
@@ -150,5 +166,16 @@ public class DisplayAction extends BaseAction {
             }
         }
         return false;
+    }
+
+    private String transcoding(String text) {
+        if(StringUtils.isBlank(text)) {
+            return text;
+        }
+        try {
+            return new String(text.getBytes(CHARSET_ISO), CHARSET_UTF8);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

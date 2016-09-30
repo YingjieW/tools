@@ -18,6 +18,12 @@
             padding-bottom: 10px;
         }
     </style>
+    <script type="text/javascript">
+        function jump(childDirectory) {
+//            window.location.href = encodeURI("/tools/display/images?childDirectory=" + childDirectory);
+            window.open(encodeURI(encodeURI("/tools/display/images?childDirectory=" + childDirectory)));
+        }
+    </script>
 </head>
 <body>
 <br>
@@ -35,7 +41,7 @@
             <td align="left">
                 <a type="text" target="_blank"
                    style="cursor: pointer; text-decoration: underline; color: #00F;"
-                   href="/tools/display/images?childDirectory=${childDirectory}">${childDirectory}</a>
+                    onclick="jump('${childDirectory}')">${childDirectory}</a>
             </td>
         </tr>
     </c:forEach>
