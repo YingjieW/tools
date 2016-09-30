@@ -35,7 +35,11 @@ public class DisplayAction extends BaseAction {
 
     private final String DOT_MARKER = ".";
 
-    private final String PARENT_FILE_PATH = "/Users/YJ/Pictures/看大图";
+    private final String ROOT_PATH = "/Users/YJ/Pictures/看大图";
+
+    private final String[] IMG_TYPES = {"jpg", "jpeg", "png", "gif", "bmp"};
+
+    private final String CHARSET = "UTF-8";
 
     /**
      *
@@ -46,23 +50,17 @@ public class DisplayAction extends BaseAction {
     @RequestMapping("/home")
     public ModelAndView displayHome(HttpServletRequest request, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
-        List<String> childFileNameList = new ArrayList<String>();
         try {
-            File parentFile = FileUtils.createFile(PARENT_FILE_PATH);
-            if(!parentFile.isDirectory()) {
-                throw new RuntimeException("[" + PARENT_FILE_PATH + "] is not a directory.");
+            File rootFile = FileUtils.createFile(ROOT_PATH);
+            if(!rootFile.isDirectory()) {
+                throw new RuntimeException("[" + ROOT_PATH + "] is not a directory.");
             }
-            File[] childFiles = parentFile.listFiles();
-            for(File file : childFiles) {
-                if(!file.getName().startsWith(DOT_MARKER)) {
-                    childFileNameList.add(file.getName());
-                }
-            }
-            modelAndView.addObject("childFileNameList", childFileNameList);
+            List<String> childFileNameList = getChildDirectoryList(rootFile);
+            modelAndView.addObject("childDirectoryList", childFileNameList);
+            modelAndView.setViewName("image/displayHome");
         } catch (Exception e) {
             logger.error("Exception in displayHome: ", e);
         }
-        modelAndView.setViewName("image/displayHome");
         return modelAndView;
     }
 
@@ -75,24 +73,48 @@ public class DisplayAction extends BaseAction {
     @RequestMapping("/images")
     public ModelAndView displayImages(HttpServletRequest request, HttpSession session) {
         logger.info("displayImages: " + JSON.toJSONString(getReqeustParams(request)));
-        ModelAndView mav = new ModelAndView();
-        String childFileName = request.getParameter("childFileName");
-        String childFilePath = PARENT_FILE_PATH + File.separator + childFileName;
-        List<String> imgDatas = new ArrayList<String>();
+        ModelAndView modelAndView = new ModelAndView();
+
         try {
-            File childFile = new File(childFilePath);
+            request.setCharacterEncoding(CHARSET);
+            String parent = request.getParameter("parent");
+            String childDirectory = request.getParameter("childDirectory");
+            String tempPath = StringUtils.isBlank(parent) ? childDirectory : (parent + File.separator + childDirectory);
+            String childPath = ROOT_PATH + File.separator + tempPath;
+            logger.info("childPath: " + childPath);
+
+            List<String> imgDatas = new ArrayList<String>();
+            File childFile = new File(childPath);
             for(File file : childFile.listFiles()) {
-                if(!file.getName().startsWith(DOT_MARKER)) {
+                if(!file.isDirectory() && !file.getName().startsWith(DOT_MARKER) && isImg(getImgType(file.getAbsolutePath()))) {
                     imgDatas.add(getImgData(file.getAbsolutePath()));
                 }
             }
-            mav.addObject("imgDatas", imgDatas);
-            mav.addObject("name", childFileName);
+            List<String> childDirectoryList = getChildDirectoryList(childFile);
+
+            modelAndView.addObject("childDirectoryList", childDirectoryList);
+            modelAndView.addObject("imgDatas", imgDatas);
+            modelAndView.addObject("parent", tempPath);
+            modelAndView.addObject("name", childDirectory);
         } catch (Exception e) {
             logger.error("Exception in displayImages: ", e);
         }
-        mav.setViewName("image/displayImages");
-        return mav;
+
+        modelAndView.setViewName("image/displayImages");
+        return modelAndView;
+    }
+
+    private List<String> getChildDirectoryList(File parentFile) {
+        if(parentFile == null) {
+            return null;
+        }
+        List<String> childFileNameList = new ArrayList<String>();
+        for(File childFile : parentFile.listFiles()) {
+            if(!childFile.getName().startsWith(DOT_MARKER) && childFile.isDirectory()) {
+                childFileNameList.add(childFile.getName());
+            }
+        }
+        return childFileNameList;
     }
 
     private String getImgData(String url) {
@@ -119,5 +141,14 @@ public class DisplayAction extends BaseAction {
         } else {
             throw new RuntimeException("Can not get image type from url:[" + url + "]");
         }
+    }
+
+    private boolean isImg(String type) {
+        for (String imgType : IMG_TYPES) {
+            if (imgType.equalsIgnoreCase(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

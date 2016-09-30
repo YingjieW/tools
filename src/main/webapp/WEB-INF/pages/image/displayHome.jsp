@@ -30,12 +30,12 @@
 </table>
 <hr>
 <table width="20%" border="0" align="center" cellpadding="10" cellspacing="0">
-    <c:forEach items="${childFileNameList}" var="childFileName" varStatus="var">
+    <c:forEach items="${childDirectoryList}" var="childDirectory" varStatus="var">
         <tr>
             <td align="left">
                 <a type="text" target="_blank"
                    style="cursor: pointer; text-decoration: underline; color: #00F;"
-                   href="/tools/display/images?childFileName=${childFileName}">${childFileName}</a>
+                   href="/tools/display/images?childDirectory=${childDirectory}">${childDirectory}</a>
             </td>
         </tr>
     </c:forEach>
