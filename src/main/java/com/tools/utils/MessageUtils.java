@@ -36,13 +36,13 @@ final public class MessageUtils {
                 if (isEscapedDelimeter(messagePattern,j)) {
                     if (isDoubleEscaped(messagePattern,j)) {
                         // the escape character preceding the delimiter start is itself escaped: "abc x:\\{}".
-                        buffer.append(messagePattern.substring(i, j-1)).append(args[k].toString());
+                        buffer.append(messagePattern.substring(i, j-1)).append(getString(args[k]));
                     } else {
                         k--; // DELIMETER was escaped, thus should not be incremented.
                         buffer.append(messagePattern.substring(i, j-1)).append(DELIMETER);
                     }
                 } else {
-                    buffer.append(messagePattern.substring(i,j)).append(args[k].toString());
+                    buffer.append(messagePattern.substring(i,j)).append(getString(args[k]));
                 }
                 i = j + 2;
             }
@@ -65,6 +65,10 @@ final public class MessageUtils {
         return messagePattern.charAt(delimiterStartIndex-2) == ESCAPE_CHAR;
     }
 
+    private static String getString(Object o) {
+        return o == null ? "null" : o.toString();
+    }
+
     public static void main(String[] args) throws Exception {
         System.out.println();
         System.out.println(MessageUtils.format("Test...."));
@@ -72,5 +76,6 @@ final public class MessageUtils {
         System.out.println(MessageUtils.format("Test:{}, a:{}, {}", false, 1, "kkkk"));
         System.out.println(MessageUtils.format("Test:\\{}, a:{}, {}", false, 1, "kkkk"));
         System.out.println(MessageUtils.format("Test:\\\\{}, a:{}, {}", false, 1, "kkkk"));
+        System.out.println(MessageUtils.format("Test:{}, a:{}, ={}, +{}", false, 1, "kkkk", null));
     }
 }

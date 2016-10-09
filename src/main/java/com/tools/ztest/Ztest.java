@@ -2,7 +2,10 @@ package com.tools.ztest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.tools.utils.*;
+import com.tools.utils.BeanUtils;
+import com.tools.utils.BigDecimalUtils;
+import com.tools.utils.PropertiesFileUtils;
+import com.tools.utils.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
@@ -15,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.File;
-import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -51,11 +52,21 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        String filePath = "/Users/YJ/Downloads/ttttt.jpeg";
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("data:image/").append("jpeg").append(";base64,")
-                .append(FileUtils.writeToBase64(new FileInputStream(new File(filePath))));
-        System.out.println(buffer.toString());
+        testaa("Test.......", 1, false, 'A', "ring");
+        System.out.println();
+        Object object1 = false;
+        System.out.println("===> " + object1 + " ---> " + (object1.getClass().getName()));
+        Object object2 = 1;
+        System.out.println("===> " + object2 + " ---> " + (object2.getClass().getName()));
+        Object object3 = 'A';
+        System.out.println("===> " + object3 + " ---> " + (object3.getClass().getName()));
+    }
+
+    private static void testaa(String text, Object... objects) {
+        System.out.println("===> " + text);
+        for (Object object : objects) {
+            System.out.println("===> " + object.toString() + " ---> " + (object.getClass().getName()));
+        }
     }
 
     private static void testkk(Integer i) {
