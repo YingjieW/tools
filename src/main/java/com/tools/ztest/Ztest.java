@@ -52,14 +52,14 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testaa("Test.......", 1, false, 'A', "ring");
-        System.out.println();
-        Object object1 = false;
-        System.out.println("===> " + object1 + " ---> " + (object1.getClass().getName()));
-        Object object2 = 1;
-        System.out.println("===> " + object2 + " ---> " + (object2.getClass().getName()));
-        Object object3 = 'A';
-        System.out.println("===> " + object3 + " ---> " + (object3.getClass().getName()));
+        testAssert();
+    }
+
+    private static void testAssert() {
+        assert 1 == 1;
+        System.out.println(System.currentTimeMillis());
+        assert 1 != 1 : "dsfs";
+        System.out.println(System.currentTimeMillis());
     }
 
     private static void testaa(String text, Object... objects) {
