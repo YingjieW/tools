@@ -49,15 +49,15 @@ for source_file in ${source}/*;
 		elif [ -f $temp_file_path ]; then
 			echo $temp_file_name | egrep -q $regex
 			if [ $? -eq 0 ]; then
-				isFileExistInTarget $temp_file_name
+				isFileExistInTarget "$temp_file_name"
 				if [ $? -eq 1 ]; then
 					msg="file[$temp_file_name] already exists in [$target], PLEASE CHECK!!!"
 					echo "===> "$msg
-					writeToLog $msg
+					writeToLog "$msg"
 				else
 					msg="move [$temp_file_name] to [$target]"
 					echo "---> "$msg
-					writeToLog $msg
+					writeToLog "$msg"
 					mv $temp_file_path $target
 				fi
 			fi

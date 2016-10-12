@@ -52,7 +52,7 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testAssert();
+        testJavaBean();
     }
 
     private static void testAssert() {
@@ -271,9 +271,14 @@ public class Ztest {
         Class clazz = PersonEntity.class;
         PersonEntity personEntity = new PersonEntity("ZhangSan", 13);
         PersonDTO personDTO = new PersonDTO("personDTO", 99);
-//        personEntity.setPersonDTO(personDTO);
-        print("   personEntity: " + JSON.toJSONString(personEntity));
 
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
+//            System.out.println(JSON.toJSONString(method));
+        }
+
+        System.out.println("\n------------------------------------\n");
+        print("   personEntity: " + JSON.toJSONString(personEntity));
         String propertyName = "name";
         PropertyDescriptor propertyDescriptor = new PropertyDescriptor(propertyName, clazz);
         print("   propertyType: " + propertyDescriptor.getPropertyType().getSimpleName());
@@ -281,7 +286,7 @@ public class Ztest {
 
         // 获取属性值
         Method getMethod = propertyDescriptor.getReadMethod();
-        print("   invoke getMethod: " + getMethod.invoke(personEntity));
+        print("   invoke getMethod[" + getMethod.getName() + "]: " + getMethod.invoke(personEntity));
 
         // 给属性赋值
         Object nameValue = "LiSi";
@@ -294,7 +299,7 @@ public class Ztest {
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for(PropertyDescriptor propertyDescriptor1 : propertyDescriptors) {
 //            print("      * " + JSON.toJSONString(propertyDescriptor1));
-            print("      - " + propertyDescriptor1.getName());
+//            print("      - " + propertyDescriptor1.getName());
         }
     }
 

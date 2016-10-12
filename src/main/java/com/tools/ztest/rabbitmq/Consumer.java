@@ -12,36 +12,30 @@ import com.rabbitmq.client.QueueingConsumer;
  * @date 16/4/7 下午7:36
  */
 public class Consumer {
-    private final static String QUEUE_NAME = "hello_world";
+    private final static String QUEUE= "com.tools.ztest.rabbitmq.queue";
 
     public static void main(String[] args) throws Exception {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
+        factory.setVirtualHost("test");
         factory.setPort(5672);
-        factory.setUsername("yingjie.wang");
-        factory.setPassword("yingjie.wang");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-//        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-//        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-
         QueueingConsumer consumer = new QueueingConsumer(channel);
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        channel.basicConsume(QUEUE, true, consumer);
+        while (true) {
+            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
+            String message = new String(delivery.getBody());
+            System.out.println("----> consumer: " + message);
+            try {
+                Thread.sleep(10*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-//        for(int i = 0; i < 13; i++) {
-//            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-//            String message = new String(delivery.getBody());
-//            System.out.println(" [x] Consume '" + message + "'");
-//            break;
-//        }
-//        System.out.println("End");
-//        System.exit(0);
-//        while (true) {
-//            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-//            String message = new String(delivery.getBody());
-//            System.out.println(" [x] Consume '" + message + "'");
-//        }
+//        System.out.println("====> End Successfully.");
     }
 }
