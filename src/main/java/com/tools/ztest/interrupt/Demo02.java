@@ -6,37 +6,30 @@ package com.tools.ztest.interrupt;
  * @author yingjie.wang
  * @since 16/10/11 下午5:20
  */
-public class Demo02 {
+public class Demo02 extends Thread {
+
+    @Override
+    public void run() {
+        try {
+            int i = 0;
+            while (!this.isInterrupted()) {
+                Thread.sleep(100);
+                System.out.println("====> [" + this.getState() + "]: loop - [" + i++ + "].");
+            }
+        } catch (InterruptedException e) {
+            System.out.println("----> [" + this.getState() + "]: catch InterruptedException.");
+        }
+    }
 
     public static void main(String[] args) throws Exception {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    System.out.println("---> Running...");
-                    try {
-                        System.out.println("~~~> [B]isInterrupted(): " + Thread.currentThread().isInterrupted());
-                        Thread.sleep(1000);
-                        System.out.println("~~~> [A]isInterrupted(): " + Thread.currentThread().isInterrupted());
-                    } catch (InterruptedException e) {
-                        System.out.println("---> Interrupted...");
-                        System.out.println("~~~> [E]isInterrupted(): " + Thread.currentThread().isInterrupted());
-//                        break;
-                    }
-                }
-            }
-        });
-
-        System.out.println("=======> Starting...");
-        thread.start();
-
-        try {
-            Thread.sleep(3*1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=======> Interrupt thread....");
-        thread.interrupt();
+        Demo02 demo02 = new Demo02();
+        System.out.println("~~~~> [" + demo02.getState() + "]: new Demo02().");
+        demo02.start();
+        System.out.println("~~~~> [" + demo02.getState() + "]: start demo02.");
+        Thread.sleep(300);
+        demo02.interrupt();
+        System.out.println("~~~~> [" + demo02.getState() + "]: invoke interrupt() method.");
+        Thread.sleep(300);
+        System.out.println("~~~~> [" + demo02.getState() + "] check state of demo02 thread.");
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="YEEPAYLOG" class="com.yeepay.g3.utils.log.appender.YeepayAppender">
+        <param name="File" value="/Users/YJ/Documents/IdeaProjects/tomcats/log/cs-process-core" />
+        <param name="DatePattern" value="'-'yyyy-MM-dd'.log'" />
+        <param name="Encoding" value="UTF-8" />
+        <layout class="com.yeepay.g3.utils.common.log.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c: [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="CONSOLELOG" class="org.apache.log4j.ConsoleAppender">
+        <param name="MaxFileSize" value="5000MB" />
+        <layout class="com.yeepay.g3.utils.common.log.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c: [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="dalLogAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="/apps/log/tomcat-nohup/dal.log" />
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="500MB" />
+        <param name="MaxBackupIndex" value="0" />
+        <layout class="com.yeepay.g3.utils.common.log.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c: [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <logger name="com.yeepay" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="YEEPAYLOG"/> 
+    </logger>
+    <logger name="com.yeepay.g3.PerformanceLogger" >
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="com.opensymphony.xwork2.ognl.OgnlValueStack" >
+        <level value="ERROR"/>
+    </logger>
+    <logger name="net.sf.ehcache">
+        <level value="INFO"/>
+    </logger>
+    <logger name="com.alisoft.xplatform.asf">
+        <level value="WARN"/>
+    </logger>
+    <logger name="com.mbi">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="net.mlw">
+        <level value="INFO"/>
+    </logger>
+    <logger name="java.sql">
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.hibernate.type">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="com.opensymphony.webwork">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="org.apache">
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.jgroups">
+        <level value="WARN"/>
+    </logger>
+    <logger name="org.jboss.axis">
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.jboss.management">
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.apache.commons.httpclient">
+        <level value="ERROR"/>
+    </logger>
+    <logger name="com.alibaba.dubbo">
+        <level value="WARN"/>
+    </logger>
+    <logger name="com.yeepay.g3.utils.soa.registry.zookeeper">
+        <level value="WARN"/>
+    </logger>
+
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="CONSOLELOG"/>
+    </root>
+
+</log4j:configuration>

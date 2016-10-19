@@ -39,8 +39,10 @@ public class Producer {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_TEST, "direct");
-        channel.queueDeclare(QUEUE_TEST,true, false, false, null);
+        // exchange/queue声明方法中durable,经测试其含义为: 是否保存在rabbitMQ服务器中。
+        channel.exchangeDeclare(EXCHANGE_TEST, "direct", true);
+        channel.exchangeDeclare("com.test.....test....", "direct", false);
+        channel.queueDeclare(QUEUE_TEST, true, false, false, null);
         channel.queueBind(QUEUE_TEST, EXCHANGE_TEST, ROUTING_KEY_TEST);
 
         while (true) {

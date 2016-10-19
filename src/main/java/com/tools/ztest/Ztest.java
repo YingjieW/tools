@@ -12,6 +12,7 @@ import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.yop.entity.TestEntity;
 import com.tools.ztest.yop.entity.YeepayProductEntity;
 import com.yeepay.g3.utils.common.httpclient.SimpleHttpUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,10 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testJavaBean();
+        Thread.interrupted();
+        Thread thread = new Thread();
+        thread.interrupt();
+        thread.isInterrupted();
     }
 
     private static void testAssert() {
@@ -270,6 +274,10 @@ public class Ztest {
 
         Class clazz = PersonEntity.class;
         PersonEntity personEntity = new PersonEntity("ZhangSan", 13);
+        // 如果属性值为null,ToStringBuilder会输出score=<null>; 而JSON则不会输出任何信息。
+        System.out.println("===> " + JSON.toJSONString(personEntity));
+        System.out.println("===> " + ToStringBuilder.reflectionToString(personEntity));
+
         PersonDTO personDTO = new PersonDTO("personDTO", 99);
 
         Method[] methods = clazz.getDeclaredMethods();
