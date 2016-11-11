@@ -53,10 +53,28 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Thread.interrupted();
-        Thread thread = new Thread();
-        thread.interrupt();
-        thread.isInterrupted();
+        testListAddAll();
+    }
+
+    private static void testListAddAll() throws Exception {
+        List<String> list = new ArrayList<String>();
+        List<String> list1 = new ArrayList<String>(2);
+        list1.add("10");
+        list1.add("11");
+        List<String> list2 = new ArrayList<String>(2);
+        list2.add("20");
+        list2.add("21");
+        boolean result1 = list.addAll(list1);
+        boolean result2 = list.addAll(list2);
+        System.out.println("result1: " + result1);
+        System.out.println("result2: " + result2);
+        System.out.println(JSON.toJSONString(list));
+    }
+
+    private static void transfer(String text) {
+        if ("null".equalsIgnoreCase(text)) {
+            text = null;
+        }
     }
 
     private static void testAssert() {
