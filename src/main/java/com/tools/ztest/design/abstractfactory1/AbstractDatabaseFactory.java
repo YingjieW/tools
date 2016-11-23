@@ -7,6 +7,6 @@ package com.tools.ztest.design.abstractfactory1;
  * @since 16/11/23 下午9:06
  */
 public interface AbstractDatabaseFactory {
-    AbstractUser createUser();
-    AbstractPassword createPassword();
+    User createUser();
+    Password createPassword();
 }

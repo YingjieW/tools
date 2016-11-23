@@ -11,8 +11,8 @@ public class Client {
         // 当需要切换时,只需要修改这一行代码即可
         // AbstractDatabaseFactory factory = new DB2Factory();
         AbstractDatabaseFactory factory = new MySqlFactory();
-        AbstractUser user = factory.createUser();
-        AbstractPassword password = factory.createPassword();
+        User user = factory.createUser();
+        Password password = factory.createPassword();
         user.insert(null);
         password.insert(null);
     }

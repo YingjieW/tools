@@ -8,12 +8,12 @@ package com.tools.ztest.design.abstractfactory1;
  */
 public class MySqlFactory implements AbstractDatabaseFactory{
     @Override
-    public AbstractUser createUser() {
+    public User createUser() {
         return new MySqlUser();
     }
 
     @Override
-    public AbstractPassword createPassword() {
+    public Password createPassword() {
         return new MySqlPassword();
     }
 }

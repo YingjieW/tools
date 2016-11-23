@@ -8,12 +8,12 @@ package com.tools.ztest.design.abstractfactory1;
  */
 public class DB2Factory implements AbstractDatabaseFactory{
     @Override
-    public AbstractUser createUser() {
+    public User createUser() {
         return new DB2User();
     }
 
     @Override
-    public AbstractPassword createPassword() {
+    public Password createPassword() {
         return new DB2Password();
     }
 }
