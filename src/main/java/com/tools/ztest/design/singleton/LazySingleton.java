@@ -1,4 +1,4 @@
-package com.tools.ztest.design;
+package com.tools.ztest.design.singleton;
 
 /**
  * Descripe:

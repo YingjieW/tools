@@ -53,7 +53,10 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testListAddAll();
+        String text = "BANK_INTERFACE_REFUND";
+        String[] splits = text.split(";");
+        System.out.println(splits.length);
+        System.out.println(JSON.toJSONString(splits));
     }
 
     private static void testListAddAll() throws Exception {
