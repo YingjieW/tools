@@ -53,10 +53,11 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        String text = "BANK_INTERFACE_REFUND";
-        String[] splits = text.split(";");
-        System.out.println(splits.length);
-        System.out.println(JSON.toJSONString(splits));
+        String notifyData = "{\"accountCompleteDate\":1480415295844,\"accountFlowNo\":\"0082-cs-1001201611290000000000000010\",\"accountRefundRequestNo\":\"69923391caf1575509089ARRN\",\"bizRefundRequestNo\":\"1001201611290000000000000010\",\"bizRequestNo\":\"1001201611290000000000000006\",\"bizSystem\":\"OPR\",\"dateForAccountCheck\":1480415295497,\"merchantNo\":\"10040039448\",\"merchantRequestNo\":\"requestId1480412388566\",\"refundAmount\":\"99.00\",\"refundSrcFee\":\"0.00\",\"refundSrcFeeType\":\"INNER\",\"refundTargetFee\":\"0.00\",\"refundTargetFeeType\":\"INNER\",\"status\":\"REFUND_SUCCESS\",\"totalRefundAmount\":\"99.00\",\"totalRefundSrcFee\":\"0.00\",\"totalRefundTargetFee\":\"0.00\"}";
+        Map<String, Object> methodParams = JSON.parseObject(notifyData, HashMap.class);
+//        Date date0 = (Date) methodParams.get("dateForAccountCheck");
+        Date date = new Date((Long)methodParams.get("dateForAccountCheck"));
+        System.out.println("date: " + date.toString());
     }
 
     private static void testListAddAll() throws Exception {
