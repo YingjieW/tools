@@ -43,8 +43,8 @@ public class CutStringUtils {
 
     public static void main(String[] args) throws Exception{
         String text = "测试12345";
-        int offset = 7;
+        int offset = 4;
         System.out.println(subString(text, offset));
-        System.out.println(text.substring(0, 11));
+        System.out.println(text.substring(0, 7));
     }
 }
