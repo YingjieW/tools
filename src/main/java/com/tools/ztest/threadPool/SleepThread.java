@@ -26,6 +26,7 @@ public class SleepThread implements Runnable {
         if(this.sleepTime > 0) {
             try {
                 logger.info("=====  " + Thread.currentThread().getName() + " start to sleep, sleepTime:" + this.sleepTime + "ms");
+                logger.info(Thread.currentThread().getContextClassLoader().getClass().getName());
                 Thread.sleep(this.sleepTime);
                 logger.info("=====  " + Thread.currentThread().getName() + " awake.");
             } catch (Throwable t) {

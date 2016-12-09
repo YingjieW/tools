@@ -10,8 +10,8 @@ public class TestThreadPool {
 
     public static void main(String[] args) {
         ThreadPoolUtil.getThreadPool().execute(new SleepThread(50000));
-        for(int i = 0; i < 99; i++ ) {
-            ThreadPoolUtil.getThreadPool().execute(new SleepThread(0));
-        }
+//        for(int i = 0; i < 9; i++ ) {
+//            ThreadPoolUtil.getThreadPool().execute(new SleepThread(0));
+//        }
     }
 }
