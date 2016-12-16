@@ -271,11 +271,9 @@ public class BeanUtils {
             try {
                 if (objectOutputStream != null) {
                     objectOutputStream.close();
-                    objectOutputStream = null;
                 }
                 if (objectInputStream != null) {
                     objectInputStream.close();
-                    objectInputStream = null;
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

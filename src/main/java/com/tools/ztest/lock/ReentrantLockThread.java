@@ -29,6 +29,7 @@ public class ReentrantLockThread implements Runnable{
             System.out.println("Count of locks held by thread[" + threadName + "] in run() method is:  " + reentrantLock.getHoldCount() + " .");
         } finally {
             reentrantLock.unlock();
+            System.out.println("Unlock in run() method of thread[" + threadName + "], count: " + reentrantLock.getHoldCount());
         }
     }
 
@@ -40,6 +41,7 @@ public class ReentrantLockThread implements Runnable{
             System.out.println("Count of locks held by thread[" + threadName + "] in lockAgain() method is:  " + reentrantLock.getHoldCount() + " .");
         } finally {
             reentrantLock.unlock();
+            System.out.println("Unlock in lockAgain() method of thread[" + threadName + "], count: " + reentrantLock.getHoldCount());
         }
     }
 

@@ -7,7 +7,6 @@ package com.tools.ztest.redis;
  * @since 16/12/12 下午4:10
  */
 public class RedisIDGeneratorTest {
-
     public static void main(String[] args) throws Exception {
         RedisLock redisLock = new RedisLock("idGenerator", 5);
         RedisIDGenerator redisIDGenerator1 = new RedisIDGenerator(redisLock);

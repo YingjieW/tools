@@ -10,14 +10,10 @@ import redis.clients.jedis.*;
  */
 public class RedisLock {
 
-
-
-    // 非切片额客户端连接
-    private static Jedis defaultJedis;
     // 非切片连接池
     private static JedisPool jedisPool;
     // 本地连接池
-    private ThreadLocal<Jedis> jedisThreadLocal = new ThreadLocal<Jedis>();
+    private static ThreadLocal<Jedis> jedisThreadLocal = new ThreadLocal<Jedis>();
 
     static {
         init();
@@ -31,8 +27,6 @@ public class RedisLock {
         config.setMaxWaitMillis(100*1000);
         config.setTestOnBorrow(false);
         jedisPool = new JedisPool(config,"127.0.0.1",6379);
-        defaultJedis = jedisPool.getResource();
-        defaultJedis.flushDB();
     }
 
     private boolean checkInit() {

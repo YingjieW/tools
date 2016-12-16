@@ -2,6 +2,7 @@ package com.tools.ztest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.tools.utils.BeanUtils;
 import com.tools.utils.BigDecimalUtils;
 import com.tools.utils.PropertiesFileUtils;
@@ -9,6 +10,7 @@ import com.tools.utils.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
+import com.tools.ztest.test.Animal;
 import com.tools.ztest.yop.entity.TestEntity;
 import com.tools.ztest.yop.entity.YeepayProductEntity;
 import com.yeepay.g3.utils.common.httpclient.SimpleHttpUtils;
@@ -53,11 +55,16 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        UUID uuid = UUID.randomUUID();
-        System.out.println(uuid.toString().replace("-", "").getBytes().length);
-        Date date = new Date();
-        System.out.println(date);
-        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(date));
+        testSimplePropertyPreFilter();
+    }
+
+    public static void testSimplePropertyPreFilter() throws Exception {
+        Animal animal = new Animal();
+        animal.setAge(999);
+        System.out.println(JSON.toJSONString(animal));
+        SimplePropertyPreFilter simplePropertyPreFilter = new SimplePropertyPreFilter();
+        simplePropertyPreFilter.getExcludes().add("age");
+        System.out.println(JSON.toJSONString(animal, simplePropertyPreFilter));
     }
 
     private static void testListAddAll() throws Exception {

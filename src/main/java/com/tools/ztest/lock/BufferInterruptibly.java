@@ -26,7 +26,7 @@ public class BufferInterruptibly {
             System.out.println("Writing is Over.");
         } finally {
             reentrantLock.unlock();
-            System.out.println("Unlock reentrantLock of write() method.");
+            System.out.println("Unlock reentrantLock of write() method. count: " + reentrantLock.getHoldCount());
         }
     }
 
@@ -37,7 +37,7 @@ public class BufferInterruptibly {
             System.out.println("Reading....");
         } finally {
             reentrantLock.unlock();
-            System.out.println("Unlock reentrantLock of read() method.");
+            System.out.println("Unlock reentrantLock of read() method. count: " + reentrantLock.getHoldCount());
         }
     }
 }
