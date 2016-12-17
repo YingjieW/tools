@@ -55,7 +55,31 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testSimplePropertyPreFilter();
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("====> 11111");
+                Ztest.testSync();
+            }
+        });
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("====> 22222");
+                Ztest.testSync();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+
+    private static synchronized void testSync() {
+        System.out.println("====> testSync");
+        try {
+            Thread.sleep(50000);
+        } catch (Exception e) {}
     }
 
     public static void testSimplePropertyPreFilter() throws Exception {

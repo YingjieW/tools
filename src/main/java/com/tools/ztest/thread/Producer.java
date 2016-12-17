@@ -21,7 +21,7 @@ public class Producer implements Runnable {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Resource resource = new Resource();
         Producer producer = new Producer(resource);
         Consumer consumer = new Consumer(resource);
@@ -39,5 +39,8 @@ public class Producer implements Runnable {
         producerThread2.start();
         consumerThread1.start();
         consumerThread2.start();
+
+        Thread.sleep(1);
+        System.exit(0);
     }
 }

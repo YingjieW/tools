@@ -9,9 +9,10 @@ package com.tools.ztest.redis.lock;
 public class IDGeneratorTest {
     public static void main(String[] args) throws Exception {
         DistriputedLockBasedOnRedis lock = new DistriputedLockBasedOnRedis("idGenerator", 1);
-        Thread[] threads = new Thread[500];
 
-        for (int i = 0; i < 500; i++) {
+        int capacity = 20;
+        Thread[] threads = new Thread[capacity];
+        for (int i = 0; i < capacity; i++) {
             IDGeneratorThread idGeneratorThread = new IDGeneratorThread(new IDGenerator(lock), ("Thread" + i));
             threads[i] = idGeneratorThread;
         }
@@ -19,5 +20,21 @@ public class IDGeneratorTest {
         for (Thread thread : threads) {
             thread.start();
         }
+
+        for (Thread thread : threads) {
+            System.out.println("-----------> " + thread.getName() + " : " + thread.getState());
+        }
+
+        Thread.sleep(2*1000);
+
+        for (Thread thread : threads) {
+            System.out.println("=============>" + thread.getName() + " : " + thread.getState()
+            + " \t-  " + thread.getPriority());
+        }
+
+        System.out.println("=============> END");
+
+        System.out.println("===> " + Thread.currentThread().getName() + " : " + Thread.currentThread().getState()
+                + " \t-  " + Thread.currentThread().getPriority());
     }
 }

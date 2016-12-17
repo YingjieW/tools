@@ -20,7 +20,8 @@ public class Resource {
     public synchronized void produce(String name) {
         // 当已经有产品时,生产者需要等待
         // 注意: 使用while循环进行验证,而不要使用if单次验证;
-        // 因为,如果使用if单次验证,则其中被唤醒的线程获取到锁后,可能会执行多次,消费多次。
+        // 因为,如果使用if单次验证,当消费者唤醒其它消费者时,会导致同一个产品被消费多次;
+        // 所以,必须使用while循环来验证获取锁的角色是否可以执行。
         while(remainder > 0) {
             try {
                 this.wait();

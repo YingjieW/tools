@@ -36,7 +36,7 @@ public class IDGeneratorThread extends Thread {
                     this.stop = true;
                     break;
                 }
-                if (id > 1000) {
+                if (id > 90) {
                     System.out.println("---> [" + name + "] stop, id: " + id);
                     this.stop = true;
                     break;

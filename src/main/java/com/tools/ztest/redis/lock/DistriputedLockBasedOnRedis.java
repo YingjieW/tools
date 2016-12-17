@@ -7,6 +7,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /**
  * Descripe:
  *
@@ -23,7 +25,13 @@ public class DistriputedLockBasedOnRedis extends AbstractLock {
 
     private static final ThreadLocal<Jedis> jedisThreadLocal = new ThreadLocal<Jedis>();
 
-    private static final String DEFAULT_VALUE = PlatformUtils.MACAddress() + " - " + PlatformUtils.JVMPid();
+    private static final String DEFAULT_VALUE = PlatformUtils.MACAddress() + "-" + PlatformUtils.JVMPid();
+
+    private static final int JEDIS_MAX_TOTAL = 10;
+
+//    private static final ConcurrentHashMap<Jedis, Boolean> JEDIS_MAP = new ConcurrentHashMap<Jedis, Boolean>(JEDIS_MAX_TOTAL);
+
+    private static final ConcurrentLinkedQueue jedisQueue = new ConcurrentLinkedQueue();
 
     private static JedisPool jedisPool;
 
@@ -32,12 +40,23 @@ public class DistriputedLockBasedOnRedis extends AbstractLock {
     }
 
     public static void init() {
+        System.out.println("DEFAULT_VALUE: " + DEFAULT_VALUE);
         JedisPoolConfig config = new JedisPoolConfig();
+        //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。
         config.setMaxIdle(5);
-        config.setMaxTotal(5);
-        config.setMaxWaitMillis(60*1000);
+        config.setMaxTotal(10);
+        //最小空闲连接数, 默认0
+        config.setMinIdle(0);
+        config.setMaxWaitMillis(-1);
+        // 当pool中jedis示例耗尽后,是否block线程
+        config.setBlockWhenExhausted(false);
         config.setTestOnBorrow(false);
         jedisPool = new JedisPool(config, JEDIS_HOST, JEDIS_PORT);
+
+        for (int i = 0; i < JEDIS_MAX_TOTAL; i++) {
+            Jedis jedis = jedisPool.getResource();
+            jedisQueue.add(jedis);
+        }
     }
 
     private boolean checkInit() {
@@ -50,13 +69,20 @@ public class DistriputedLockBasedOnRedis extends AbstractLock {
         super(key, expireTime);
     }
 
-    private Jedis getJedis() {
+    private Jedis getThreadLocalJedis() {
         Jedis jedis = jedisThreadLocal.get();
         if (jedis == null) {
-            jedis = jedisPool.getResource();
+            jedis = getJedis();
             jedisThreadLocal.set(jedis);
         }
         return jedis;
+    }
+
+    private Jedis getJedis() {
+        if (jedisQueue.size() == 0) {
+            throw new RuntimeException("no available jedis.");
+        }
+        return (Jedis) jedisQueue.poll();
     }
 
     /**
@@ -84,7 +110,7 @@ public class DistriputedLockBasedOnRedis extends AbstractLock {
             checkInterruption();
         }
 
-        Jedis jedis = getJedis();
+        Jedis jedis = getThreadLocalJedis();
 
         if (jedis.setnx(key, DEFAULT_VALUE) == 1) {
             jedis.expire(key, expireTime);
@@ -102,8 +128,9 @@ public class DistriputedLockBasedOnRedis extends AbstractLock {
 
     @Override
     public void unlock() {
-        Jedis jedis = getJedis();
-        jedis.del(key);
+        this.getThreadLocalJedis().del(key);
+        jedisQueue.add(jedisThreadLocal.get());
+        jedisThreadLocal.remove();
     }
 
 //    @Override
