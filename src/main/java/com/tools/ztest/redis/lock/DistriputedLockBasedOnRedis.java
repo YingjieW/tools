@@ -43,14 +43,16 @@ public class DistriputedLockBasedOnRedis extends AbstractLock {
         System.out.println("DEFAULT_VALUE: " + DEFAULT_VALUE);
         JedisPoolConfig config = new JedisPoolConfig();
         //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。
-        config.setMaxIdle(5);
-        config.setMaxTotal(10);
+        config.setMaxIdle(20);
+        config.setMaxTotal(100);
         //最小空闲连接数, 默认0
         config.setMinIdle(0);
         config.setMaxWaitMillis(-1);
         // 当pool中jedis示例耗尽后,是否block线程
         config.setBlockWhenExhausted(false);
-        config.setTestOnBorrow(false);
+        config.setTestOnBorrow(true);
+        //逐出连接的最小空闲时间 默认1800000毫秒(30分钟)
+        config.setMinEvictableIdleTimeMillis(1);
         jedisPool = new JedisPool(config, JEDIS_HOST, JEDIS_PORT);
 
         for (int i = 0; i < JEDIS_MAX_TOTAL; i++) {

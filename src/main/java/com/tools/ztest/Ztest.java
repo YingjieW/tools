@@ -3,10 +3,7 @@ package com.tools.ztest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.tools.utils.BeanUtils;
-import com.tools.utils.BigDecimalUtils;
-import com.tools.utils.PropertiesFileUtils;
-import com.tools.utils.ThreadSafeDateUtils;
+import com.tools.utils.*;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
@@ -55,24 +52,14 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("====> 11111");
-                Ztest.testSync();
-            }
-        });
+        configData();
+    }
 
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("====> 22222");
-                Ztest.testSync();
-            }
-        });
-
-        thread1.start();
-        thread2.start();
+    private static void configData() throws Exception {
+//        byte[] bytes = {-84, -19, 0, 5, 116, 0, 9, 122, 111, 111, 107, 101, 101, 112, 101, 114};
+        byte[] bytes = {-84, -19, 0, 5, 116, 0, 7, 100, 101, 102, 97, 117, 108, 116};
+        System.out.println(new String(bytes, "UTF-8"));
+        System.out.println(SerializeUtils.deserialize(bytes));
     }
 
     private static synchronized void testSync() {
