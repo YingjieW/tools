@@ -1,4 +1,4 @@
-package com.tools.ztest.test;
+package com.tools.ztest.currentlimiting;
 
 /**
  * Descripe:
@@ -36,7 +36,7 @@ public class SlidingWindowDemo {
         // 时间跨度超出一个大窗口时间,但小于两个大窗口的时间
         // 1. counter[0, index+1)间的元素置为0
         // 2. 循环左移index+1位
-        // 3. counter[size-1 - index]加1
+        // 3. counter[size-1 - index]加1(本次的落点)
         // 4. 重新计算总请求数
         // 5. 重新定位时间timeStamp
         {
