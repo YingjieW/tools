@@ -27,6 +27,7 @@ public class TokenBucketDemo {
         else {
             // 还有令牌，领取令牌
             tokens -= 1;
+            timeStamp = now;
             return true;
         }
     }

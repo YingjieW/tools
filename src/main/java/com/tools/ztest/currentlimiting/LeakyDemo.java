@@ -23,6 +23,7 @@ public class LeakyDemo {
         if ((water + 1) < capacity) {
             // 尝试加水,并且水还未满
             water += 1;
+            timeStamp = now;
             return true;
         }
         else {
