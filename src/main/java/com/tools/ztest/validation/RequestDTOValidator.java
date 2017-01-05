@@ -14,8 +14,8 @@ public class RequestDTOValidator {
         RequestDTO requestDTO = new RequestDTO();
 //        requestDTO.setRequestNo("1234567890");
         requestDTO.setRequestNo("一二三四五六七八九十");
-        requestDTO.setAmount(new BigDecimal("1.03"));
+        requestDTO.setAmount(new BigDecimal("1.035"));
         requestDTO.setEmail("yingjie.wang@yeepay.com");
-        BeanValidator.validate(null);
+        BeanValidator.validate(requestDTO);
     }
 }

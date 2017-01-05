@@ -45,10 +45,8 @@ public class BeanValidator {
         for (Object obj : set) {
             if (obj instanceof ConstraintViolation && obj != null) {
                 constraintViolation = (ConstraintViolation) obj;
-                sb.append(constraintViolation.getPropertyPath());
-                sb.append(" ");
+                sb.append("[").append(constraintViolation.getPropertyPath()).append("]");
                 sb.append(constraintViolation.getMessage());
-                sb.append(" ");
             }
         }
         return sb.toString();

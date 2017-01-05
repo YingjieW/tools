@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class RequestDTO {
 
     @NotNull(message = "不能为空")
-    @Size(min = 1, max = 12, message = "长度范围:1-12") // 字符长度非字节长度
+    @Size(min = 1, max = 12, message = "长度范围:1-12") // 字符长度而非字节长度
     private String requestNo;
 
     // 允许为null,不为null时才会进行校验
