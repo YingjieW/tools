@@ -12,6 +12,7 @@ import com.tools.ztest.yop.entity.TestEntity;
 import com.tools.ztest.yop.entity.YeepayProductEntity;
 import com.yeepay.g3.utils.common.httpclient.SimpleHttpUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,25 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        configData();
+        System.out.println(Thread.currentThread());
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        System.out.println(classLoader);
+        Thread.currentThread().setContextClassLoader(null);
+        System.out.println(Thread.currentThread().getContextClassLoader());
+        Thread.currentThread().setContextClassLoader(classLoader);
+        System.out.println(Thread.currentThread().getContextClassLoader());
+    }
+
+    private static void testMvel() throws Exception {
+        Map<String, String> map = new HashMap<String, String>(8);
+        map.put("x", "1");
+        map.put("y", "3333");
+        map.put("z", null);
+
+        System.out.println(MVEL.eval("1==1"));
+        System.out.println(MVEL.eval("Integer.valueOf(x)", map));
+        System.out.println(MVEL.eval("Integer.valueOf(y)", map));
+        System.out.println(MVEL.eval("z", map));
     }
 
     private static void configData() throws Exception {
