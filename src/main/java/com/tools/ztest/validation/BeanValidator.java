@@ -1,6 +1,7 @@
 package com.tools.ztest.validation;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -46,9 +47,9 @@ public class BeanValidator {
             if (obj instanceof ConstraintViolation && obj != null) {
                 constraintViolation = (ConstraintViolation) obj;
                 sb.append("[").append(constraintViolation.getPropertyPath()).append("]");
-                sb.append(constraintViolation.getMessage());
+                sb.append(constraintViolation.getMessage()).append("; ");
             }
         }
-        return sb.toString();
+        return StringUtils.isNotBlank(sb) ? sb.substring(0, sb.length()-2) : sb.toString();
     }
 }

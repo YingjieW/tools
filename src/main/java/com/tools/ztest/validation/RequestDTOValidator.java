@@ -9,13 +9,12 @@ import java.math.BigDecimal;
  * @since 17/1/5 下午10:38
  */
 public class RequestDTOValidator {
-
     public static void main(String[] args) throws Exception {
         RequestDTO requestDTO = new RequestDTO();
-//        requestDTO.setRequestNo("1234567890");
-        requestDTO.setRequestNo("一二三四五六七八九十");
-        requestDTO.setAmount(new BigDecimal("1.035"));
+        requestDTO.setRequestNo("1234567890123");
+        requestDTO.setAmount(new BigDecimal("1.03"));
         requestDTO.setEmail("yingjie.wang@yeepay.com");
+        requestDTO.setProductName("一二三四五");
         BeanValidator.validate(requestDTO);
     }
 }

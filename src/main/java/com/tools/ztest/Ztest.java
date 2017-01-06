@@ -23,6 +23,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -53,6 +54,10 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        System.out.println(Charset.defaultCharset().toString());
+    }
+
+    private static void testClassLoader() throws Exception {
         System.out.println(Thread.currentThread());
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         System.out.println(classLoader);
