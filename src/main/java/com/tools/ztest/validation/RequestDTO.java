@@ -1,5 +1,6 @@
 package com.tools.ztest.validation;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
@@ -11,7 +12,10 @@ import java.math.BigDecimal;
  */
 public class RequestDTO {
 
-    @NotNull(message = "不能为空")
+    @Valid
+    private PaymentDTO paymentDTO;
+
+//    @NotNull(message = "不能为空")
     @Size(min = 1, max = 50, message = "长度超限:1-50") // 字符长度而非字节长度
     private String requestNo;
 
@@ -26,6 +30,13 @@ public class RequestDTO {
 
     @ByteSize(max = 10, charset = "UTF-8", message = "长度超限,最长10个字节")
     private String productName;
+
+    @PatternOfString.List({@PatternOfString(mustContainText = "Hello", message = "must contain Hello"),
+        @PatternOfString(mustContainText = "world", message = "must contain world")})
+    private String memo;
+
+    @NotBlank
+    private String callbackUrl;
 
     public String getRequestNo() {
         return requestNo;
@@ -57,5 +68,29 @@ public class RequestDTO {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
+    }
+
+    public PaymentDTO getPaymentDTO() {
+        return paymentDTO;
+    }
+
+    public void setPaymentDTO(PaymentDTO paymentDTO) {
+        this.paymentDTO = paymentDTO;
     }
 }
