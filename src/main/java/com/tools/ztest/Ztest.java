@@ -23,7 +23,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -54,7 +53,19 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        System.out.println(Charset.defaultCharset().toString());
+        testNonBlankRegex();
+    }
+
+    private static void testNonBlankRegex() throws Exception {
+        String regex = ".*\\S.*";
+        System.out.println("".length());
+        System.out.println("".matches(regex));
+        System.out.println("    \t".matches(regex));
+        System.out.println("       ".matches(regex));
+        System.out.println(" AB C".matches(regex));
+        System.out.println(" A C ".matches(regex));
+        System.out.println("   C ".matches(regex));
+        System.out.println("C".matches(regex));
     }
 
     private static void testClassLoader() throws Exception {
