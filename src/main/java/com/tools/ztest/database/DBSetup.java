@@ -1,6 +1,6 @@
 package com.tools.ztest.database;
 
-import com.tools.ztest.Ztest;
+import com.tools.Ztest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
