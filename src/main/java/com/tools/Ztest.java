@@ -53,7 +53,9 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testNonBlankRegex();
+        String text = "abcdefabcd";
+        System.out.println(text.indexOf("a"));
+        System.out.println(text.substring(0,0));
     }
 
     private static void testNonBlankRegex() throws Exception {
