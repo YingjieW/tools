@@ -23,6 +23,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.InetSocketAddress;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -53,9 +56,15 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        String text = "abcdefabcd";
-        System.out.println(text.indexOf("a"));
-        System.out.println(text.substring(0,0));
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel.socket().bind(new InetSocketAddress(9999));
+        serverSocketChannel.configureBlocking(false);
+        while(true){
+            SocketChannel socketChannel = serverSocketChannel.accept();
+            if(socketChannel != null){
+                //do something with socketChannel...
+            }
+        }
     }
 
     private static void testNonBlankRegex() throws Exception {

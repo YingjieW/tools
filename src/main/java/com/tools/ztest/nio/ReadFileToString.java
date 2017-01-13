@@ -50,5 +50,15 @@ public class ReadFileToString {
         charBuffer.clear();
 
         System.out.println(builder.toString());
+
+        /**
+         * Transfers bytes into this channel's file from the given readable byte channel.
+         */
+        channel.transferFrom(null, 0, 1);
+
+        /**
+         * Transfers bytes from this channel's file to the given writable byte channel.
+         */
+        channel.transferTo(0, 1, null);
     }
 }
