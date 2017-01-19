@@ -84,19 +84,19 @@
 		<!--</mvc:interceptor>-->
 	<!--</mvc:interceptors>-->
 
-	<!--<bean id="rmiMockInterceptor" class="com.tools.aop.RmiMockInterceptor"></bean>-->
-	<!--<aop:config>-->
-		<!--<aop:advisor advice-ref="rmiMockInterceptor"-->
-					 <!--pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />-->
-	<!--</aop:config>-->
-	<!--<bean id="testInterceptor" class="com.tools.aop.TestInterceptor"></bean>-->
-	<!--<aop:config>-->
-		<!--<aop:advisor advice-ref="testInterceptor"-->
-					 <!--pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />-->
-	<!--</aop:config>-->
-	<!--<bean id="testInterceptor1" class="com.tools.aop.TestInterceptor1"></bean>-->
-	<!--<aop:config>-->
-		<!--<aop:advisor advice-ref="testInterceptor1"-->
-					 <!--pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />-->
-	<!--</aop:config>-->
+	<bean id="rmiMockInterceptor" class="com.tools.aop.RmiMockInterceptor"></bean>
+	<aop:config>
+		<aop:advisor advice-ref="rmiMockInterceptor"
+					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
+	</aop:config>
+	<bean id="testInterceptor" class="com.tools.aop.TestInterceptor"></bean>
+	<aop:config>
+		<aop:advisor advice-ref="testInterceptor"
+					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
+	</aop:config>
+	<bean id="testInterceptor1" class="com.tools.aop.TestInterceptor1"></bean>
+	<aop:config>
+		<aop:advisor advice-ref="testInterceptor1"
+					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
+	</aop:config>
 </beans>

@@ -53,9 +53,6 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Date date1 = ThreadSafeDateUtils.parseDateTime("2017-01-17 10:20:00");
-        Date date2 = ThreadSafeDateUtils.parseDateTime("2017-01-17 10:21:00");
-        System.out.println((date1.getTime()-date2.getTime()));
     }
 
     private static void testNonBlankRegex() throws Exception {
