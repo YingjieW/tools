@@ -23,9 +23,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.InetSocketAddress;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -56,15 +53,9 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.socket().bind(new InetSocketAddress(9999));
-        serverSocketChannel.configureBlocking(false);
-        while(true){
-            SocketChannel socketChannel = serverSocketChannel.accept();
-            if(socketChannel != null){
-                //do something with socketChannel...
-            }
-        }
+        Date date1 = ThreadSafeDateUtils.parseDateTime("2017-01-17 10:20:00");
+        Date date2 = ThreadSafeDateUtils.parseDateTime("2017-01-17 10:21:00");
+        System.out.println((date1.getTime()-date2.getTime()));
     }
 
     private static void testNonBlankRegex() throws Exception {
