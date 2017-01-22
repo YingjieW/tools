@@ -54,7 +54,29 @@ public class ArrayStack<E> {
         return size;
     }
 
+    public E peek() {
+        return (E) elements[top];
+    }
+
     public String toString() {
         return "---> top: " + top + ", size: " + size + ", elements: " + JSON.toJSONString(elements);
+    }
+
+    public static boolean isPopOrder(Object[] pushArray, Object[] popArray) {
+        if (pushArray == null | popArray == null || pushArray.length != popArray.length) {
+            return false;
+        }
+        ArrayStack<Object> arrayStack = new ArrayStack<Object>();
+        int popIndex = 0;
+        for (int i = 0; i< pushArray.length; i++) {
+            arrayStack.push(pushArray[i]);
+            while (!arrayStack.isEmpty() &&
+                    popIndex < popArray.length &&
+                    arrayStack.peek().equals(popArray[popIndex])) {
+                popIndex++;
+                arrayStack.pop();
+            }
+        }
+        return arrayStack.isEmpty();
     }
 }

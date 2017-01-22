@@ -24,6 +24,5 @@ public class ArrayQueueTest {
         arrayQueue.add(88);
         arrayQueue.add(99);
         System.out.println(arrayQueue);
-
     }
 }

@@ -24,5 +24,11 @@ public class ArrayStackTest {
             arrayStack.push((0-i));
         }
         System.out.println(arrayStack);
+
+        Integer[] pushArray = {1,2,3,4,5};
+        Integer[] popArray1 = {4,5,3,1,2};
+        Integer[] popArray2 = {4,5,3,2,1};
+        System.out.println(arrayStack.isPopOrder(pushArray, popArray1));
+        System.out.println(arrayStack.isPopOrder(pushArray, popArray2));
     }
 }

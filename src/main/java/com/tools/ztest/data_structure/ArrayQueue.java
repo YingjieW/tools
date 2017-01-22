@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 public class ArrayQueue<E> {
 
     private final int DEFAULT_SIZE = 10;
+
     private E[] elements;
 
     private int size = 0;
