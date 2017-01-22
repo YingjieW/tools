@@ -1,4 +1,4 @@
-package com.tools.ztest.tree;
+package com.tools.ztest.data_structure;
 
 import java.util.Stack;
 

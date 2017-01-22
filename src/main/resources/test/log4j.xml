@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+                     debug="false">
 
     <appender name="YEEPAYLOG" class="com.yeepay.g3.utils.log.appender.YeepayAppender">
-        <param name="File" value="/Users/YJ/Documents/IdeaProjects/tomcats/log/cs-process-core" />
-        <param name="DatePattern" value="'-'yyyy-MM-dd'.log'" />
+        <param name="File" value="/apps/log/tomcat-nohup/app.log" />
+        <param name="DatePattern" value="'.'yyyyMMdd" />
         <param name="Encoding" value="UTF-8" />
         <layout class="com.yeepay.g3.utils.common.log.PatternLayout">
-            <param name="ConversionPattern" value="%d %-5p %c: [%t] - %m%n" />
+            <param name="ConversionPattern" value="%d %-5p %c:%L [%t] - %m%n" />
         </layout>
     </appender>
 
     <appender name="CONSOLELOG" class="org.apache.log4j.ConsoleAppender">
         <param name="MaxFileSize" value="5000MB" />
         <layout class="com.yeepay.g3.utils.common.log.PatternLayout">
-            <param name="ConversionPattern" value="%d %-5p %c: [%t] - %m%n" />
+            <param name="ConversionPattern" value="%d %-5p %c:%L [%t] - %m%n" />
         </layout>
     </appender>
 
@@ -25,7 +26,7 @@
         <param name="MaxFileSize" value="500MB" />
         <param name="MaxBackupIndex" value="0" />
         <layout class="com.yeepay.g3.utils.common.log.PatternLayout">
-            <param name="ConversionPattern" value="%d %-5p %c: [%t] - %m%n" />
+            <param name="ConversionPattern" value="%d %-5p %c:%L [%t] - %m%n" />
         </layout>
     </appender>
 
