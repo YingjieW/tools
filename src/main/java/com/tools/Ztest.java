@@ -53,6 +53,8 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        Map<String, String> map = new HashMap<String, String>();
+        map.remove("kk");
     }
 
     private static void testNonBlankRegex() throws Exception {

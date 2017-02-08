@@ -6,7 +6,7 @@ package com.tools.ztest.data_structure;
  * @author yingjie.wang
  * @since 17/1/21 下午10:01
  */
-public class TestTree {
+public class TestBinarySearchTree {
 
     public static void main(String[] args) throws Exception {
         Integer[] integers = {6, 2, 1, 4, 3, 5, 9, 7, 8, 10};
