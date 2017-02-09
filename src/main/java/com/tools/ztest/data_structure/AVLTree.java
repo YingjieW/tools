@@ -8,7 +8,7 @@ package com.tools.ztest.data_structure;
  */
 public class AVLTree<K extends Comparable, V> {
 
-    private AVLNode<K,V> root = null;
+    public AVLNode<K,V> root = null;
 
     public AVLTree() {}
 
@@ -16,8 +16,21 @@ public class AVLTree<K extends Comparable, V> {
         return node == null ? 0 : node.height;
     }
 
-    public void add(K key, V value) {
+    public V get(K key) {
+        if (root == null || key == null) {
+            return null;
+        }
+        AVLNode<K,V> node = root;
+        while (node != null) {
+            if (key.compareTo(node.key) == 0) {
+                return node.value;
+            }
+            node = key.compareTo(node.key) > 0 ? node.right : node.left;
+        }
+        return null;
+    }
 
+    public void add(K key, V value) {
         /** 参数校验 */
         if (key == null || value == null) {
             throw new IllegalArgumentException("key and value must not be null.");
@@ -56,7 +69,114 @@ public class AVLTree<K extends Comparable, V> {
         rebalance(parent);
     }
 
+    public boolean remove(K key) {
+        if (root == null || key == null) {
+            return false;
+        }
+
+        /** 查询需删除的节点 */
+        AVLNode<K,V> node = root;
+        while (node != null) {
+            if (key.compareTo(node.key) == 0) {
+                break;
+            }
+            node = key.compareTo(node.key) > 0 ? node.right : node.left;
+        }
+
+        /** 若不存在,则返回false */
+        if (node == null) {
+            return false;
+        }
+
+        /** 需要重平衡节点(起始位置) */
+        AVLNode<K,V> needRebalanceNode = null;
+        /** 获取待删除节点右子树的最小节点 */
+        AVLNode<K,V> rightMinNode = getMinNode(node.right);
+
+        /** 待删除节点无右子树 */
+        if (rightMinNode == null) {
+            /** 将其左孩子及其父节点连接 */
+            linkToParentOfNode(node.left, node);
+            /** node节点的删除,会可能导致其父节点的失衡 */
+            needRebalanceNode = node.parent;
+            /** 若被删除节点为root,则更新root */
+            if (node == root) {
+                root = node.left;
+            }
+        }
+        /** 待删除节点有右子树 */
+        else {
+            AVLNode<K,V> rightOfRightMinNode = rightMinNode.right;
+            AVLNode<K,V> parentOfRightMinNode = rightMinNode.parent;
+            /** 因rightMinNode需要替代node的位置, 故将其有孩子及其父节点连接 */
+            linkToParentOfNode(rightOfRightMinNode, rightMinNode);
+            /** 因rightMinNode需要替代node的位置, 故其parent可能会失衡, 在此先标记一下 */
+            needRebalanceNode = parentOfRightMinNode;
+
+            /** rightMinNode取代node */
+            linkToNode(node.left, rightMinNode, true);
+            linkToNode(node.right, rightMinNode, false);
+            linkToParentOfNode(rightMinNode, node);
+
+            /** 当rightMinNode恰好为node的右孩子时, 重平衡点需要改为rightMinNode*/
+            if (needRebalanceNode == node) {
+                needRebalanceNode = rightMinNode;
+            }
+
+            /** 当node为root时, 更新root */
+            if (node == root) {
+                root = rightMinNode;
+            }
+        }
+
+        /** 重平衡树 */
+        rebalance(needRebalanceNode);
+        return true;
+    }
+
+    private AVLNode<K,V> getMinNode(AVLNode<K,V> node) {
+        if (node == null) {
+            return null;
+        }
+        AVLNode<K,V> parent = null;
+        AVLNode<K,V> tmpNode = node;
+        while (tmpNode != null) {
+            parent = tmpNode;
+            tmpNode = tmpNode.left;
+        }
+        return parent;
+    }
+
+    /** 将target挂载至node.parent下 */
+    private void linkToParentOfNode(AVLNode<K,V> target, AVLNode<K,V> node) {
+        if (node != null) {
+            if (target != null) {
+                target.parent = node.parent;
+            }
+            if (node.parent != null) {
+                linkToNode(target, node.parent, (node.key.compareTo(node.parent.key) < 0));
+            }
+        }
+    }
+
+    /** 将target挂载至node下, toLeft用来表示挂载至node的左孩子还是右孩子 */
+    private void linkToNode(AVLNode<K,V> target, AVLNode<K,V> node, boolean toLeft) {
+        if (target != null) {
+            target.parent = node;
+        }
+        if (node != null) {
+            if (toLeft) {
+                node.left = target;
+            } else {
+                node.right = target;
+            }
+        }
+    }
+
     private void rebalance(AVLNode<K,V> node) {
+        if (node == null) {
+            return;
+        }
 
         /** 重新计算node的balance、height值 */
         updateNode(node);
