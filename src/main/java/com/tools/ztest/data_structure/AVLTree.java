@@ -91,7 +91,7 @@ public class AVLTree<K extends Comparable, V> {
         /** 需要重平衡节点(起始位置) */
         AVLNode<K,V> needRebalanceNode = null;
         /** 获取待删除节点右子树的最小节点 */
-        AVLNode<K,V> rightMinNode = getMinNode(node.right);
+        AVLNode<K,V> rightMinNode = getRightMinNode(node.right);
 
         /** 待删除节点无右子树 */
         if (rightMinNode == null) {
@@ -134,7 +134,8 @@ public class AVLTree<K extends Comparable, V> {
         return true;
     }
 
-    private AVLNode<K,V> getMinNode(AVLNode<K,V> node) {
+    /** 获取node右子树中的最小节点 */
+    private AVLNode<K,V> getRightMinNode(AVLNode<K,V> node) {
         if (node == null) {
             return null;
         }
