@@ -7,7 +7,6 @@ package com.tools.ztest.data_structure;
  * @since 17/2/8 下午2:42
  */
 public class TestAVLTree {
-
     private static void testAdd() throws Exception {
         /** 左左-简单模式 */
 //        Integer[] integers = {3, 2, 1};
@@ -39,15 +38,16 @@ public class TestAVLTree {
     }
 
     private static void testRemove() {
-        Integer[] integers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+//        Integer[] integers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 //        Integer[] integers = {1, 2, 3};
+        Integer[] integers = {2, 1};
         AVLTree<Integer, Integer> tree = new AVLTree<Integer, Integer>();
         for (Integer i : integers) {
             tree.add(i, i);
         }
         System.out.println(tree);
 
-        tree.remove(4);
+        tree.remove(2);
         System.out.println(tree);
     }
 
