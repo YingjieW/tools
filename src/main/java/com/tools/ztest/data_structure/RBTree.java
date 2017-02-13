@@ -3,6 +3,7 @@ package com.tools.ztest.data_structure;
 /**
  * Descripe:
  *      http://tech.meituan.com/redblack-tree.html
+ *      http://www.cnblogs.com/sungoshawk/p/3755807.html
  *      http://www.cnblogs.com/skywang12345/p/3245399.html
  *
  * @author yingjie.wang
@@ -11,6 +12,10 @@ package com.tools.ztest.data_structure;
 public class RBTree<T extends Comparable> {
 
     public RBNode<T> root;
+
+    private final boolean BLACK = false;
+
+    private final boolean RED = true;
 
     public int size = 0;
 
@@ -51,14 +56,14 @@ public class RBTree<T extends Comparable> {
         size++;
 
         /** 对新插入的节点进行修正 */
-        fixAdd(newNode);
+        fixAfterAdd(newNode);
     }
 
-    private void fixAdd(RBNode<T> node) {
+    private void fixAfterAdd(RBNode<T> node) {
         RBNode<T> parent = null;
         RBNode<T> grandParent = null;
         RBNode<T> uncle = null;
-        while (node != root && node.parent.isRed) {
+        while (node != root && (node.parent.color == RED)) {
             /** 非根节点一定有parent */
             parent = node.parent;
             /** 因parent为red,说明parent肯定不是root,进而说明grandParent肯定不为空 */
@@ -72,10 +77,10 @@ public class RBTree<T extends Comparable> {
              * 1.3 将“叔叔节点”设为黑色。
              * 1.4 将“祖父节点”设为“当前节点”(红色节点)；即，之后继续对“当前节点”进行操作。
              */
-            if (uncle != null && uncle.isRed) {
-                parent.isRed = false;
-                grandParent.isRed = true;
-                uncle.isRed = false;
+            if (uncle != null && (uncle.color == RED)) {
+                parent.color = BLACK;
+                grandParent.color = RED;
+                uncle.color = BLACK;
                 node = grandParent;
             } else {
                 /** 当当前节点node的父节点parent是其爷爷节点grandParent的左孩子时 */
@@ -96,8 +101,8 @@ public class RBTree<T extends Comparable> {
                      * 3.3 以“祖父节点”为支点进行右旋。
                      */
                     else {
-                        parent.isRed = false;
-                        grandParent.isRed = true;
+                        parent.color = BLACK;
+                        grandParent.color = RED;
                         rotateRight(grandParent);
                         break;
                     }
@@ -111,8 +116,8 @@ public class RBTree<T extends Comparable> {
                      * 4.3 以“祖父节点”为支点进行左旋。
                      */
                     if (node.value.compareTo(parent.value) > 0) {
-                        parent.isRed = false;
-                        grandParent.isRed = true;
+                        parent.color = BLACK;
+                        grandParent.color = RED;
                         rotateLeft(grandParent);
                         break;
                     }
@@ -130,7 +135,97 @@ public class RBTree<T extends Comparable> {
         }
 
         /** 根节点置为black */
-        root.isRed = false;
+        root.color = BLACK;
+    }
+
+    public boolean remove(T value) {
+        if (value == null || root == null) {
+            return false;
+        }
+
+        RBNode<T> node = findNodeByValue(value);
+        if (node == null) {
+            return true;
+        }
+
+        boolean colorOfRemovedNode = colorOf(node);
+        RBNode<T> needFixNode = null;
+        /** 若node.left为null, 删掉node, 用其右孩子顶替node的位置 */
+        if (node.left == null) {
+            needFixNode = node.right;
+            transplant(needFixNode, node);
+        }
+        /** 若node.right为null, 删掉node, 用其左孩子顶替node的位置 */
+        else if (node.right == null) {
+            needFixNode = node.left;
+            transplant(needFixNode, node);
+        }
+        /** 若node的左右孩子均不为空, 查询其rightMinNode,
+         * 用rightMinNode的值取代node的值, 然后删掉rightMinNode */
+        else {
+            /** 查抄node右子树最小节点rightMinNode(因其最小,故其一定无左子树) */
+            RBNode<T> rightMinNode = getRightMinNode(node);
+            /** 用rightMinNode.value替代node.value, node的颜色不变 */
+            node.value = rightMinNode.value;
+            /** 删掉rightMinNode, 用其右孩子替代rightMinNode的位置 */
+            transplant(rightMinNode.right, rightMinNode);
+            needFixNode = rightMinNode.right;
+            colorOfRemovedNode = rightMinNode.color;
+        }
+
+        /** 当被删除点是黑色时才需要修复 */
+        if (colorOfRemovedNode == BLACK) {
+            fixAfterRemove(needFixNode);
+        }
+        return true;
+    }
+
+    private void fixAfterRemove(RBNode<T> node) {
+        while (node != root && colorOf(node) == BLACK) {
+            /** 当node为其父节点的左子树时 */
+            if (node == leftOf(parentOf(node))) {
+            }
+            /** symmetric: 当node为其父节点的右子树时*/
+            else {
+                System.out.println("symmetric operation.");
+            }
+        }
+
+        /** 根节点置为BLACK */
+        root.color = BLACK;
+    }
+
+    private boolean colorOf(RBNode<T> node) {
+        return (node == null) ? BLACK : node.color;
+    }
+
+    private RBNode<T> leftOf(RBNode<T> node) {
+        return (node == null) ? null : node.left;
+    }
+
+    private RBNode<T> rightOf(RBNode<T> node) {
+        return (node == null) ? null : node.right;
+    }
+
+    private RBNode<T> parentOf(RBNode<T> node) {
+        return (node == null) ? null : node.parent;
+    }
+
+    /** 将target移植到node.parent下 */
+    private void transplant(RBNode<T> target, RBNode<T> node) {
+        if (node == null) {
+            throw new RuntimeException("node must not be null.");
+        }
+        if (node.parent == null) {
+            root = target;
+        } else if (node.value.compareTo(node.parent.value) < 0) {
+            node.parent.left = target;
+        } else {
+            node.parent.right = target;
+        }
+        if (target != null) {
+            target.parent = node.parent;
+        }
     }
 
     private RBNode<T> getUncle(RBNode<T> node) {
@@ -184,6 +279,36 @@ public class RBTree<T extends Comparable> {
         }
         if (right.parent == null) {
             root = right;
+        }
+        return right;
+    }
+
+    private RBNode<T> findNodeByValue(T value) {
+        if (value == null || root == null) {
+            return null;
+        }
+        RBNode<T> node = root;
+        while (node != null) {
+            if (value.compareTo(node.value) == 0) {
+                return node;
+            } else if (value.compareTo(node.value) < 0) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+        return null;
+    }
+
+    private RBNode<T> getRightMinNode(RBNode<T> node) {
+        if (node == null) {
+            return null;
+        }
+        /** 搜索的起点: node的右孩子 */
+        RBNode<T> right = node.right;
+        while (right.left != null) {
+            /** 遍历左子树 */
+            right = right.left;
         }
         return right;
     }

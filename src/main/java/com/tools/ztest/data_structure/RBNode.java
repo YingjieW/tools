@@ -10,7 +10,7 @@ public class RBNode<T extends Comparable> {
 
     public T value;
 
-    public boolean isRed;
+    public boolean color;
 
     public RBNode<T> left;
 
@@ -28,9 +28,9 @@ public class RBNode<T extends Comparable> {
         this(value, isRed, null, null, null);
     }
 
-    public RBNode(T value, boolean isRed, RBNode<T> left, RBNode<T> right, RBNode<T> parent) {
+    public RBNode(T value, boolean color, RBNode<T> left, RBNode<T> right, RBNode<T> parent) {
         this.value = value;
-        this.isRed = isRed;
+        this.color = color;
         this.left = left;
         this.right = right;
         this.parent = parent;
@@ -38,7 +38,7 @@ public class RBNode<T extends Comparable> {
 
     @Override
     public String toString() {
-        return "[value:" + value + ", color:" + (isRed ? "red" : "black") +
+        return "[value:" + value + ", color:" + (color ? "red" : "black") +
                 ", left:" + (left==null ? null : left.value) +
                 ", right:" + (right == null ? null : right.value) +
                 ", parent:" + (parent == null ? null : parent.value) + "]";

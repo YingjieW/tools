@@ -53,8 +53,10 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Integer i = 10;
-        System.out.println(i.compareTo(null));
+        boolean flag = false;
+        if (flag == false) {
+            System.out.println("kkkk");
+        }
     }
 
     private static void testNonBlankRegex() throws Exception {
