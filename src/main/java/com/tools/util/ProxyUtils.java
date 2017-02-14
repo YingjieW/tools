@@ -1,4 +1,4 @@
-package com.tools.utils;
+package com.tools.util;
 
 import com.tools.ztest.proxy.jdk.JdkRealSubjectX;
 import sun.misc.ProxyGenerator;

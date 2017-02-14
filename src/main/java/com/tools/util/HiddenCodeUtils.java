@@ -1,4 +1,4 @@
-package com.tools.utils;
+package com.tools.util;
 
 import com.yeepay.g3.utils.common.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;

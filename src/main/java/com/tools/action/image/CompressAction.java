@@ -2,9 +2,9 @@ package com.tools.action.image;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tools.action.BaseAction;
-import com.tools.utils.CheckUtils;
-import com.tools.utils.FileUtils;
-import com.tools.utils.ImageUtils;
+import com.tools.util.CheckUtils;
+import com.tools.util.FileUtils;
+import com.tools.util.ImageUtils;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,7 +2,7 @@ package com.tools.action.image;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tools.action.BaseAction;
-import com.tools.utils.FileUtils;
+import com.tools.util.FileUtils;
 import org.fit.cssbox.demo.ImageRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.tools.ztest.script;
 
 import com.csvreader.CsvReader;
-import com.tools.utils.FileUtils;
+import com.tools.util.FileUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;

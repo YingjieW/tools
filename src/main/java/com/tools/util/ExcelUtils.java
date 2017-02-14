@@ -1,9 +1,9 @@
-package com.tools.utils;
+package com.tools.util;
 
-import com.tools.utils.excel.Excel2007Reader;
-import com.tools.utils.excel.Excel97Reader;
-import com.tools.utils.excel.ExcelReader;
-import com.tools.utils.excel.ExportParams;
+import com.tools.util.excel.Excel2007Reader;
+import com.tools.util.excel.Excel97Reader;
+import com.tools.util.excel.ExcelReader;
+import com.tools.util.excel.ExportParams;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.CellRangeAddress;

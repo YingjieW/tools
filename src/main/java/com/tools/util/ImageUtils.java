@@ -1,4 +1,4 @@
-package com.tools.utils;
+package com.tools.util;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;

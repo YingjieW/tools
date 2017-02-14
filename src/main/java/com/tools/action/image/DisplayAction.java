@@ -1,7 +1,7 @@
 package com.tools.action.image;
 
 import com.tools.action.BaseAction;
-import com.tools.utils.FileUtils;
+import com.tools.util.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

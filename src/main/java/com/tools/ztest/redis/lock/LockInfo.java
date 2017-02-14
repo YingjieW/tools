@@ -2,7 +2,7 @@ package com.tools.ztest.redis.lock;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.tools.utils.PlatformUtils;
+import com.tools.util.PlatformUtils;
 
 import java.io.Serializable;
 

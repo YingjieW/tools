@@ -3,7 +3,7 @@ package com.tools;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.tools.utils.*;
+import com.tools.util.*;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
@@ -23,7 +23,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,10 +52,58 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        boolean flag = false;
-        if (flag == false) {
-            System.out.println("kkkk");
+    }
+
+    private static void integerTest() {
+        /** 自动装箱: [-128, 127] */
+        Integer a = 1;
+        Integer b = 1;
+        System.out.println(a==b);
+
+        /** 自动装箱: (~, -128), (127 , ~) */
+        Integer c = 201;
+        Integer d = 201;
+        System.out.println(c==d);
+
+        /** 直接创建Integer对象 */
+        Integer e = new Integer(1);
+        Integer f = new Integer(1);
+        System.out.println(e==f);
+
+        /** 自动装箱等价于调用valueOf方法 */
+        Integer g = 127;
+        Integer h = Integer.valueOf(127);
+        System.out.println(g==h);
+
+    }
+
+    private static void listRemoveTest() {
+        List<String> list = new ArrayList<String>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        System.out.println("list: " + JSON.toJSONString(list));
+        /** 集合类在进行遍历时, 会检查modCount, 如果该参数在遍历过程中有变化, 则会抛出ConcurrentModificationException */
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String tmp = iterator.next();
+            if ("1".equals(tmp)) {
+                //list.remove(tmp);
+                iterator.remove();
+            }
         }
+        System.out.println("list: " + JSON.toJSONString(list));
+    }
+
+    private static void arraysTest() {
+        String[] strings = {"a", "b"};
+        List<String> list = Arrays.asList(strings);
+        System.out.println("strings: " + JSON.toJSONString(strings));
+        System.out.println("list: " + JSON.toJSONString(list));
+
+        strings[0] = "0";
+        System.out.println("strings: " + JSON.toJSONString(strings));
+        System.out.println("list: " + JSON.toJSONString(list));
     }
 
     private static void testNonBlankRegex() throws Exception {
@@ -606,14 +653,6 @@ public class Ztest {
         logger.info("###   constructor: " + JSON.toJSONString(constructor));
     }
 
-    private static void testBoolean() throws Exception {
-        String str = "true";
-        Boolean b1 = new Boolean(str);
-        logger.info("###   b1 : " + b1.toString());
-        boolean b2 = Boolean.parseBoolean(str);
-        logger.info("###   b2: " + b2);
-    }
-
     private static void testPraseJson() throws Exception {
         String jsonStr1 = "[99.9,98,\"test\"]";
         List<?> list1 = JSON.parseObject(jsonStr1, new TypeReference<List<?>>() {});
@@ -665,65 +704,6 @@ public class Ztest {
         mapListInteger.put("Fisrt", mapList1);
         mapListInteger.put("Last", mapList2);
         logger.info("###   mapListInteger: " + JSON.toJSONString(mapListInteger));
-    }
-    private static void testProperty() {
-        System.setProperty("mockconfig", "mockconfig_test");
-        System.out.println("###  " + System.getProperty("mockconfig"));
-        System.out.println("###  " + System.getProperty("java.version"));
-    }
-
-    private static void testExpression() throws Exception {
-        String startLabel = "->";
-        String expression = "->com.tools.ztest.yop.entity.YeepayProductEntity:" +
-                "yeepayProductName^String^WECHAT_USM|" +
-                "feeRate^BigDecimal^123.45|" +
-                "testMap^Map^{\"k1\":\"v1\",\"k2\":\"v2\"}|" +
-                "testList^List^[\"t1\",\"t2\"]|" +
-                "testMapInteger^Map^{\"k1\":1,\"k2\":2}";
-        if(expression.startsWith(startLabel)) {
-            String className = expression.substring(2, expression.indexOf(":"));
-            logger.info("###   className: " + className);
-        }
-    }
-
-    private static void testMapPutAll() {
-        Map<String, String> map1 = new HashMap<String, String>();
-        map1.put("A", "111");
-        map1.put("B", "222");
-        Map<String, String> map2 = new HashMap<String, String>();
-        map2.put("B", "bbb");
-        map2.put("C", "333");
-        System.out.println("map1: " + JSON.toJSONString(map1));
-        System.out.println("map2: " + JSON.toJSONString(map2));
-        map1.putAll(map2);
-        System.out.println("putAll: " + JSON.toJSONString(map1));
-    }
-
-    private static void test03(String text) {
-        String regex = "[YyNn]";
-        System.out.println("###  regex: " + regex);
-        System.out.println("###  text: " + text);
-        System.out.println("###  result: " + Pattern.matches(regex, text));
-    }
-
-    private static void test02() {
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        System.out.println(ThreadSafeDateUtils.formatDate(date));
-        System.out.println(ThreadSafeDateUtils.formatDateTime(date));
-        SimpleDateFormat simpleDateFormat= ThreadSafeDateUtils.getDateFormat();
-        simpleDateFormat.applyPattern("yyyy-MM-dd HH:mm:ss.sss");
-        System.out.println(simpleDateFormat.format(date));
-    }
-
-    private static void test01() {
-        int a = 0;
-        int b = 1;
-        if(a == 0) {
-            System.out.println("Test");
-            b = a + 1;
-            a = 9;
-        }
     }
 
     private static void print(Object text) {

@@ -1,4 +1,4 @@
-package com.tools.utils;
+package com.tools.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;

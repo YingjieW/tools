@@ -1,6 +1,6 @@
 package com.tools.ztest.fsm;
 
-import com.tools.utils.FileUtils;
+import com.tools.util.FileUtils;
 
 import java.io.File;
 import java.io.FileReader;

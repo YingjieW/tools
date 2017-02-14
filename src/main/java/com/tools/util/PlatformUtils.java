@@ -1,4 +1,4 @@
-package com.tools.utils;
+package com.tools.util;
 
 import sun.management.VMManagement;
 

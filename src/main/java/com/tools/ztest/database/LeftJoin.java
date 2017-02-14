@@ -1,6 +1,6 @@
 package com.tools.ztest.database;
 
-import com.tools.utils.ThreadSafeDateUtils;
+import com.tools.util.ThreadSafeDateUtils;
 
 import java.sql.ResultSet;
 import java.util.Date;
