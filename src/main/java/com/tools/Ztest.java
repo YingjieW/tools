@@ -52,6 +52,13 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        assertTest();
+    }
+
+    private static void assertTest() throws Exception {
+        int a = 199;
+        assert (a < 0) : "a[" + a + "] must be greater than 0.";
+        System.out.println(".....");
     }
 
     private static void integerTest() {
@@ -74,7 +81,6 @@ public class Ztest {
         Integer g = 127;
         Integer h = Integer.valueOf(127);
         System.out.println(g==h);
-
     }
 
     private static void listRemoveTest() {
