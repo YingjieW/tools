@@ -19,5 +19,4 @@ public class Client {
         concreteColleagueA.send("Hello");
         concreteColleagueB.send("world");
     }
-
 }
