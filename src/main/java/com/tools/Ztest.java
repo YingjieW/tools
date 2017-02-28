@@ -3,14 +3,13 @@ package com.tools;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.tools.util.*;
+import com.tools.util.BeanUtils;
+import com.tools.util.SerializeUtils;
+import com.tools.util.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.test.Animal;
-import com.tools.ztest.yop.entity.TestEntity;
-import com.tools.ztest.yop.entity.YeepayProductEntity;
-import com.yeepay.g3.utils.common.httpclient.SimpleHttpUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.mvel2.MVEL;
 import org.slf4j.Logger;
@@ -22,7 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,8 +50,38 @@ public class Ztest {
         }
     }
 
-    public static void main(String[] args) throws Throwable {
-        assertTest();
+    public static void main(String[] args) throws Throwable {ArrayList<String> arrayList = new ArrayList<String>();
+        LinkedList<String> linkedList = new LinkedList<String>();
+        arrayList.add("hello");
+        linkedList.add("hello");
+        System.out.println(arrayList.equals(linkedList));
+        HashMap<String,String> hashMap = new HashMap<String, String>();
+        TreeMap<String,String> treeMap = new TreeMap<String, String>();
+        hashMap.put("hello", "world");
+        treeMap.put("hello", "world");
+        System.out.println(hashMap.equals(treeMap));
+    }
+
+    private static void bootStrapTest() throws Exception {
+        /**
+         * JVM加载class文件的两种方法；
+         * 隐式加载， 程序在运行过程中当碰到通过new 等方式生成对象时，隐式调用类装载器加载对应的类到jvm中。
+         * 显式加载， 通过class.forname()、this.getClass.getClassLoader().loadClass()等方法显式加载需要的类，
+         * 或者我们自己实现的 ClassLoader 的 findlass() 方法。
+         */
+        URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
+        for (int i = 0; i < urls.length; i++) {
+            System.out.println(urls[i].toExternalForm());
+        }
+        System.out.println();
+
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        while (loader!=null){
+            System.out.println(loader.toString());
+            loader = loader.getParent();
+        }
+        // 因为Bootstrap ClassLoader不是一个普通的Java类，所以ExtClassLoader的parent=null
+        System.out.println(loader);
     }
 
     private static void assertTest() throws Exception {
@@ -214,36 +243,6 @@ public class Ztest {
         System.out.println("===> b: " + b);
     }
 
-    public static void testArrayCopy() throws Exception {
-        int[] arr = {0, 1, 2, 3, 4, 5, 0};
-        for(int i : arr) {
-            System.out.print(i + ", ");
-        }
-        System.out.println();
-
-        System.arraycopy(arr, 3, arr, 4, 3);
-        for(int i : arr) {
-            System.out.print(i + ", ");
-        }
-        System.out.println();
-    }
-
-    public static void testLinkedHashMap() throws Exception {
-        LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>(16, 0.75f, true);
-        linkedHashMap.put(2, "two");
-        linkedHashMap.put(3, "three");
-        linkedHashMap.put(1, "one");
-        for(Map.Entry<Integer, String> entry : linkedHashMap.entrySet()) {
-            System.out.println("===> key:[" + entry.getKey() + "], value:[" + entry.getValue() + "].");
-        }
-        System.out.println();
-
-        linkedHashMap.get(3);
-        for(Map.Entry<Integer, String> entry : linkedHashMap.entrySet()) {
-            System.out.println("===> key:[" + entry.getKey() + "], value:[" + entry.getValue() + "].");
-        }
-    }
-
     public static void testMethodReflect() throws Exception {
         // 利用反射调用静态方法时,无需指定具体的对象。
         Method method1 = Ztest.class.getDeclaredMethod("reflectStaticMethod", String.class);
@@ -275,130 +274,6 @@ public class Ztest {
         } else {
             System.out.println("success");
         }
-    }
-
-    private static void testCalRefundFee() throws Exception {
-        BigDecimal refundAmount = new BigDecimal("1");
-        BigDecimal refundedAmount = new BigDecimal("250");
-        BigDecimal tradeAmount = new BigDecimal("300");
-        BigDecimal tradeFee = new BigDecimal("10");
-        BigDecimal refundedFee = new BigDecimal("8.33");
-        BigDecimal shouldRefundFee = BigDecimal.ZERO;
-        BigDecimal fee = refundAmount.add(refundedAmount).divide(tradeAmount, 4, RoundingMode.HALF_UP).multiply(tradeFee).subtract(refundedFee).subtract(shouldRefundFee).setScale(2, RoundingMode.HALF_UP);
-        print(fee.toString());
-    }
-
-    private static void testCollections() throws Exception {
-        List<String> list1 = new ArrayList<String>(3);
-        list1.add("1");
-        list1.add("2");
-        list1.add("3");
-        List<String> list2 = new ArrayList<String>(list1);
-        print("list1: " + JSON.toJSONString(list1));
-        print("list2: " + JSON.toJSONString(list2));
-        list1.add("AAA");
-        print("list1: " + JSON.toJSONString(list1));
-        print("list2: " + JSON.toJSONString(list2));
-    }
-
-    private static void testMap() throws Exception {
-        Map<String, String> map = new HashMap<String, String>(99);
-        print("map.size = " + map.size());
-        map.put("key1", "value1");
-        map.put("key2", null);
-        print("map.get = " + map.get("key2"));
-    }
-
-    private static void testFinal(final String s) throws Exception {
-        print(s);
-    }
-
-    private static void testCast() throws Exception {
-        float l = 100.567f;
-        int i = (int)l;
-        print(i);
-    }
-
-    private static void testOctal() throws Exception {
-        int nine = 017;
-        System.out.println(nine);
-    }
-
-    private static void testBigDecimal() throws Exception {
-
-
-        BigDecimal a = new BigDecimal(1.256);
-        print(a.setScale(2, BigDecimal.ROUND_DOWN));
-        BigDecimal b = new BigDecimal(0.003);
-        print(b.setScale(2, BigDecimal.ROUND_DOWN));
-
-        BigDecimal bigDecimal = new BigDecimal(1.987654321);
-        String str1 = bigDecimal.toString();
-        print(str1);
-        String str2 = String.valueOf(bigDecimal.doubleValue());
-        print(str2);
-        String str3 = String.valueOf(bigDecimal);
-        print(str3);
-
-        BigDecimal b1 = new BigDecimal(1.2);
-        BigDecimal b2 = new BigDecimal(1.1);
-        print(b1.doubleValue());
-        print(b1.add(b2).doubleValue());
-        print(b1.doubleValue());
-
-        BigDecimal b3 = new BigDecimal("0.01");
-        print("scale:" + b3.scale());
-        print("scale:" + BigDecimalUtils.reconstruct(b3).scale());
-
-        BigDecimal b4 = BigDecimal.valueOf(0.03);
-        print("b4 = " + b4);
-    }
-
-    private static void testAlibabaJson() throws Exception {
-        List<PersonEntity> personEntityList = new ArrayList<PersonEntity>();
-        PersonEntity personEntity = new PersonEntity();
-        Map map = new HashMap();
-        map.put("key1", "value1");
-        map.put("key2", "value2");
-        personEntity.setMap(map);
-
-        PersonDTO personDTO = new PersonDTO();
-        personDTO.setMap(personEntity.getMap());
-
-        personEntity.setPersonDTO(personDTO);
-
-        print("   " + JSON.toJSONString(personEntity));
-    }
-
-    private static void testSimpleHttpUtils() throws Exception {
-        String textHost = "http://o2o.yeepay.com/zgt-api/api/queryOrder";
-        String customernumber = "10012438801";
-        String data = "CE2EF6D1E257DEDDF5D07DEBA716C3F5E5C31D225ED9B5DB6CFCF99814832925A4702CC5D6FD8BE4A7C139BF4BBCED7F303AF571DB6D5E4B66BABC852419B21E32615C2DBC6D4D9F0F7F3497546430E13E2F965B0FEA2BAA2A42C3D4597108A1CA2229B476E2DA62CC4A454980A913F8B001C335F57D1C80F170DB49D7D95FA6";
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("customernumber", customernumber);
-        params.put("data", data);
-
-        print("   " + JSON.toJSONString(params));
-        String reqString = SimpleHttpUtils.httpPost(textHost, params);
-        print("   " + JSON.toJSONString(reqString));
-
-    }
-
-    private static void testString() throws Exception {
-
-        String statuses = "INIT";
-        List<String> list = Arrays.asList(statuses.split(","));
-        print(JSON.toJSONString(list));
-
-        String a = "hello";
-        String b = a;
-        b.toUpperCase();
-        print("   a: " + a);
-        print("   b: " + b);
-
-        String text = "银行订单不可重复使用sdnsofn";
-        print("   : " + text.indexOf("1银行订单不可重复使用"));
     }
 
     private static void testJavaBean() throws Throwable {
@@ -533,91 +408,6 @@ public class Ztest {
         while(stringTokenizer.hasMoreTokens()) {
             print(stringTokenizer.nextToken());
         }
-    }
-
-    private static void testInteger() throws Exception {
-        Integer integer = null;
-        int i = 1;
-        logger.info("integer = " + integer);
-        YeepayProductEntity yeepayProductEntity = new YeepayProductEntity();
-        yeepayProductEntity.setYeepayProductName("testName");
-        logger.info("yeepayProductEntity: " + JSON.toJSONString(yeepayProductEntity));
-        yeepayProductEntity.setAssurePeriodInt(3);
-        logger.info("yeepayProductEntity: " + JSON.toJSONString(yeepayProductEntity));
-        logger.info("i = " + i);
-        if(i == integer) {
-            logger.info("true");
-        } else {
-            logger.info("false");
-        }
-    }
-
-    private static void testStringBuffer() throws Exception {
-        String[] test = new String[0];
-        logger.info("length: " + test.length);
-        StringBuffer sb = new StringBuffer();
-        logger.info("sb.length: " + sb.length());
-        logger.info("sb: [" + sb.toString() + "]");
-        sb.append("args1").append(",").append("args2").append(",");
-        logger.info("sb: [" + sb.toString() + "]");
-        sb.substring(0, sb.length()-1);
-        logger.info("sb: [" + sb.toString() + "]");
-        logger.info("sb: [" + sb.substring(0, sb.length()-1).toString() + "]");
-
-        StringBuffer buffer = new StringBuffer();
-        print("buffer.size = " + buffer.length());
-
-        StringBuffer defaultMsg = new StringBuffer("清算中心未正常入账邮件监控：<br> \r\n");
-        print("defaultMsg.length = " + defaultMsg.length());
-    }
-
-    private static void testSplit() throws Exception {
-        String text = "1^2^^3";
-        String[] result = text.split("\\^");
-        logger.info("length : " + result.length);
-        for(String s : result) {
-            logger.info("- " + s);
-        }
-    }
-
-    private static void testJson() throws Exception {
-        YeepayProductEntity y1 = new YeepayProductEntity();
-        y1.setFeeRate(new BigDecimal(213.5));
-        y1.setYeepayProductName("name01");
-        y1.setFeeRateChargeMethod("method01");
-        List<String> list1 = new ArrayList<String>();
-        list1.add("l1");
-        list1.add("l2");
-        list1.add("l3");
-        y1.setTestList(list1);
-        TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("Tom");
-        testEntity.setTestAge(19);
-        testEntity.setTestScore(98f);
-        y1.setTestEntity(testEntity);
-        String y1Json = JSON.toJSONString(y1);
-        logger.info(y1Json);
-
-        YeepayProductEntity y1Parsed = JSON.parseObject(y1Json, YeepayProductEntity.class);
-        logger.info("... " + y1Parsed.getFeeRateChargeMethod());
-        logger.info("... " + y1Parsed.getFeeRate());
-        logger.info("... " + y1Parsed.getTestEntity());
-
-        int i = 10;
-        logger.info(JSON.toJSONString(i));
-        float f = 8.9f;
-        logger.info(JSON.toJSONString(f));
-        boolean b = true;
-        logger.info(JSON.toJSONString(b));
-        boolean c = Boolean.parseBoolean(JSON.toJSONString(b));
-        logger.info("" + c);
-    }
-
-    private static void testPropertiesUtil() throws Exception{
-        String uri = "test/test1.properties";
-        Map<String, String> result = PropertiesFileUtils.loadProps(uri);
-        logger.info("###   result.size: " + result.size());
-        logger.info("###   result: " + JSON.toJSONString(result));
     }
 
     /**
