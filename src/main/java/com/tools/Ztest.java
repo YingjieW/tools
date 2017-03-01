@@ -50,16 +50,7 @@ public class Ztest {
         }
     }
 
-    public static void main(String[] args) throws Throwable {ArrayList<String> arrayList = new ArrayList<String>();
-        LinkedList<String> linkedList = new LinkedList<String>();
-        arrayList.add("hello");
-        linkedList.add("hello");
-        System.out.println(arrayList.equals(linkedList));
-        HashMap<String,String> hashMap = new HashMap<String, String>();
-        TreeMap<String,String> treeMap = new TreeMap<String, String>();
-        hashMap.put("hello", "world");
-        treeMap.put("hello", "world");
-        System.out.println(hashMap.equals(treeMap));
+    public static void main(String[] args) throws Throwable {
     }
 
     private static void bootStrapTest() throws Exception {
