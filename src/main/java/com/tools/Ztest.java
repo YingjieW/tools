@@ -51,17 +51,11 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Ztest ztest = new Ztest();
-        ClassLoader classLoader1 = Thread.currentThread().getContextClassLoader();
-        ClassLoader classLoader2 = ztest.getClass().getClassLoader();
-        System.out.println(classLoader1);
-        System.out.println(classLoader2);
-        System.out.println(classLoader1 == classLoader2);
+        Thread thread = new Thread();
+        thread.start();
+        thread.stop();
     }
 
-    public static void test() {
-
-    }
 
     private static void bootStrapTest() throws Exception {
         /**
