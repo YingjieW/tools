@@ -68,21 +68,21 @@
 	</bean>
 
 	<!-- 拦截器配置 -->
-	<!--<mvc:interceptors>-->
-		<!--<mvc:interceptor>-->
-			<!--&lt;!&ndash; 全路径拦截 &ndash;&gt;-->
-			<!--<mvc:mapping path="/**" />-->
-			<!--&lt;!&ndash; 不需要拦截的路径 &ndash;&gt;-->
-			<!--<mvc:exclude-mapping path="/images/**"/>-->
-			<!--<mvc:exclude-mapping path="/js/**"/>-->
-			<!--<mvc:exclude-mapping path="/cs/**"/>-->
-			<!--<bean class="com.tools.interceptor.ConsumeTimeInterceptor" />-->
-		<!--</mvc:interceptor>-->
-		<!--<mvc:interceptor>-->
-			<!--<mvc:mapping path="/image/*" />-->
-			<!--<bean class="com.tools.interceptor.RequestInterceptor" />-->
-		<!--</mvc:interceptor>-->
-	<!--</mvc:interceptors>-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 全路径拦截 -->
+			<mvc:mapping path="/**" />
+			<!-- 不需要拦截的路径 -->
+			<mvc:exclude-mapping path="/images/**"/>
+			<mvc:exclude-mapping path="/js/**"/>
+			<mvc:exclude-mapping path="/cs/**"/>
+			<bean class="com.tools.interceptor.ConsumeTimeInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/image/*" />
+			<bean class="com.tools.interceptor.RequestInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 	<bean id="rmiMockInterceptor" class="com.tools.aop.RmiMockInterceptor"></bean>
 	<aop:config>

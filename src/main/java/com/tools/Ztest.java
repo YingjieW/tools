@@ -51,9 +51,11 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Thread thread = new Thread();
-        thread.start();
-        thread.stop();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("001", "aaa");
+        map.put("002", "bbb");
+        map.put("003", "ccc");
+        System.out.println(JSON.toJSONString(map));
     }
 
 

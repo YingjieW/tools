@@ -21,20 +21,20 @@
                      <property name="forceBigDecimals" value="false"/>
               </javaTypeResolver>
               <!--生成Model类存放位置，targetProject为一级目录，targetPackage为二级目录；注意【targetPackage，targetProject需要手动建立！！！】；-->
-              <javaModelGenerator targetPackage="cs.entity" targetProject="/Users/YJ/Documents/generator">
+              <javaModelGenerator targetPackage="pp.entity" targetProject="/Users/YJ/Documents/generator">
                      <property name="enableSubPackages" value="false"/>
                      <property name="trimStrings" value="true"/>
               </javaModelGenerator>
               <!--生成映射文件存放位置-->
-              <sqlMapGenerator targetPackage="cs.mapper" targetProject="/Users/YJ/Documents/generator">
+              <sqlMapGenerator targetPackage="pp.mapper" targetProject="/Users/YJ/Documents/generator">
                      <property name="enableSubPackages" value="false"/>
               </sqlMapGenerator>
               <!--生成Dao类存放位置-->
-              <javaClientGenerator type="XMLMAPPER" targetPackage="cs.dao" targetProject="/Users/YJ/Documents/generator">
+              <javaClientGenerator type="XMLMAPPER" targetPackage="pp.dao" targetProject="/Users/YJ/Documents/generator">
                      <property name="enableSubPackages" value="false"/>
               </javaClientGenerator>
               <!--生成对应表及类名，使用时请删除下面的例子-->
-              <table schema="CS" tableName="TBL_PROCESS_ERROR_REFUND" domainObjectName="ErrorRefundEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+              <table schema="PPCONFIG" tableName="TBL_BANK_INFO" domainObjectName="BankInfoEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
        </context>
        <!--使用方法 -->
        <!--   仔细阅读以上注释，并修改对应的参数                                                                                                      -->
