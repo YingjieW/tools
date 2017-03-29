@@ -5,7 +5,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.tools.util.BeanUtils;
 import com.tools.util.SerializeUtils;
-import com.tools.util.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
@@ -52,7 +51,23 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testRoundingMode();
+        testLeftShift();
+    }
+
+    private static void testLeftShift() throws Exception {
+        long workerIdBits = 5L;
+        long dataCenterIdBits = 5L;
+
+        long maxWorkerId = -1L ^ (-1L << workerIdBits);
+        long maxDataCenterId = -1L ^ (-1L << dataCenterIdBits);
+
+        System.out.println(workerIdBits);
+        System.out.println(dataCenterIdBits);
+        System.out.println(maxWorkerId);
+        System.out.println(maxDataCenterId);
+
+        System.out.println(-1 ^ (-1 << 5));
+        System.out.println((-1 << 5)*-1 - 1);
     }
 
 
@@ -192,13 +207,6 @@ public class Ztest {
         System.out.println(SerializeUtils.deserialize(bytes));
     }
 
-    private static synchronized void testSync() {
-        System.out.println("====> testSync");
-        try {
-            Thread.sleep(50000);
-        } catch (Exception e) {}
-    }
-
     public static void testSimplePropertyPreFilter() throws Exception {
         Animal animal = new Animal();
         animal.setAge(999);
@@ -223,12 +231,6 @@ public class Ztest {
         System.out.println(JSON.toJSONString(list));
     }
 
-    private static void transfer(String text) {
-        if ("null".equalsIgnoreCase(text)) {
-            text = null;
-        }
-    }
-
     private static void testAssert() {
         assert 1 == 1;
         System.out.println(System.currentTimeMillis());
@@ -236,16 +238,6 @@ public class Ztest {
         System.out.println(System.currentTimeMillis());
     }
 
-    private static void testaa(String text, Object... objects) {
-        System.out.println("===> " + text);
-        for (Object object : objects) {
-            System.out.println("===> " + object.toString() + " ---> " + (object.getClass().getName()));
-        }
-    }
-
-    private static void testkk(Integer i) {
-        i = null;
-    }
     private static void testOctHex() {
         int a = 011;
         System.out.println("===> a: " + a);
@@ -401,23 +393,6 @@ public class Ztest {
 
         print("   source: " + JSON.toJSONString(source));
         print("   target: " + JSON.toJSONString(target));
-    }
-
-    private static void testDate() throws Exception {
-        Date date1 = new Date();
-        Thread.sleep(10);
-        Date date2 = new Date();
-        print("date1: " + ThreadSafeDateUtils.formatDateTimeMillis(date1));
-        print("date2: " + ThreadSafeDateUtils.formatDateTimeMillis(date2));
-        print(date1.before(date2));
-    }
-
-    // 建议使用split()方法替代StringTokenizer
-    private static void testStringTokenizer() throws Exception {
-        StringTokenizer stringTokenizer = new StringTokenizer("This is a .  test.", ".");
-        while(stringTokenizer.hasMoreTokens()) {
-            print(stringTokenizer.nextToken());
-        }
     }
 
     /**

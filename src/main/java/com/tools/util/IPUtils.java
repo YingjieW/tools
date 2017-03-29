@@ -1,5 +1,6 @@
 package com.tools.util;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,5 +133,15 @@ public class IPUtils {
     public static String getHostIp() {
         InetAddress localAddress = getLocalAddress();
         return localAddress == null ? LOCAL_HOST : localAddress.getHostAddress();
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(IPUtils.getHostIp());
+
+        InetAddress localAddress = InetAddress.getLocalHost();
+        System.out.println(localAddress.toString());
+
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        System.out.println(JSON.toJSONString(interfaces));
     }
 }
