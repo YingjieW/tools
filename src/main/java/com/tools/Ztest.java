@@ -21,6 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -51,13 +52,25 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("001", "aaa");
-        map.put("002", "bbb");
-        map.put("003", "ccc");
-        System.out.println(JSON.toJSONString(map));
+        testRoundingMode();
     }
 
+
+    private static void testRoundingMode() throws Exception {
+        BigDecimal a = new BigDecimal(2345678);//, 2, RoundingMode.DOWN
+        BigDecimal b = new BigDecimal("0.000001");
+        System.out.println(a.multiply(b).setScale(2, RoundingMode.DOWN) + "  -  a:[" + a.toString() + "], b:[" + b.toString() + "].");
+        BigDecimal c = new BigDecimal("0.00001");
+        System.out.println(a.multiply(c).setScale(2, RoundingMode.DOWN) + "  -  a:[" + a.toString() + "], c:[" + c.toString() + "].");
+        BigDecimal d = new BigDecimal("0.0001");
+        System.out.println(a.multiply(d).setScale(2, RoundingMode.DOWN) + "  -  a:[" + a.toString() + "], d:[" + d.toString() + "].");
+        BigDecimal e = new BigDecimal("0.001");
+        System.out.println(a.multiply(e).setScale(2, RoundingMode.DOWN) + "  -  a:[" + a.toString() + "], e:[" + e.toString() + "].");
+        BigDecimal f = new BigDecimal("0.01");
+        System.out.println(a.multiply(f).setScale(2, RoundingMode.DOWN) + "  -  a:[" + a.toString() + "], f:[" + f.toString() + "].");
+        BigDecimal g = new BigDecimal("0.1");
+        System.out.println(a.multiply(g).setScale(2, RoundingMode.DOWN) + "  -  a:[" + a.toString() + "], g:[" + g.toString() + "].");
+    }
 
     private static void bootStrapTest() throws Exception {
         /**

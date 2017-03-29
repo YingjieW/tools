@@ -22,7 +22,7 @@ public class TestPeople extends BaseTest {
 
     @Test
     public void testPeople() throws Exception {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("/test/people.xml");
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("/test/xsd_test.xml");
         People p = (People)ctx.getBean("id...");
         System.out.println(p.getId());
         System.out.println(p.getName());
