@@ -71,6 +71,7 @@ public class Ztest {
     }
 
 
+
     private static void testRoundingMode() throws Exception {
         BigDecimal a = new BigDecimal(2345678);//, 2, RoundingMode.DOWN
         BigDecimal b = new BigDecimal("0.000001");
