@@ -29,11 +29,12 @@ public class DirectingPublisher {
 
             for (int i = 0; i < 1048576; i++) {
                 directingPublisher.publish(i);
+                counterTracer.count();
             }
 
             counterTracer.waitForReached();
 
-            System.out.println("["+j+"] -- " + counterTracer.getMilliTimeSpan());
+            System.out.println("["+j+"] : " + counterTracer.getMilliTimeSpan());
         }
     }
 }
