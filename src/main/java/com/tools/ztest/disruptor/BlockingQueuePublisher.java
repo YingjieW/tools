@@ -50,16 +50,18 @@ public class BlockingQueuePublisher {
 
     public static void main(String[] args) throws Exception {
         for (int j = 0; j < 5; j++) {
-            CounterTracer counterTracer = new SimpleTracer(5048576);
+            CounterTracer counterTracer = new SimpleTracer(10048576);
             TestHandler testHandler = new TestHandler(counterTracer);
-            BlockingQueuePublisher blockingQueuePublisher = new BlockingQueuePublisher(5048576, testHandler);
+            BlockingQueuePublisher blockingQueuePublisher = new BlockingQueuePublisher(1024, testHandler);
 
             counterTracer.start();
             blockingQueuePublisher.start();
 
-            for (int i = 0; i < 5048576; i++) {
+            for (int i = 0; i < 10048576; i++) {
                 blockingQueuePublisher.publish(i);
-                counterTracer.count();
+                if(counterTracer.count()) {
+                    break;
+                }
             }
 
             counterTracer.waitForReached();

@@ -69,21 +69,29 @@ public class DisruptorPublisher {
         }
     }
 
+    public void close() throws Exception {
+        disruptor.shutdown();
+        executor.shutdown();
+    }
+
     public static void main(String[] args) throws Exception {
         for (int j = 0; j < 5; j++) {
-            CounterTracer counterTracer = new SimpleTracer(5048576);
+            CounterTracer counterTracer = new SimpleTracer(10048576);
             TestHandler testHandler = new TestHandler(counterTracer);
             DisruptorPublisher disruptorPublisher = new DisruptorPublisher(1024, testHandler);
 
             counterTracer.start();
             disruptorPublisher.start();
 
-            for (int i = 0; i < 5048576; i++) {
+            for (int i = 0; i < 10048576; i++) {
                 disruptorPublisher.publish(i);
-                counterTracer.count();
+                if(counterTracer.count()) {
+                    break;
+                }
             }
 
             counterTracer.waitForReached();
+            disruptorPublisher.close();
 
             System.out.println("["+j+"] : " + counterTracer.getMilliTimeSpan());
         }

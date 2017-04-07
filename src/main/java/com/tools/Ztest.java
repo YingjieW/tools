@@ -51,7 +51,11 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testLeftShift();
+        BigDecimal a = new BigDecimal(234);
+        BigDecimal b = new BigDecimal("0.01");
+        System.out.println(a.multiply(b).setScale(2, BigDecimal.ROUND_HALF_UP));
+        BigDecimal c = new BigDecimal("0.001");
+        System.out.println(a.multiply(c).setScale(2, BigDecimal.ROUND_HALF_UP));
     }
 
     private static void testLeftShift() throws Exception {
@@ -66,6 +70,7 @@ public class Ztest {
         System.out.println(maxWorkerId);
         System.out.println(maxDataCenterId);
 
+        System.out.println((-1 << 5));
         System.out.println(-1 ^ (-1 << 5));
         System.out.println((-1 << 5)*-1 - 1);
     }
