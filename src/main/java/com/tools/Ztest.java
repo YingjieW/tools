@@ -17,7 +17,8 @@ import org.slf4j.LoggerFactory;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -56,26 +57,48 @@ public class Ztest {
         testFixedThreadPool();
     }
 
+    private static void testIO() throws Exception {
+        String path = "/Users/YJ/Documents/generator/test/testIO.txt";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileOutputStream fos = new FileOutputStream(file);
+        try {
+            byte[] bytes = "Hello world\n".getBytes();
+            fos.write(bytes);
+            if (bytes.length > 1) {
+                throw new Exception("testing........");
+            }
+            fos.write(bytes);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            fos.close();
+        }
+    }
+
     private static void testFixedThreadPool() throws Throwable {
-        final ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<String>(10);
+        final ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<String>(20);
         queue.add("0");
-        Executors.newFixedThreadPool(3).execute(new Runnable() {
+        Executors.newFixedThreadPool(5).execute(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    if (!queue.isEmpty()) {
-                        String text = queue.poll();
-                        if (text != null) {
-                            System.out.println("---> text : " + text);
+                    try {
+                        if (!queue.isEmpty()) {
+                            String text = queue.poll();
+                            if (text != null) {
+                                System.out.println("---> thread:[" + (Thread.currentThread().getName()) + "]ms, text : " + text);
+                                Thread.sleep(5*100);
+                            } else {
+                                System.out.println("............");
+                            }
                         } else {
-                            System.out.println("............");
+                           Thread.sleep(2 * 1000);
                         }
-                    } else {
-                        try {
-                            Thread.sleep(2 * 1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -85,8 +108,9 @@ public class Ztest {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                queue.add("1");
-                queue.add("2");
+                for (int i = 1; i < 20; i++) {
+                    queue.add(String.valueOf(i));
+                }
             }
         }).start();
 
@@ -466,13 +490,6 @@ public class Ztest {
 
         System.out.println("###   weakHashMap: " + JSON.toJSONString(weakHashMap));
         System.out.println("###   hashMap: " + JSON.toJSONString(hashMap));
-    }
-
-    private static void testGetConstructor() throws Exception {
-        Constructor<?>[] constructors = Ztest.class.getConstructors();
-        logger.info("###   constructors: " + JSON.toJSONString(constructors));
-        Constructor<?> constructor = Ztest.class.getConstructor(String.class);
-        logger.info("###   constructor: " + JSON.toJSONString(constructor));
     }
 
     private static void testPraseJson() throws Exception {
