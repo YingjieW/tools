@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,11 +53,44 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        BigDecimal a = new BigDecimal(234);
-        BigDecimal b = new BigDecimal("0.01");
-        System.out.println(a.multiply(b).setScale(2, BigDecimal.ROUND_HALF_UP));
-        BigDecimal c = new BigDecimal("0.001");
-        System.out.println(a.multiply(c).setScale(2, BigDecimal.ROUND_HALF_UP));
+        testFixedThreadPool();
+    }
+
+    private static void testFixedThreadPool() throws Throwable {
+        final ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<String>(10);
+        queue.add("0");
+        Executors.newFixedThreadPool(3).execute(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (!queue.isEmpty()) {
+                        String text = queue.poll();
+                        if (text != null) {
+                            System.out.println("---> text : " + text);
+                        } else {
+                            System.out.println("............");
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(2 * 1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        System.out.println("...end-pool");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                queue.add("1");
+                queue.add("2");
+            }
+        }).start();
+
+        System.out.println("...end-thread");
     }
 
     private static void testLeftShift() throws Exception {
