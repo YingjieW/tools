@@ -54,7 +54,6 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testFixedThreadPool();
     }
 
     private static void testIO() throws Exception {
