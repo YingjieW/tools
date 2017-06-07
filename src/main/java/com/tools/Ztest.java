@@ -1,16 +1,18 @@
 package com.tools;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.tools.util.BeanUtils;
 import com.tools.util.SerializeUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.test.Animal;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +20,9 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -54,6 +58,58 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        testReadFile();
+    }
+
+    private static void testReadFile() throws Exception {
+        File file = new File("/Users/YJ/shared/z_tmp/BA12390_refund_20170531.csv");
+        InputStream inputStream = new FileInputStream(file);
+        LineIterator lineIterator = IOUtils.lineIterator(inputStream, "utf-8");
+        while (lineIterator.hasNext()) {
+            System.out.println(lineIterator.next());
+        }
+    }
+
+    private static void testHashBasedTable() throws Exception {
+        Table<Integer, String, Integer> table = HashBasedTable.create();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                table.put(i, String.valueOf(j), i+j);
+            }
+        }
+        // {0={3=3, 2=2, 1=1, 0=0}, 1={3=4, 2=3, 1=2, 0=1}, 2={3=5, 2=4, 1=3, 0=2}}
+        System.out.println(table);
+        // 2
+        System.out.println(table.get(0, "2"));
+        // 5
+        System.out.println(table.get(2, "3"));
+        table.put(2, "3", 23);
+        // 23
+        System.out.println(table.get(2, "3"));
+        // {0=3, 1=4, 2=23}
+        System.out.println(table.column("3"));
+        // {}
+        System.out.println(table.column("4"));
+        // true
+        System.out.println(table.containsColumn("3"));
+        // false
+        System.out.println(table.containsColumn("4"));
+        // {3=23, 2=4, 1=3, 0=2}
+        System.out.println(table.row(2));
+        // {}
+        System.out.println(table.row(9));
+        // true
+        System.out.println(table.containsRow(2));
+        // false
+        System.out.println(table.containsRow(9));
+        // true
+        System.out.println(table.contains(2, "1"));
+        // false
+        System.out.println(table.contains(22, "1"));
+        // {3={0=3, 1=4, 2=23}, 2={0=2, 1=3, 2=4}, 1={0=1, 1=2, 2=3}, 0={0=0, 1=1, 2=2}}
+        System.out.println(table.columnMap());
+        // {0={3=3, 2=2, 1=1, 0=0}, 1={3=4, 2=3, 1=2, 0=1}, 2={3=23, 2=4, 1=3, 0=2}}
+        System.out.println(table.rowMap());
     }
 
     private static void testIO() throws Exception {
@@ -132,8 +188,6 @@ public class Ztest {
         System.out.println(-1 ^ (-1 << 5));
         System.out.println((-1 << 5)*-1 - 1);
     }
-
-
 
     private static void testRoundingMode() throws Exception {
         BigDecimal a = new BigDecimal(2345678);//, 2, RoundingMode.DOWN
@@ -217,51 +271,6 @@ public class Ztest {
             }
         }
         System.out.println("list: " + JSON.toJSONString(list));
-    }
-
-    private static void arraysTest() {
-        String[] strings = {"a", "b"};
-        List<String> list = Arrays.asList(strings);
-        System.out.println("strings: " + JSON.toJSONString(strings));
-        System.out.println("list: " + JSON.toJSONString(list));
-
-        strings[0] = "0";
-        System.out.println("strings: " + JSON.toJSONString(strings));
-        System.out.println("list: " + JSON.toJSONString(list));
-    }
-
-    private static void testNonBlankRegex() throws Exception {
-        String regex = ".*\\S.*";
-        System.out.println("".length());
-        System.out.println("".matches(regex));
-        System.out.println("    \t".matches(regex));
-        System.out.println("       ".matches(regex));
-        System.out.println(" AB C".matches(regex));
-        System.out.println(" A C ".matches(regex));
-        System.out.println("   C ".matches(regex));
-        System.out.println("C".matches(regex));
-    }
-
-    private static void testClassLoader() throws Exception {
-        System.out.println(Thread.currentThread());
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        System.out.println(classLoader);
-        Thread.currentThread().setContextClassLoader(null);
-        System.out.println(Thread.currentThread().getContextClassLoader());
-        Thread.currentThread().setContextClassLoader(classLoader);
-        System.out.println(Thread.currentThread().getContextClassLoader());
-    }
-
-    private static void testMvel() throws Exception {
-        Map<String, String> map = new HashMap<String, String>(8);
-        map.put("x", "1");
-        map.put("y", "3333");
-        map.put("z", null);
-
-        System.out.println(MVEL.eval("1==1"));
-        System.out.println(MVEL.eval("Integer.valueOf(x)", map));
-        System.out.println(MVEL.eval("Integer.valueOf(y)", map));
-        System.out.println(MVEL.eval("z", map));
     }
 
     private static void configData() throws Exception {
@@ -489,59 +498,6 @@ public class Ztest {
 
         System.out.println("###   weakHashMap: " + JSON.toJSONString(weakHashMap));
         System.out.println("###   hashMap: " + JSON.toJSONString(hashMap));
-    }
-
-    private static void testPraseJson() throws Exception {
-        String jsonStr1 = "[99.9,98,\"test\"]";
-        List<?> list1 = JSON.parseObject(jsonStr1, new TypeReference<List<?>>() {});
-        logger.info("###   " + list1.get(0).getClass().getName());
-        logger.info("###   " + list1.get(1).getClass().getName());
-        logger.info("###   " + list1.get(2).getClass().getName());
-        String jsonStr2 = "[{\"ka\":\"va\",\"kb\":\"vb\",\"kc\":\"vc\"}]";
-        List<Map<?, ?>> list2 = JSON.parseObject(jsonStr2, new TypeReference<List<Map<?, ?>>>() {});
-        logger.info("###   " + list2.get(0).getClass().getName());
-        String className = "java.util.List";
-        Class<?> clazz = Class.forName(className);
-        logger.info("###   " + clazz.getName());
-    }
-
-    private static void testJsonString() throws Exception {
-        HashMap<String, String> mapString = new HashMap<String, String>();
-        mapString.put("k1", "v1");
-        mapString.put("k2", "v2");
-        logger.info("###   mapString: " + JSON.toJSONString(mapString));
-        List<String> listString = new ArrayList<String>();
-        listString.add("t1");
-        listString.add("t2");
-        logger.info("###   listString: " + JSON.toJSONString(listString));
-        HashMap<String, Integer> mapInteger = new HashMap<String, Integer>();
-        mapInteger.put("k1", 1);
-        mapInteger.put("k2", 2);
-        logger.info("###   mapInteger: " + JSON.toJSONString(mapInteger));
-        List<Integer> listInteger = new ArrayList<Integer>();
-        listInteger.add(99);
-        listInteger.add(98);
-        listInteger.add(97);
-        logger.info("###   listInteger: " + JSON.toJSONString(listInteger));
-        List<Map<String, String>> listMapString = new ArrayList<Map<String, String>>();
-        Map<String, String> tmpMap01 = new HashMap<String, String>();
-        tmpMap01.put("ka", "va");
-        tmpMap01.put("kb", "vb");
-        tmpMap01.put("kc", "vc");
-        listMapString.add(tmpMap01);
-        logger.info("###   listMapString: " + JSON.toJSONString(listMapString));
-        Map<String, List<Integer>> mapListInteger = new HashMap<String, List<Integer>>();
-        List<Integer> mapList1 = new ArrayList<Integer>();
-        mapList1.add(99);
-        mapList1.add(98);
-        mapList1.add(97);
-        List<Integer> mapList2 = new ArrayList<Integer>();
-        mapList2.add(66);
-        mapList2.add(65);
-        mapList2.add(64);
-        mapListInteger.put("Fisrt", mapList1);
-        mapListInteger.put("Last", mapList2);
-        logger.info("###   mapListInteger: " + JSON.toJSONString(mapListInteger));
     }
 
     private static void print(Object text) {

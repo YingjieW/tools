@@ -21,9 +21,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.CharsetUtils;
 import org.apache.http.util.EntityUtils;
-import org.apache.http.ssl.SSLContextBuilder;
 
 import java.io.File;
 import java.io.InputStream;
@@ -105,20 +105,20 @@ public class HttpClient4Utils {
     }
 
     /** 返回InputStream */
-    public static InputStream sendHttpRequestStream(String url, Map<String, String> paramMap, String charset, boolean isPost) {
-        return sendHttpRequestStream(url, paramMap, charset, isPost, DEFAULT_DOWNLOAD_TIME_OUT);
-    }
+//    public static InputStream sendHttpRequestStream(String url, Map<String, String> paramMap, String charset, boolean isPost) {
+//        return sendHttpRequestStream(url, paramMap, charset, isPost, DEFAULT_DOWNLOAD_TIME_OUT);
+//    }
 
     /** 返回InputStream */
-    public static InputStream sendHttpRequestStream(String url, Map<String, String> paramMap, String charset, boolean isPost, int timeoutMillis) {
-        return isPost ? httpPostStream(url, paramMap, charset, timeoutMillis) : httpGetStream(url, paramMap, charset, timeoutMillis);
-    }
+//    public static InputStream sendHttpRequestStream(String url, Map<String, String> paramMap, String charset, boolean isPost, int timeoutMillis) {
+//        return isPost ? httpPostStream(url, paramMap, charset, timeoutMillis) : httpGetStream(url, paramMap, charset, timeoutMillis);
+//    }
 
     /** 返回InputStream */
-    private static InputStream httpPostStream(String url, Map<String, String> params, String charset, int timeoutMillis) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        return (InputStream) executePost(httpClient, url, params, charset, timeoutMillis, false);
-    }
+//    private static InputStream httpPostStream(String url, Map<String, String> params, String charset, int timeoutMillis) {
+//        CloseableHttpClient httpClient = HttpClients.createDefault();
+//        return (InputStream) executePost(httpClient, url, params, charset, timeoutMillis, false);
+//    }
 
     private static Object executePost(CloseableHttpClient httpClient, String url, Map<String, String> params, String charset, int timeoutMillis, boolean isReturnString) {
         if (StringUtils.isBlank(url)) {
@@ -158,7 +158,16 @@ public class HttpClient4Utils {
 
     public static String sendUploadFileHttpRequest(String url, File file, String remoteServerUploadParam,
                                                    String charset, int timeOutMillis) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = null;
+        if (url.startsWith(HTTPS)) {
+            httpClient = HttpClients.custom()
+                    .setSSLSocketFactory(sslsf)
+                    .setConnectionManager(cm)
+                    .setConnectionManagerShared(true)
+                    .build();
+        } else {
+            httpClient = HttpClients.createDefault();
+        }
         CloseableHttpResponse response = null;
         try {
             HttpPost httpPost = new HttpPost(url);
@@ -192,3 +201,4 @@ public class HttpClient4Utils {
         throw new RuntimeException("暂未提供get相关方法");
     }
 }
+

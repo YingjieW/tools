@@ -18,6 +18,5 @@ public class Client {
         for (int request : requests) {
             handlerA.handlerRequest(request);
         }
-
     }
 }

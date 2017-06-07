@@ -12,7 +12,6 @@ import java.util.List;
  * @since 17/1/9 下午4:23
  */
 public class ZKClient extends ZKBase {
-
     static final String ROOT_PATH = "/testRootPath";
 
     public static void main(String[] args) throws Throwable {
@@ -63,5 +62,4 @@ public class ZKClient extends ZKBase {
         // 打印输出ROOT_PATH及其子目录的状态
         printNodeStatus(ROOT_PATH);
     }
-
 }
