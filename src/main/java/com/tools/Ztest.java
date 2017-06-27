@@ -6,6 +6,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.tools.util.BeanUtils;
 import com.tools.util.SerializeUtils;
+import com.tools.util.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
@@ -30,6 +31,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +61,23 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testReadFile();
+        Thread.currentThread().getContextClassLoader();
+        Class c1 = new ArrayList<String>().getClass();
+        Class c2 = new ArrayList<Integer>().getClass();
+        System.out.println(c1.getName());
+        System.out.println(c1==c2);
+        System.out.println(c2.getName());
+        Thread.interrupted();
+        Lock lock = new ReentrantLock();
+        lock.lock();
+        lock.unlock();
+    }
+
+    private static void testDate() throws Exception {
+        Date today = new Date();
+        String todayStr = ThreadSafeDateUtils.formatDate(today);
+        Date noonTime = ThreadSafeDateUtils.parseDateTime(todayStr + " 12:00:00");
+        System.out.println("noonTime: " + ThreadSafeDateUtils.formatDateTimeMillis(noonTime));
     }
 
     private static void testReadFile() throws Exception {

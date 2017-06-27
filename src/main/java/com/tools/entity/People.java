@@ -8,6 +8,20 @@ package com.tools.entity;
  */
 public class People {
 
+    static {
+        System.out.println("--------");
+    }
+    private static class Inner {
+        private static final People people = new People();
+        static {
+            System.out.println("....." + people);
+        }
+    }
+
+    public static People getSingleton() {
+        return Inner.people;
+    }
+
     private String id;
 
     private String name;
@@ -36,5 +50,9 @@ public class People {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public static void main(String[] args) {
+//        People.getSingleton();
     }
 }

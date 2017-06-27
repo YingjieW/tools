@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Descripe:
+ * Descripe: 这个工具类问题多多,有时间改一下
  *
  * @author yingjie.wang
  * @since 16/6/17 上午11:11
