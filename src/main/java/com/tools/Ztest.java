@@ -31,8 +31,6 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,16 +59,8 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Thread.currentThread().getContextClassLoader();
-        Class c1 = new ArrayList<String>().getClass();
-        Class c2 = new ArrayList<Integer>().getClass();
-        System.out.println(c1.getName());
-        System.out.println(c1==c2);
-        System.out.println(c2.getName());
-        Thread.interrupted();
-        Lock lock = new ReentrantLock();
-        lock.lock();
-        lock.unlock();
+        long id = Long.valueOf("566140201270968320");
+        System.out.println(id);
     }
 
     private static void testDate() throws Exception {

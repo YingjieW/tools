@@ -16,7 +16,7 @@ public class Query extends DBSetup {
     public static void main(String[] args) throws Exception {
         Date startTime = new Date();
         System.out.println("Query start time: " + ThreadSafeDateUtils.formatDateTimeMillis(startTime));
-        String sql = "select * from test.tbl_ztest_student where id >= 1 and id <= 9 order by id";
+        String sql = "select * from yqtaccounting.tbl_settlement_accounting where 1=1";
 
         ResultSet resultSet = statement.executeQuery(sql);
         print(resultSet);
