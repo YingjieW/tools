@@ -20,10 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -59,8 +56,109 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        long id = Long.valueOf("566140201270968320");
-        System.out.println(id);
+        testInterrupt();
+//        String dateStr1 = "2017-07-03";
+//        String dateStr2 = "2017-07-08";
+//        Date date1 = ThreadSafeDateUtils.parseDate(dateStr1);
+//        Date date2 = ThreadSafeDateUtils.parseDate(dateStr2);
+//        Date today = new Date();
+//        String dateStr3 = ThreadSafeDateUtils.formatDate(today);
+//        Date date3 = ThreadSafeDateUtils.parseDate(dateStr3);
+//        System.out.println(date1);
+//        System.out.println(date2);
+//        System.out.println(date3);
+//        System.out.println(date3.before(date1));
+//        System.out.println();
+//        ArrayList<String> list = new ArrayList<String>(3);
+//        list.clear();
+//        list.add("");
+//        ReentrantLock lock = new ReentrantLock();
+//        lock.lock();
+//        lock.unlock();
+
+    }
+
+    private static void testInterrupt() throws Exception {
+        try {
+            Thread01 thread01 = new Thread01("Thead01");
+            thread01.start();
+            Thread.sleep(3*100);
+            System.out.println("Sleep over.");
+            thread01.interrupt();
+        } catch (InterruptedException e) {
+            System.out.println("main catch");
+            e.printStackTrace();
+        }
+        System.out.println("------Over......");
+    }
+
+    private static class Thread01 extends Thread {
+        public Thread01(String name) {
+            super(name);
+        }
+
+        @Override
+        public void run() {
+            try {
+//                Thread.sleep(6*10*1000);
+                for (int i = 0; i < 5000000; i++) {
+                    System.out.println("this : " + this.getName());
+                    System.out.println("CurrentThread(103) : " + Thread.currentThread().getName());
+                    if (this.interrupted()) {
+                        System.out.println("CurrentThread(105) : " + Thread.currentThread().getName());
+                        System.out.println("Should be stopped and exit.");
+                        throw new InterruptedException("testing.....");
+                    }
+                    System.out.println("i = " + i);
+                }
+                System.out.println("this line cannot be executed. cause thread throws exception");
+            } catch (InterruptedException e) {
+                System.out.println("CurrentThread(113) : " + Thread.currentThread().getName());
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    private static void testBomb() throws Exception {
+        String sourcePath = "/Users/YJ/shared/z_tmp/test.csv";
+        String targetPath = "/Users/YJ/shared/z_tmp/testCopy.csv";
+        File sourceFile = new File(sourcePath);
+        File targetFile = new File(targetPath);
+        BufferedInputStream is = new BufferedInputStream(new FileInputStream(sourceFile));
+        BufferedOutputStream  os = new BufferedOutputStream(new FileOutputStream(targetFile));
+        byte[] uft8bom={(byte)0xef,(byte)0xbb,(byte)0xbf};
+        os.write(uft8bom);
+        byte[] tmp = new byte[1024];
+        while (true) {
+            int i = is.read(tmp);
+            if (i == -1) {
+                break;
+            }
+            os.write(tmp, 0, i);
+        }
+        is.close();
+        os.close();
+
+
+//        String targetPath = "/Users/YJ/shared/z_tmp/testCopy1.csv";
+//        File targetFile = new File(targetPath);
+//        if (targetFile.exists()) {
+//            targetFile.delete();
+//        }
+//        BufferedOutputStream  os = new BufferedOutputStream(new FileOutputStream(targetFile));
+//        OutputStreamWriter osw = new OutputStreamWriter(os, "utf-8");
+//        BufferedWriter bw = new BufferedWriter(osw);
+//        byte[] uft8bom={(byte)0xef,(byte)0xbb,(byte)0xbf};
+//        bw.write(new String(uft8bom));
+//        bw.write("testing...测试");
+//        bw.write("testing...测试");
+//        bw.write("testing...测试");
+//        bw.write("testing...测试");
+//        bw.flush();
+//
+//        bw.close();
+//        os.close();
+//        osw.close();
     }
 
     private static void testDate() throws Exception {
@@ -71,7 +169,8 @@ public class Ztest {
     }
 
     private static void testReadFile() throws Exception {
-        File file = new File("/Users/YJ/shared/z_tmp/BA12390_refund_20170531.csv");
+//        File file = new File("/Users/YJ/shared/z_tmp/BA12390_refund_20170531.csv");
+        File file = new File("/Users/YJ/shared/z_tmp/testCopy1.csv");
         InputStream inputStream = new FileInputStream(file);
         LineIterator lineIterator = IOUtils.lineIterator(inputStream, "utf-8");
         while (lineIterator.hasNext()) {
