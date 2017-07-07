@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,9 +73,9 @@ public class Ztest {
 //        ArrayList<String> list = new ArrayList<String>(3);
 //        list.clear();
 //        list.add("");
-//        ReentrantLock lock = new ReentrantLock();
-//        lock.lock();
-//        lock.unlock();
+        ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+        lock.unlock();
 
     }
 
@@ -85,6 +86,14 @@ public class Ztest {
             Thread.sleep(3*100);
             System.out.println("Sleep over.");
             thread01.interrupt();
+//            Thread.sleep(3*10);
+            System.out.println("thread01.isAlive : " + thread01.isAlive());
+            long startTime = System.currentTimeMillis();
+            long endTime = 0L;
+            while (thread01.isAlive()) {
+                endTime = System.currentTimeMillis();
+            }
+            System.out.println("thread01.aliveTime : " + (endTime - startTime));
         } catch (InterruptedException e) {
             System.out.println("main catch");
             e.printStackTrace();
@@ -101,7 +110,7 @@ public class Ztest {
         public void run() {
             try {
 //                Thread.sleep(6*10*1000);
-                for (int i = 0; i < 5000000; i++) {
+                for (int i = 0; i < 50000; i++) {
                     System.out.println("this : " + this.getName());
                     System.out.println("CurrentThread(103) : " + Thread.currentThread().getName());
                     if (this.interrupted()) {
@@ -114,7 +123,11 @@ public class Ztest {
                 System.out.println("this line cannot be executed. cause thread throws exception");
             } catch (InterruptedException e) {
                 System.out.println("CurrentThread(113) : " + Thread.currentThread().getName());
+                System.out.println("interrupt flag : " + this.isInterrupted());
                 Thread.currentThread().interrupt();
+                System.out.println("interrupt flag : " + this.isInterrupted());
+                Thread.currentThread().interrupt();
+                System.out.println("118_____over.......");
             }
         }
     }
