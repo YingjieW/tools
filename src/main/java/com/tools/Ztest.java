@@ -25,10 +25,10 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,26 +57,29 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testInterrupt();
-//        String dateStr1 = "2017-07-03";
-//        String dateStr2 = "2017-07-08";
-//        Date date1 = ThreadSafeDateUtils.parseDate(dateStr1);
-//        Date date2 = ThreadSafeDateUtils.parseDate(dateStr2);
-//        Date today = new Date();
-//        String dateStr3 = ThreadSafeDateUtils.formatDate(today);
-//        Date date3 = ThreadSafeDateUtils.parseDate(dateStr3);
-//        System.out.println(date1);
-//        System.out.println(date2);
-//        System.out.println(date3);
-//        System.out.println(date3.before(date1));
-//        System.out.println();
-//        ArrayList<String> list = new ArrayList<String>(3);
-//        list.clear();
-//        list.add("");
-        ReentrantLock lock = new ReentrantLock();
-        lock.lock();
-        lock.unlock();
+        testMonth();
+    }
 
+    private static void testMonth() throws Exception {
+        String monthStr = "2017-06";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        Date monthDate = dateFormat.parse(monthStr);
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(monthDate));
+
+        String dateStr = ThreadSafeDateUtils.formatDate(new Date());
+        Date date = ThreadSafeDateUtils.parseDate(dateStr);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(calendar.getTime()));
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(calendar.getTime()));
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date end = calendar.getTime();
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(calendar.getTime()));
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date start = calendar.getTime();
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(calendar.getTime()));
+        System.out.println(ThreadSafeDateUtils.daysOfTwo(start, end)+1);
     }
 
     private static void testInterrupt() throws Exception {
@@ -133,45 +136,42 @@ public class Ztest {
     }
 
     private static void testBomb() throws Exception {
-        String sourcePath = "/Users/YJ/shared/z_tmp/test.csv";
-        String targetPath = "/Users/YJ/shared/z_tmp/testCopy.csv";
-        File sourceFile = new File(sourcePath);
-        File targetFile = new File(targetPath);
-        BufferedInputStream is = new BufferedInputStream(new FileInputStream(sourceFile));
-        BufferedOutputStream  os = new BufferedOutputStream(new FileOutputStream(targetFile));
-        byte[] uft8bom={(byte)0xef,(byte)0xbb,(byte)0xbf};
-        os.write(uft8bom);
-        byte[] tmp = new byte[1024];
-        while (true) {
-            int i = is.read(tmp);
-            if (i == -1) {
-                break;
-            }
-            os.write(tmp, 0, i);
-        }
-        is.close();
-        os.close();
-
-
-//        String targetPath = "/Users/YJ/shared/z_tmp/testCopy1.csv";
+//        String sourcePath = "/Users/YJ/shared/z_tmp/test.csv";
+//        String targetPath = "/Users/YJ/shared/z_tmp/testCopy.csv";
+//        File sourceFile = new File(sourcePath);
 //        File targetFile = new File(targetPath);
-//        if (targetFile.exists()) {
-//            targetFile.delete();
-//        }
+//        BufferedInputStream is = new BufferedInputStream(new FileInputStream(sourceFile));
 //        BufferedOutputStream  os = new BufferedOutputStream(new FileOutputStream(targetFile));
-//        OutputStreamWriter osw = new OutputStreamWriter(os, "utf-8");
-//        BufferedWriter bw = new BufferedWriter(osw);
 //        byte[] uft8bom={(byte)0xef,(byte)0xbb,(byte)0xbf};
-//        bw.write(new String(uft8bom));
-//        bw.write("testing...测试");
-//        bw.write("testing...测试");
-//        bw.write("testing...测试");
-//        bw.write("testing...测试");
-//        bw.flush();
-//
-//        bw.close();
+//        os.write(uft8bom);
+//        byte[] tmp = new byte[1024];
+//        while (true) {
+//            int i = is.read(tmp);
+//            if (i == -1) {
+//                break;
+//            }
+//            os.write(tmp, 0, i);
+//        }
+//        is.close();
 //        os.close();
-//        osw.close();
+
+
+        String targetPath = "/Users/YJ/shared/z_tmp/testCopy1.csv";
+        File targetFile = new File(targetPath);
+        if (targetFile.exists()) {
+            targetFile.delete();
+        }
+        BufferedOutputStream  os = new BufferedOutputStream(new FileOutputStream(targetFile));
+        OutputStreamWriter osw = new OutputStreamWriter(os, "utf-8");
+        BufferedWriter bw = new BufferedWriter(osw);
+        byte[] uft8bom={(byte)0xef,(byte)0xbb,(byte)0xbf};
+        bw.write(new String(uft8bom));
+        bw.write("no data today");
+        bw.flush();
+
+        bw.close();
+        os.close();
+        osw.close();
     }
 
     private static void testDate() throws Exception {

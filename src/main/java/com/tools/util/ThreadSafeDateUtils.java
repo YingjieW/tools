@@ -145,4 +145,21 @@ public class ThreadSafeDateUtils {
         c.add(Calendar.MINUTE, dateDelayMinutes);
         return c.getTime();
     }
+
+    /**
+     * 计算天数差,计算维度:天, 小时、分钟忽略不计
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static int daysOfTwo(Date date1, Date date2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        int day1 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        calendar.setTime(date2);
+        int day2 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        return day2 - day1;
+    }
 }

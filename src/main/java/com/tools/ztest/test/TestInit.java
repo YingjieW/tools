@@ -10,8 +10,4 @@ public class TestInit {
     private int a;
     private final int b  = 5;
     public static final int c = 6;
-
-    public TestInit() {
-
-    }
 }
