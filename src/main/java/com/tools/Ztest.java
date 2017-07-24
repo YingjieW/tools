@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.tools.enumtype.StartTag;
 import com.tools.util.BeanUtils;
 import com.tools.util.SerializeUtils;
 import com.tools.util.ThreadSafeDateUtils;
@@ -11,6 +12,7 @@ import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.test.Animal;
+import com.yeepay.g3.utils.common.DateUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -57,7 +59,19 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testMonth();
+        String text = null;
+        StartTag startTag = StartTag.valueOf(null);
+        System.out.println(startTag);
+    }
+
+    private static void testDateLoop() throws Exception {
+        Date startDate = ThreadSafeDateUtils.parseDate("2017-07-05");
+        Date endDate = ThreadSafeDateUtils.parseDate("2017-07-05");
+        while (startDate.before(endDate)) {
+            System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(startDate));
+            startDate = DateUtils.addDay(startDate, 1);
+        }
+        System.out.println(">>>  " + ThreadSafeDateUtils.formatDateTimeMillis(endDate));
     }
 
     private static void testMonth() throws Exception {

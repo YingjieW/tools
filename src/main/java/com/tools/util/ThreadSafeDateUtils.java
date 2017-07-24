@@ -162,4 +162,23 @@ public class ThreadSafeDateUtils {
 
         return day2 - day1;
     }
+
+    public static Date getEndTime(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.clear(Calendar.AM_PM);
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.HOUR);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        calendar.set(Calendar.HOUR, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
 }
