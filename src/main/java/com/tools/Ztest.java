@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import com.tools.enumtype.StartTag;
 import com.tools.util.BeanUtils;
 import com.tools.util.SerializeUtils;
 import com.tools.util.ThreadSafeDateUtils;
@@ -59,9 +58,6 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        String text = null;
-        StartTag startTag = StartTag.valueOf(null);
-        System.out.println(startTag);
     }
 
     private static void testDateLoop() throws Exception {

@@ -46,12 +46,17 @@ public class ListUtils {
 
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 97; i++) {
             list.add(i);
         }
         List<List<Integer>> lists = splitList(list, 10);
         for (List<Integer> subList : lists) {
-            System.out.println(JSON.toJSONString(subList));
+            System.out.println("-" + JSON.toJSONString(subList));
+            subList.clear();
+            System.out.println("=" + JSON.toJSONString(subList));
         }
+        System.out.println("*" + JSON.toJSONString(list));
+        list.clear();
+        System.out.println("*" + JSON.toJSONString(list));
     }
 }

@@ -8,25 +8,19 @@ package com.tools.entity;
  */
 public class People {
 
-    static {
-        System.out.println("--------");
-    }
-    private static class Inner {
-        private static final People people = new People();
-        static {
-            System.out.println("....." + people);
-        }
-    }
-
-    public static People getSingleton() {
-        return Inner.people;
-    }
-
     private String id;
 
     private String name;
 
     private Integer age;
+
+    public People() {}
+
+    public People(String id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
 
     public String getId() {
         return id;
@@ -52,7 +46,7 @@ public class People {
         this.age = age;
     }
 
-    public static void main(String[] args) {
-//        People.getSingleton();
-    }
+//    public static void main(String[] args) {
+////        People.getSingleton();
+//    }
 }
