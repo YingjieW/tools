@@ -29,7 +29,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +60,70 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        testBlockingQueue();
+    }
+
+    private static void testBlockingQueue() throws Exception {
+        Consumer consumer = new Consumer();
+        Producer producer = new Producer(consumer);
+        producer.start();
+//        consumer.start();
+    }
+
+    private static final BlockingQueue<Object> queue = new ArrayBlockingQueue<Object>(5);
+    private static class Producer extends Thread {
+
+        private final Thread consumer;
+
+        public Producer(Thread consumer) {
+            this.consumer = consumer;
+        }
+
+        @Override
+        public void run() {
+            try {
+                queue.put("1");
+                queue.put("2");
+                queue.put("3");
+                queue.put("4");
+                queue.put("5");
+                System.out.println("queue: " + queue.toString());
+                for (int i = 0; i < 5; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        String data = i + "_" + j;
+                        System.out.println(data + ":" + System.currentTimeMillis());
+                        if (queue.size() == 5) {
+                            consumer.interrupt();
+                        }
+                        queue.put(data);
+                        System.out.println(data + ":" + System.currentTimeMillis());
+                    }
+                    System.out.println("queue: " + queue.toString());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static class Consumer extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                Object object = queue.peek();
+                if (object == null) {
+                    System.out.println("queue is empty: " + System.currentTimeMillis());
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        System.out.println("InterruptedException : " + System.currentTimeMillis());
+                    }
+                    continue;
+                }
+                object = queue.poll();
+                System.out.println("___object : " + object.toString());
+            }
+        }
     }
 
     private static void testDateLoop() throws Exception {
