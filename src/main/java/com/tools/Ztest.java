@@ -67,7 +67,7 @@ public class Ztest {
         Consumer consumer = new Consumer();
         Producer producer = new Producer(consumer);
         producer.start();
-//        consumer.start();
+        consumer.start();
     }
 
     private static final BlockingQueue<Object> queue = new ArrayBlockingQueue<Object>(5);
@@ -92,10 +92,8 @@ public class Ztest {
                     for (int j = 0; j < 5; j++) {
                         String data = i + "_" + j;
                         System.out.println(data + ":" + System.currentTimeMillis());
-                        if (queue.size() == 5) {
-                            consumer.interrupt();
-                        }
                         queue.put(data);
+                        consumer.interrupt();
                         System.out.println(data + ":" + System.currentTimeMillis());
                     }
                     System.out.println("queue: " + queue.toString());
