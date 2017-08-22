@@ -60,7 +60,20 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testBlockingQueue();
+        testGetMonthStart();
+    }
+
+    private static void testGetMonthStart() {
+        Date date = new Date();
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(date));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        System.out.println(ThreadSafeDateUtils.formatDateTimeMillis(calendar.getTime()));
     }
 
     private static void testBlockingQueue() throws Exception {
@@ -114,6 +127,7 @@ public class Ztest {
                     try {
                         TimeUnit.SECONDS.sleep(1);
                     } catch (InterruptedException e) {
+                        e.printStackTrace();
                         System.out.println("InterruptedException : " + System.currentTimeMillis());
                     }
                     continue;

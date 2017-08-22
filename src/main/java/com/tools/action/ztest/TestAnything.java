@@ -1,5 +1,6 @@
 package com.tools.action.ztest;
 
+import com.tools.util.BeanFactoryUtil;
 import com.tools.ztest.facade.RmiMockTester;
 import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
@@ -41,11 +42,7 @@ public class TestAnything extends HttpServlet {
         mav.setViewName("ztest/home");
 
         // 测试代码 - start
-
-        System.out.println("---------> print " + interfaceTest.getStr());
-//        testMakeClass();
-//        testGetClass();
-
+        testGetBean();
         // 测试代码 - end
 
         return mav;
@@ -100,6 +97,34 @@ public class TestAnything extends HttpServlet {
             logger.info("=====   after : " + dog.toString());
         } catch (Throwable t) {
             logger.error("testGetClass error.", t);
+        }
+    }
+
+    private void testGetBean() {
+        String[] beanNames = {"testAnything", "beanFactoryUtil"};
+        for (String beanName : beanNames) {
+            try {
+                Object o = BeanFactoryUtil.getBeanByName(beanName);
+                System.out.println("---> beanName: " + beanName + ", o: " + (o == null ? null : o.getClass().getName()));
+            } catch (Exception e) {
+                logger.error("===> beanName:" + beanName + ", exception:" + e.getMessage(), e);
+                System.out.println();
+                System.out.println();
+                System.out.println();
+            }
+        }
+
+        Class[] classes = {TestAnything.class, BeanFactoryUtil.class};
+        for (Class clazz : classes) {
+            try {
+                Object o = BeanFactoryUtil.getBeanByClass(clazz);
+                System.out.println("---> clazz: " + clazz + ", o: " + (o == null ? null : o.getClass().getName()));
+            } catch (Exception e) {
+                logger.error("===> clazz:" + clazz + ", exception:" + e.getMessage(), e);
+                System.out.println();
+                System.out.println();
+                System.out.println();
+            }
         }
     }
 }

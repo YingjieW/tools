@@ -303,6 +303,18 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils{
         calendar.add(Calendar.MILLISECOND, -1);
         return calendar.getTime();
     }
+
+    public static Date getMonthStart(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     public static Date addYear(Date date, int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -574,23 +586,6 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils{
         calendar.get(Calendar.WEEK_OF_YEAR);
         int firstDay = calendar.getFirstDayOfWeek();
         calendar.set(Calendar.DAY_OF_WEEK, firstDay);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
-    }
-
-    /**
-     * 得到当月起始时间
-     *
-     * @param date
-     * @return
-     */
-    public static Date getMonthStart(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
