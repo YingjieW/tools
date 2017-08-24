@@ -1,12 +1,6 @@
 package com.tools.quartz;
 
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.quartz.*;
 
 import java.util.Date;
 
@@ -20,19 +14,43 @@ public class MyJob001 implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("============> Hello world, quartz001 " + new Date());
+        System.out.println("............. Hello world, quartz001 " + new Date());
     }
 
     public void executeWithoutParams() {
-        System.out.println("============> Without params, Hello world, quartz001 " + new Date());
+        System.out.println("............. Without params, Hello world, quartz001 " + new Date());
     }
 
     public void executeWithParams(Integer i) {
-        System.out.println("============> With params, Hello world, quartz001 , i: " + i + ", date: " + new Date());
+        System.out.println("............. With params, Hello world, quartz001 , i: " + i + ", date: " + new Date());
     }
 
     public static void main(String[] args) throws Exception {
         test002();
+    }
+
+    private static void test003() throws Exception {
+        MyJob001 myJob001 = new MyJob001();
+    }
+
+    private static void test002() throws Exception {
+        MyJob001 myJob001 = new MyJob001();
+        String name001 = "name_myJob001";
+        String group001 = "group_myJob001";
+        Object[] arguments001 = {Integer.MAX_VALUE};
+        JobDetail jobDetail001 = TimerManager01.getJobDetail(myJob001, "executeWithParams", name001, group001, arguments001);
+        Trigger trigger001 = TimerManager01.getTrigger(jobDetail001, name001, group001, "0/1 * * * * ? *", "testing...");
+        TimerManager01.scheduleJob(jobDetail001, trigger001);
+        System.out.println("^^^^^^^^^^^^^^^");
+        TimerManager01.scheduleJob(jobDetail001, trigger001); // would throw ObjectAlreadyExistsException.
+        System.out.println("^^^^^^^^^^^^^^^");
+
+        MyJob002 myJob002 = new MyJob002();
+        String name002 = "name_myJob002";
+        String group002 = "group_myJob002";
+        JobDetail jobDetail002 = TimerManager01.getJobDetail(myJob002, "executeWithoutParams", name002, group002, null);
+        Trigger trigger002 = TimerManager01.getTrigger(jobDetail002, name002, group002, "0/2 * * * * ? *", "testing...");
+        TimerManager01.scheduleJob(jobDetail002, trigger002);
     }
 
     private static void test001() throws Exception {
@@ -74,33 +92,5 @@ public class MyJob001 implements Job {
 //
 //        cronTrigger001.setCronExpression("0/2 * * * * ?");
 //        scheduler.deleteJob(cronTrigger002.getName(), cronTrigger002.getGroup());
-    }
-
-    private static void test002() throws Exception {
-        MyJob001 myJob001 = new MyJob001();
-        String name = "name_myJob001";
-        String group = "group_myJob001";
-        Object[] arguments = {Integer.MAX_VALUE};
-        MethodInvokingJobDetailFactoryBean jobDetailFactoryBean = new MethodInvokingJobDetailFactoryBean();
-        jobDetailFactoryBean.setTargetObject(myJob001);
-        jobDetailFactoryBean.setTargetMethod("executeWithParams");
-        jobDetailFactoryBean.setName(name);
-        jobDetailFactoryBean.setGroup(group);
-        jobDetailFactoryBean.setArguments(arguments);
-        jobDetailFactoryBean.afterPropertiesSet();
-
-        CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
-        cronTriggerFactoryBean.setJobDetail(jobDetailFactoryBean.getObject());
-        cronTriggerFactoryBean.setCronExpression("0/1 * * * * ? *");
-        cronTriggerFactoryBean.setName(name);
-        cronTriggerFactoryBean.setGroup(group);
-        cronTriggerFactoryBean.afterPropertiesSet();
-
-        SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
-        schedulerFactoryBean.setTriggers(cronTriggerFactoryBean.getObject());
-        schedulerFactoryBean.afterPropertiesSet();
-
-        Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        scheduler.start();
     }
 }

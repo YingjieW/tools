@@ -108,9 +108,7 @@ public class TestAnything extends HttpServlet {
                 System.out.println("---> beanName: " + beanName + ", o: " + (o == null ? null : o.getClass().getName()));
             } catch (Exception e) {
                 logger.error("===> beanName:" + beanName + ", exception:" + e.getMessage(), e);
-                System.out.println();
-                System.out.println();
-                System.out.println();
+                System.out.println("\n");
             }
         }
 
@@ -121,9 +119,7 @@ public class TestAnything extends HttpServlet {
                 System.out.println("---> clazz: " + clazz + ", o: " + (o == null ? null : o.getClass().getName()));
             } catch (Exception e) {
                 logger.error("===> clazz:" + clazz + ", exception:" + e.getMessage(), e);
-                System.out.println();
-                System.out.println();
-                System.out.println();
+                System.out.println("\n");
             }
         }
     }
