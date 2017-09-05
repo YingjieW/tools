@@ -1,12 +1,14 @@
 package com.tools.entity;
 
+import java.io.Serializable;
+
 /**
  * Description:
  *
  * @author yingjie.wang
  * @since 17/3/23 下午5:21
  */
-public class People {
+public class People implements Serializable {
 
     private String id;
 

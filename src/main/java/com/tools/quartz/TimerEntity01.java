@@ -45,6 +45,11 @@ public class TimerEntity01 {
      */
     private String targetMethod;
 
+    /**
+     * 状态: 废弃、暂停时直接从scheduler中删除
+     */
+    private String status;
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);

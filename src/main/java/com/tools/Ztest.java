@@ -60,7 +60,27 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testGetMonthStart();
+        test(1, 2, 3);
+    }
+
+    private static void test(Object... obj) throws Exception {
+        System.out.println(obj.getClass());
+        System.out.println(obj.length);
+    }
+
+    private static void testTreeMap() throws Exception {
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("a", 31);
+        map.put("c", 23);
+        map.put("b", 12);
+        map.put("d", 14);
+
+        Collection<Integer> collection = map.values();
+        System.out.println(JSON.toJSONString(collection));
+//        Integer[] integers = collection.toArray(new Integer[collection.size()]);
+//        System.out.println(JSON.toJSONString(integers));
+//        Arrays.sort(integers);
+//        System.out.println(JSON.toJSONString(integers));
     }
 
     private static void testGetMonthStart() {

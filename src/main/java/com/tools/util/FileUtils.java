@@ -202,4 +202,19 @@ public class FileUtils {
         return file;
     }
 
+
+    /**
+     * 获取文件总行数
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public static int getTotalLines(File file) throws IOException {
+        FileReader fileReader = new FileReader(file);
+        LineNumberReader lineNumberReader = new LineNumberReader(fileReader);
+        lineNumberReader.skip(Long.MAX_VALUE);
+        int lines = lineNumberReader.getLineNumber();
+        lineNumberReader.close();
+        return lines;
+    }
 }

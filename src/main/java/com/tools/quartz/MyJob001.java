@@ -26,11 +26,57 @@ public class MyJob001 implements Job {
     }
 
     public static void main(String[] args) throws Exception {
-        test002();
+        test003();
     }
 
     private static void test003() throws Exception {
         MyJob001 myJob001 = new MyJob001();
+        String name001 = "name_myJob001";
+        String group001 = "group_myJob001";
+        Object[] arguments001 = {Integer.MAX_VALUE};
+        TimerEntity01 timerEntity01 = new TimerEntity01();
+        timerEntity01.setArguments(arguments001);
+        timerEntity01.setCronExpression("0/1 * * * * ? *");
+        timerEntity01.setName(name001);
+        timerEntity01.setGroup(group001);
+        timerEntity01.setTargetObject(myJob001);
+        timerEntity01.setTargetMethod("executeWithParams");
+
+        TimerManager01.createOrUpdateJob(timerEntity01);
+//        TimerManager01.createOrUpdateJob(timerEntity01);
+
+        Object[] arguments003 = {Integer.MIN_VALUE};
+        TimerEntity01 timerEntity003 = new TimerEntity01();
+        timerEntity003.setArguments(arguments003);
+        timerEntity003.setCronExpression("0/1 * * * * ? *");
+        timerEntity003.setName("003");
+        timerEntity003.setGroup("003");
+        timerEntity003.setTargetObject(myJob001);
+        timerEntity003.setTargetMethod("executeWithParams");
+        TimerManager01.createOrUpdateJob(timerEntity003);
+
+
+
+//        MyJob002 myJob002 = new MyJob002();
+//        String name002 = "name_myJob002";
+//        String group002 = "group_myJob002";
+//        TimerEntity01 timerEntity011 = new TimerEntity01();
+//        timerEntity011.setArguments(null);
+//        timerEntity011.setCronExpression("0/2 * * * * ? *");
+//        timerEntity011.setName(name002);
+//        timerEntity011.setGroup(group002);
+//        timerEntity011.setTargetObject(myJob002);
+//        timerEntity011.setTargetMethod("executeWithoutParams");
+//
+//        TimerManager01.createOrUpdateJob(timerEntity011);
+//
+//        TimeUnit.SECONDS.sleep(1);
+//        System.out.println("^^^^^^^^^^^^^^^");
+//        TimerManager01.test();
+//        TimerManager01.deleteJob(timerEntity01);
+//        TimerManager01.deleteJob(timerEntity01);
+//        TimerManager01.test();
+//        System.out.println("^^^^^^^^^^^^^^^");
     }
 
     private static void test002() throws Exception {

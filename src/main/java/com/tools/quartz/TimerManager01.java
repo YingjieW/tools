@@ -1,11 +1,13 @@
 package com.tools.quartz;
 
+import com.alibaba.fastjson.JSON;
 import org.quartz.*;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +42,12 @@ public class TimerManager01 {
         } catch (Exception e) {
             initialized = false;
             e.printStackTrace();
+        }
+    }
+
+    private static void checkInitialized() throws RuntimeException {
+        if (!initialized) {
+            throw new RuntimeException("TimerManager not initialized!");
         }
     }
 
@@ -98,7 +106,7 @@ public class TimerManager01 {
         }
         try {
             synchronized (LOCK) { // 也可以不加锁,因为外层调用方当前只有一个线程
-                TimerEntity01 timerEntity011 = TIMER_ENTITY_MAP.get(timerEntity01.getName() + timerEntity01.getGroup());
+                TimerEntity01 timerEntity011 = TIMER_ENTITY_MAP.get(timerEntity01.getGroup() + timerEntity01.getName());
                 if (timerEntity01.equals(timerEntity011)) {
                     return true;
                 }
@@ -119,9 +127,18 @@ public class TimerManager01 {
             return false;
         }
         synchronized (LOCK) {
-            scheduler.deleteJob(JobKey.jobKey(timerEntity01.getName() + timerEntity01.getGroup()));
+            scheduler.deleteJob(JobKey.jobKey(timerEntity01.getName(), timerEntity01.getGroup()));
             TIMER_ENTITY_MAP.remove(timerEntity01.getGroup() + timerEntity01.getName());
         }
         return true;
+    }
+
+    public static void test() throws Exception {
+        List<String> groupList = scheduler.getTriggerGroupNames();
+        System.out.println(JSON.toJSONString(groupList));
+        List<JobExecutionContext> jobExecutionContextList = scheduler.getCurrentlyExecutingJobs();
+        for (JobExecutionContext context : jobExecutionContextList) {
+            System.out.println("...." + context.getJobDetail().getKey().toString());
+        }
     }
 }
