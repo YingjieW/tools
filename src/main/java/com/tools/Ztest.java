@@ -60,7 +60,15 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        test(1, 2, 3);
+        System.out.println(TimeZone.getDefault().getID());
+        final Properties p = System.getProperties();
+        final Enumeration e = p.keys();
+        while (e.hasMoreElements())
+        {
+            final String prt = (String) e.nextElement();
+            final String prtvalue = System.getProperty(prt);
+            System.out.println(prt + ":" + prtvalue);
+        }
     }
 
     private static void test(Object... obj) throws Exception {

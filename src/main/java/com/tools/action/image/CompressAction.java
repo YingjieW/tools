@@ -2,6 +2,7 @@ package com.tools.action.image;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tools.action.BaseAction;
+import com.tools.action.ztest.Test;
 import com.tools.util.CheckUtils;
 import com.tools.util.FileUtils;
 import com.tools.util.ImageUtils;
@@ -43,6 +44,10 @@ public class CompressAction extends BaseAction{
     Test test;
     @Autowired
     private ApplicationContext applicationContext;
+
+    public CompressAction() {
+//        System.out.println("=========> " + this.getClass().getName() + "  : " + ThreadSafeDateUtils.formatDateTimeMillis(new Date()));
+    }
 
     /**
      * 跳转至图片压缩页面

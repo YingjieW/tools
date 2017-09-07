@@ -112,6 +112,12 @@ public class TimerManager01 {
                 }
                 JobDetail newJobDetail = getJobDetail(timerEntity01);
                 Trigger newTrigger = getTrigger(newJobDetail, timerEntity01);
+
+//                JobDetail newJobDetail = JobBuilder.newJob(MyJob001.class).withIdentity("001", "001").build();
+
+
+                System.out.println("*** jobDetail: " + JSON.toJSONString(newJobDetail));
+                System.out.println("*** newTrigger: " + JSON.toJSONString(newTrigger));
                 scheduler.scheduleJob(newJobDetail, newTrigger);
                 TIMER_ENTITY_MAP.put(timerEntity01.getGroup() + timerEntity01.getName(), timerEntity01);
             }
@@ -127,6 +133,12 @@ public class TimerManager01 {
             return false;
         }
         synchronized (LOCK) {
+            TriggerKey triggerKey = TriggerKey.triggerKey(timerEntity01.getName(), timerEntity01.getGroup());
+            // 停止触发器
+            scheduler.pauseTrigger(triggerKey);
+            // 移除触发器
+            scheduler.unscheduleJob(triggerKey);
+            // 删除任务
             scheduler.deleteJob(JobKey.jobKey(timerEntity01.getName(), timerEntity01.getGroup()));
             TIMER_ENTITY_MAP.remove(timerEntity01.getGroup() + timerEntity01.getName());
         }

@@ -1,10 +1,16 @@
 package com.tools.action.ztest;
 
+import com.tools.action.udm.TaskProcessorImpl;
 import com.tools.util.BeanFactoryUtil;
 import com.tools.ztest.facade.RmiMockTester;
 import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
 import javassist.*;
+import open.udm.client.jobs.JobTaskUpdate;
+import open.udm.client.utils.BeanFactoryUtils;
+import open.udm.server.dto.TaskConfigDTO;
+import open.udm.server.enums.TaskConfigStatusEnum;
+import open.udm.server.enums.TaskDataTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Descripe:
@@ -42,7 +50,7 @@ public class TestAnything extends HttpServlet {
         mav.setViewName("ztest/home");
 
         // 测试代码 - start
-        testGetBean();
+        testUdm();
         // 测试代码 - end
 
         return mav;
@@ -112,7 +120,7 @@ public class TestAnything extends HttpServlet {
             }
         }
 
-        Class[] classes = {TestAnything.class, BeanFactoryUtil.class};
+        Class[] classes = {TestAnything.class, BeanFactoryUtil.class, TaskProcessorImpl.class};
         for (Class clazz : classes) {
             try {
                 Object o = BeanFactoryUtil.getBeanByClass(clazz);
@@ -122,5 +130,24 @@ public class TestAnything extends HttpServlet {
                 System.out.println("\n");
             }
         }
+    }
+
+    private void testUdm() {
+        TaskConfigDTO taskConfigDTO = new TaskConfigDTO();
+        taskConfigDTO.setId("cfg_20170905184800");
+        taskConfigDTO.setAppId("app_20170905184800");
+        taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE);
+        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/20170414.txt");
+        taskConfigDTO.setTaskConsumersMax(3);
+        taskConfigDTO.setBatchSize(5);
+        taskConfigDTO.setCronExpression("0 1/1 * * * ? *");
+        taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+
+        List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
+        taskConfigDTOList.add(taskConfigDTO);
+
+        JobTaskUpdate jobTaskUpdate = BeanFactoryUtils.getBeanByClass(JobTaskUpdate.class);
+        jobTaskUpdate.updateTask(taskConfigDTOList);
     }
 }

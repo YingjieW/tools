@@ -89,4 +89,10 @@
 		<aop:advisor advice-ref="rmiMockInterceptor"
 					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
 	</aop:config>
+
+	<import resource="classpath*:/tools-datasource.xml"/>
+
+	<bean class="open.udm.client.context.UDMClientContextLoad">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
 </beans>

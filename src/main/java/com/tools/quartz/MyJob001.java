@@ -36,7 +36,9 @@ public class MyJob001 implements Job {
         Object[] arguments001 = {Integer.MAX_VALUE};
         TimerEntity01 timerEntity01 = new TimerEntity01();
         timerEntity01.setArguments(arguments001);
-        timerEntity01.setCronExpression("0/1 * * * * ? *");
+//        timerEntity01.setCronExpression("0/2 * * * * ? *");
+//        timerEntity01.setCronExpression("0 1/1 * * * ? *");
+        timerEntity01.setCronExpression("0 0 1 1 5 ? ");
         timerEntity01.setName(name001);
         timerEntity01.setGroup(group001);
         timerEntity01.setTargetObject(myJob001);
@@ -45,15 +47,15 @@ public class MyJob001 implements Job {
         TimerManager01.createOrUpdateJob(timerEntity01);
 //        TimerManager01.createOrUpdateJob(timerEntity01);
 
-        Object[] arguments003 = {Integer.MIN_VALUE};
-        TimerEntity01 timerEntity003 = new TimerEntity01();
-        timerEntity003.setArguments(arguments003);
-        timerEntity003.setCronExpression("0/1 * * * * ? *");
-        timerEntity003.setName("003");
-        timerEntity003.setGroup("003");
-        timerEntity003.setTargetObject(myJob001);
-        timerEntity003.setTargetMethod("executeWithParams");
-        TimerManager01.createOrUpdateJob(timerEntity003);
+//        Object[] arguments003 = {Integer.MIN_VALUE};
+//        TimerEntity01 timerEntity003 = new TimerEntity01();
+//        timerEntity003.setArguments(arguments003);
+//        timerEntity003.setCronExpression("0/1 * * * * ? *");
+//        timerEntity003.setName("003");
+//        timerEntity003.setGroup("003");
+//        timerEntity003.setTargetObject(myJob001);
+//        timerEntity003.setTargetMethod("executeWithParams");
+//        TimerManager01.createOrUpdateJob(timerEntity003);
 
 
 

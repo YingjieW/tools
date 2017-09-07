@@ -45,6 +45,10 @@ public class DisplayAction extends BaseAction {
 
     private final String[] FILTER_NAMES = {"iPhoto 图库.migratedphotolibrary", "Photo Booth 图库", "照片 图库.photoslibrary"};
 
+    public DisplayAction() {
+//        System.out.println("=========> " + this.getClass().getName() + "  : " + ThreadSafeDateUtils.formatDateTimeMillis(new Date()));
+    }
+
     /**
      *
      * @param request

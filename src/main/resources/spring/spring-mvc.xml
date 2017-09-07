@@ -105,7 +105,7 @@
 	</aop:config>
 
 
-	<bean class="com.tools.quartz.MyJob001" id="myJob"/>
+	<!--<bean class="com.tools.quartz.MyJob001" id="myJob"/>-->
 
 	<!--&lt;!&ndash; 配置 JobDetail &ndash;&gt;-->
 	<!--<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean" id="jobDetail">-->
@@ -159,4 +159,9 @@
 	<!--&lt;!&ndash; 使用 annotation 定义事务 &ndash;&gt;-->
 	<!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />-->
 
+    <import resource="classpath*:/spring/tools-datasource.xml"/>
+
+    <bean class="open.udm.client.context.UDMClientContextLoad">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>

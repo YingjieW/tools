@@ -1,4 +1,4 @@
-package com.tools.action.image;
+package com.tools.action.ztest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 @Component("test")
 public class Test {
     private static final Logger logger = LoggerFactory.getLogger(Test.class);
+
+    public int input;
+
+    public Test() {
+//        System.out.println("=========> " + this.getClass().getName() + "  : " + ThreadSafeDateUtils.formatDateTimeMillis(new Date()));
+    }
 
     public void printLog() {
         logger.info("###   currentTime: " + System.currentTimeMillis());
