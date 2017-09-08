@@ -15,11 +15,6 @@ import java.util.List;
 public class TaskProcessorImpl implements TaskProcessor {
 
     @Override
-    public Class getMainTaskClass() {
-        return UdmMainTaskEntity.class;
-    }
-
-    @Override
     public BaseMainTaskEntity createMainTaskEntity() {
         UdmMainTaskEntity udmMainTaskEntity = new UdmMainTaskEntity();
         udmMainTaskEntity.setControllerId("test_controller_id");
@@ -28,7 +23,7 @@ public class TaskProcessorImpl implements TaskProcessor {
     }
 
     @Override
-    public <T> boolean process(List<T> list) {
+    public boolean process(BaseMainTaskEntity baseMainTaskEntity, List list) {
         return false;
     }
 

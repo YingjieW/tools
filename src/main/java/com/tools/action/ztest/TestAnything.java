@@ -50,7 +50,9 @@ public class TestAnything extends HttpServlet {
         mav.setViewName("ztest/home");
 
         // 测试代码 - start
+        System.out.println("***************************** START *****************************");
         testUdm();
+        System.out.println("*****************************  END  *****************************");
         // 测试代码 - end
 
         return mav;
@@ -134,20 +136,67 @@ public class TestAnything extends HttpServlet {
 
     private void testUdm() {
         TaskConfigDTO taskConfigDTO = new TaskConfigDTO();
-        taskConfigDTO.setId("cfg_20170905184800");
-        taskConfigDTO.setAppId("app_20170905184800");
+        taskConfigDTO.setId("test_config_id_000");
+        taskConfigDTO.setAppId("test_app_id");
         taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
-        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE);
-        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/20170414.txt");
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.DB);
+//        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/20170414.txt;/Users/YJ/Documents/generator/1051100010014250_0828.csv");
+//        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test01.txt");
+        taskConfigDTO.setDatasource("select s.create_time, s.id, s.settle_amount from yqtaccounting.TBL_SETTLEMENT_ACCOUNTING s where 1=1 and s.create_time > '2017-07-01' and s.create_time < '2017-08-01' with ur");
         taskConfigDTO.setTaskConsumersMax(3);
         taskConfigDTO.setBatchSize(5);
         taskConfigDTO.setCronExpression("0 1/1 * * * ? *");
+        taskConfigDTO.setTaskParameter("2017-09-05");
         taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+
+        TaskConfigDTO taskConfigDTO1 = new TaskConfigDTO();
+        taskConfigDTO1.setId("test_config_id_001");
+        taskConfigDTO1.setAppId("test_app_id");
+        taskConfigDTO1.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+        taskConfigDTO1.setTaskDataType(TaskDataTypeEnum.DB);
+        taskConfigDTO1.setDatasource("select s.* from yqtaccounting.TBL_SETTLEMENT_ACCOUNTING s where 1=1 and s.create_time > '2017-07-01' and s.create_time < '2017-08-01' with ur");
+        taskConfigDTO1.setTaskConsumersMax(3);
+        taskConfigDTO1.setBatchSize(50);
+        taskConfigDTO1.setCronExpression("0 2/2 * * * ? *");
+        taskConfigDTO1.setTaskParameter("2017-09-07");
+        taskConfigDTO1.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+
+        TaskConfigDTO taskConfigDTO2 = new TaskConfigDTO();
+        taskConfigDTO2.setId("test_config_id_002");
+        taskConfigDTO2.setAppId("test_app_id");
+        taskConfigDTO2.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+        taskConfigDTO2.setTaskDataType(TaskDataTypeEnum.DB);
+        taskConfigDTO2.setDatasource("select create_time from yqtaccounting.TBL_SETTLEMENT_ACCOUNTING s where 1=1 and s.create_time > '2017-07-01' and s.create_time < '2017-08-01' with ur");
+        taskConfigDTO2.setTaskConsumersMax(3);
+        taskConfigDTO2.setBatchSize(50);
+        taskConfigDTO2.setCronExpression("0 2/2 * * * ? *");
+        taskConfigDTO2.setTaskParameter("2017-09-07");
+        taskConfigDTO2.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
 
         List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
         taskConfigDTOList.add(taskConfigDTO);
+        taskConfigDTOList.add(taskConfigDTO1);
+        taskConfigDTOList.add(taskConfigDTO2);
 
         JobTaskUpdate jobTaskUpdate = BeanFactoryUtils.getBeanByClass(JobTaskUpdate.class);
         jobTaskUpdate.updateTask(taskConfigDTOList);
+//
+//        TaskConfigDTO taskConfigDTO2 = new TaskConfigDTO();
+//        taskConfigDTO2.setId("test_config_id_002");
+//        taskConfigDTO2.setAppId("test_app_id");
+//        taskConfigDTO2.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+//        taskConfigDTO2.setTaskDataType(TaskDataTypeEnum.LIST);
+//        taskConfigDTO2.setTaskConsumersMax(3);
+//        taskConfigDTO2.setBatchSize(5);
+//        taskConfigDTO2.setCronExpression("0 2/2 * * * ? *");
+//        taskConfigDTO2.setTaskParameter("2017-09-05");
+//        taskConfigDTO2.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+//
+//        List<String> list = new ArrayList<String>();
+//        list.add("list_test_001");
+//        list.add("list_test_002");
+//        list.add("list_test_003");
+//        MainTaskProcessor mainTaskProcessor = BeanFactoryUtils.getBeanByClass(MainTaskProcessor.class);
+//        mainTaskProcessor.process(taskConfigDTO2, list);
     }
 }

@@ -1,5 +1,6 @@
 package com.tools.util;
 
+import open.udm.client.exception.FileEmptyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Encoder;
@@ -215,6 +216,123 @@ public class FileUtils {
         lineNumberReader.skip(Long.MAX_VALUE);
         int lines = lineNumberReader.getLineNumber();
         lineNumberReader.close();
+        // 有些文件最后一行没有'\r'or'\n',故需要额外再处理一下
+        try {
+            char lastChar = readLastChar(file);
+            if (lastChar != '\r' && lastChar != '\n') {
+                lines++;
+            }
+        } catch (FileEmptyException e) {
+            // 文件内容为空时会抛出该异常
+            return 0;
+        } catch (IOException e) {
+            throw e;
+        }
         return lines;
+    }
+
+    /**
+     * 按批次分割
+     * @param totalLineNum
+     * @param batchSize
+     * @return
+     */
+    public static int[][] splitByLine(int totalLineNum, int batchSize) {
+        int[][] arr = null;
+        if (totalLineNum <= 0 || batchSize <= 0) {
+            return arr;
+        }
+        int batchNum = totalLineNum / batchSize;
+        int left = 0;
+        int right = 0;
+        if (batchNum == 0) {
+            arr = new int[1][2];
+            right = totalLineNum - 1;
+            arr[0][0] = left;
+            arr[0][1] = right;
+        } else {
+            arr = new int[batchNum+1][2];
+            for (int i = 0; i < batchNum; i++) {
+                left = i * batchSize;
+                right = (i + 1) * batchSize - 1;
+                arr[i][0] = left;
+                arr[i][1] = right;
+            }
+            if (right + 1 < totalLineNum) {
+                left = right + 1;
+                right = totalLineNum - 1;
+                arr[batchNum][0] = left;
+                arr[batchNum][1] = right;
+            } else {
+                arr[batchNum][0] = -1;
+                arr[batchNum][1] = -1;
+            }
+        }
+        return arr;
+    }
+
+    public static char readLastChar(File file) throws FileEmptyException, IOException {
+        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+        long length = randomAccessFile.length();
+        if (length == 0) {
+            throw new FileEmptyException("file empty exception");
+        }
+        long start = randomAccessFile.getFilePointer();
+        long nextEnd = start + length - 1;
+        randomAccessFile.seek(nextEnd);
+        return (char)randomAccessFile.read();
+    }
+
+
+    public static void main(String[] args) throws Exception {
+//        String filePath = "/Users/YJ/Documents/generator/1051100010014250_0828.csv";
+//        String filePath = "/Users/YJ/Documents/generator/1111111010000208_trade_20170706_20170706-2.csv";
+//        String filePath = "/Users/YJ/Documents/generator/20170907.txt";
+//        String filePath = "/Users/YJ/Documents/generator/test.txt";
+        String filePath = "/Users/YJ/Documents/generator/test01.txt";
+        File file = new File(filePath);
+        int totalLineNum = getTotalLines(file);
+        System.out.println("totalLineNum: " + totalLineNum);
+
+        BufferedReader bufferedReader= new BufferedReader(new FileReader(file));
+        LineNumberReader numberReader = new LineNumberReader(bufferedReader);
+        String tempStr = null;
+        int line = 0;
+        while ((tempStr = numberReader.readLine()) != null) {
+            line++;
+//            System.out.println(tempStr);
+        }
+        System.out.println("line : " + line);
+
+        Reader reader = new FileReader(filePath);
+        int tempChar;
+        int charCount = 0;
+        while ((tempChar = reader.read()) != -1) {
+            charCount++;
+//            System.out.print("_" + (char) tempChar);
+            if ((char) tempChar == '\r') {
+                System.out.println("\\r");
+            } else if ((char) tempChar == '\n') {
+                System.out.println("\\n");
+            } else {
+                System.out.print((char) tempChar);
+            }
+        }
+        System.out.println("\ncharCount : " + charCount);
+        System.out.println();
+
+        char lastChar = readLastChar(file);
+        if (lastChar == '\r') {
+            System.out.println("'\\r'");
+        } else if (lastChar == '\n') {
+            System.out.println("'\\n'");
+        } else {
+            System.out.print("'" + lastChar + "'");
+        }
+        System.out.println();
+
+        CloseUtils.close(bufferedReader, numberReader, reader);
+
+//        System.out.println("1051100110018352".getBytes().length);
     }
 }

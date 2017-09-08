@@ -28,10 +28,7 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,11 +57,16 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        String text = "0123456789";
+        System.out.println(text.replace("0", "*"));
+        System.out.println(text);
+    }
+
+    private static void testSystemProperty() throws Exception {
         System.out.println(TimeZone.getDefault().getID());
         final Properties p = System.getProperties();
         final Enumeration e = p.keys();
-        while (e.hasMoreElements())
-        {
+        while (e.hasMoreElements()) {
             final String prt = (String) e.nextElement();
             final String prtvalue = System.getProperty(prt);
             System.out.println(prt + ":" + prtvalue);
