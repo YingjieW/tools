@@ -289,49 +289,58 @@ public class FileUtils {
 //        String filePath = "/Users/YJ/Documents/generator/1111111010000208_trade_20170706_20170706-2.csv";
 //        String filePath = "/Users/YJ/Documents/generator/20170907.txt";
 //        String filePath = "/Users/YJ/Documents/generator/test.txt";
-        String filePath = "/Users/YJ/Documents/generator/test01.txt";
+        String filePath = "/Users/YJ/Documents/generator/test02.txt";
         File file = new File(filePath);
+//        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+//        for (int i = 0; i < 1000000; i++) {
+//            bufferedWriter.write("103a595e65f54d11a231ee4895778d41-app,交易,2017-04-12,2017-04-12 13:12:16,2017-04-12 13:12:54,0.01,0.03,-0.02,ONEKEY,DEBIT,WAP-ZHT");
+//            bufferedWriter.newLine();
+//        }
+//        bufferedWriter.flush();
+//        bufferedWriter.close();
+        long startTime = System.currentTimeMillis();
         int totalLineNum = getTotalLines(file);
         System.out.println("totalLineNum: " + totalLineNum);
-
-        BufferedReader bufferedReader= new BufferedReader(new FileReader(file));
-        LineNumberReader numberReader = new LineNumberReader(bufferedReader);
-        String tempStr = null;
-        int line = 0;
-        while ((tempStr = numberReader.readLine()) != null) {
-            line++;
-//            System.out.println(tempStr);
-        }
-        System.out.println("line : " + line);
-
-        Reader reader = new FileReader(filePath);
-        int tempChar;
-        int charCount = 0;
-        while ((tempChar = reader.read()) != -1) {
-            charCount++;
-//            System.out.print("_" + (char) tempChar);
-            if ((char) tempChar == '\r') {
-                System.out.println("\\r");
-            } else if ((char) tempChar == '\n') {
-                System.out.println("\\n");
-            } else {
-                System.out.print((char) tempChar);
-            }
-        }
-        System.out.println("\ncharCount : " + charCount);
-        System.out.println();
-
-        char lastChar = readLastChar(file);
-        if (lastChar == '\r') {
-            System.out.println("'\\r'");
-        } else if (lastChar == '\n') {
-            System.out.println("'\\n'");
-        } else {
-            System.out.print("'" + lastChar + "'");
-        }
-        System.out.println();
-
-        CloseUtils.close(bufferedReader, numberReader, reader);
+        System.out.println("cost : " + (System.currentTimeMillis() - startTime));
+//
+//        BufferedReader bufferedReader= new BufferedReader(new FileReader(file));
+//        LineNumberReader numberReader = new LineNumberReader(bufferedReader);
+//        String tempStr = null;
+//        int line = 0;
+//        while ((tempStr = numberReader.readLine()) != null) {
+//            line++;
+////            System.out.println(tempStr);
+//        }
+//        System.out.println("line : " + line);
+//
+//        Reader reader = new FileReader(filePath);
+//        int tempChar;
+//        int charCount = 0;
+//        while ((tempChar = reader.read()) != -1) {
+//            charCount++;
+////            System.out.print("_" + (char) tempChar);
+//            if ((char) tempChar == '\r') {
+//                System.out.println("\\r");
+//            } else if ((char) tempChar == '\n') {
+//                System.out.println("\\n");
+//            } else {
+//                System.out.print((char) tempChar);
+//            }
+//        }
+//        System.out.println("\ncharCount : " + charCount);
+//        System.out.println();
+//
+//        char lastChar = readLastChar(file);
+//        if (lastChar == '\r') {
+//            System.out.println("'\\r'");
+//        } else if (lastChar == '\n') {
+//            System.out.println("'\\n'");
+//        } else {
+//            System.out.print("'" + lastChar + "'");
+//        }
+//        System.out.println();
+//
+//        CloseUtils.close(bufferedReader, numberReader, reader);
 
 //        System.out.println("1051100110018352".getBytes().length);
     }

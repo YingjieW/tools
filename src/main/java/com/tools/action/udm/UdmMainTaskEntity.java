@@ -13,8 +13,8 @@ import open.udm.client.entity.BaseMainTaskEntity;
 @Table(name = "TBL_MAIN_TASK")
 public class UdmMainTaskEntity extends BaseMainTaskEntity {
 
-    @Column(name = "CONTROLLER_ID")
-    private String controllerId;
+//    @Column(name = "CONTROLLER_ID")
+//    private String controllerId;
 
     @Column(name = "BIZ_TYPE")
     private String bizType;
@@ -22,13 +22,13 @@ public class UdmMainTaskEntity extends BaseMainTaskEntity {
 //    @Column(name = "TEST_DECIMAL")
 //    private BigDecimal testDecimal;
 
-    public String getControllerId() {
-        return controllerId;
-    }
-
-    public void setControllerId(String controllerId) {
-        this.controllerId = controllerId;
-    }
+//    public String getControllerId() {
+//        return controllerId;
+//    }
+//
+//    public void setControllerId(String controllerId) {
+//        this.controllerId = controllerId;
+//    }
 
     public String getBizType() {
         return bizType;

@@ -163,5 +163,6 @@
 
     <bean class="open.udm.client.context.UDMClientContextLoad">
         <property name="dataSource" ref="dataSource"/>
+		<property name="appName" value="test_tools"/>
     </bean>
 </beans>

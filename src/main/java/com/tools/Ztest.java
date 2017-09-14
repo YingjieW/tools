@@ -57,9 +57,8 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        String text = "0123456789";
-        System.out.println(text.replace("0", "*"));
-        System.out.println(text);
+        Object obj = null;
+        System.out.println(Long.parseLong((String) obj));
     }
 
     private static void testSystemProperty() throws Exception {
@@ -516,7 +515,7 @@ public class Ztest {
 //        byte[] bytes = {-84, -19, 0, 5, 116, 0, 9, 122, 111, 111, 107, 101, 101, 112, 101, 114};
         byte[] bytes = {-84, -19, 0, 5, 116, 0, 7, 100, 101, 102, 97, 117, 108, 116};
         System.out.println(new String(bytes, "UTF-8"));
-        System.out.println(SerializeUtils.deserialize(bytes));
+        System.out.println(String.valueOf(SerializeUtils.deserialize(bytes)));
     }
 
     public static void testSimplePropertyPreFilter() throws Exception {

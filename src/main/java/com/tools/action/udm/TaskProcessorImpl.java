@@ -1,6 +1,7 @@
 package com.tools.action.udm;
 
 import open.udm.client.entity.BaseMainTaskEntity;
+import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.processer.external.TaskProcessor;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class TaskProcessorImpl implements TaskProcessor {
     }
 
     @Override
-    public boolean process(BaseMainTaskEntity baseMainTaskEntity, List list) {
+    public boolean process(BaseMainTaskEntity baseMainTaskEntity, BaseSubTaskEntity baseSubTaskEntity, List list) {
         return false;
     }
 

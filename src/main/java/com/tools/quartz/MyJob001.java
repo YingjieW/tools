@@ -45,6 +45,8 @@ public class MyJob001 implements Job {
         timerEntity01.setTargetMethod("executeWithParams");
 
         TimerManager01.createOrUpdateJob(timerEntity01);
+        TimerManager01.deleteJob(timerEntity01);
+        System.out.println(".........");
 //        TimerManager01.createOrUpdateJob(timerEntity01);
 
 //        Object[] arguments003 = {Integer.MIN_VALUE};
