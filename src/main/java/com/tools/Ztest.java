@@ -388,7 +388,7 @@ public class Ztest {
                                 System.out.println("............");
                             }
                         } else {
-                           Thread.sleep(2 * 1000);
+                            Thread.sleep(2 * 1000);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

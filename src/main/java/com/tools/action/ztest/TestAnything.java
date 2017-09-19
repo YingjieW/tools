@@ -1,6 +1,5 @@
 package com.tools.action.ztest;
 
-import com.alibaba.fastjson.JSON;
 import com.tools.action.udm.TaskProcessorImpl;
 import com.tools.action.udm.UdmMainTaskEntity;
 import com.tools.util.BeanFactoryUtil;
@@ -8,6 +7,7 @@ import com.tools.ztest.facade.RmiMockTester;
 import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
 import javassist.*;
+import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.jobs.JobTaskUpdate;
 import open.udm.client.persistence.MainTaskPersistence;
 import open.udm.client.processer.taskinfo.ModifyTaskInfoProcessor;
@@ -58,7 +58,7 @@ public class TestAnything extends HttpServlet {
 
         // 测试代码 - start
         System.out.println("***************************** START *****************************");
-        testUdm();
+        testTaskModify();
         System.out.println("*****************************  END  *****************************");
         // 测试代码 - end
 
@@ -240,7 +240,11 @@ public class TestAnything extends HttpServlet {
 
         String controllerId = "test_controller_id";
         MainTaskPersistence mainTaskPersistence = BeanFactoryUtil.getBeanByClass(MainTaskPersistence.class);
-        List<UdmMainTaskEntity> entityList = mainTaskPersistence.queryByControllerId(UdmMainTaskEntity.class, controllerId);
-        System.out.println(" ***** entityList: " + JSON.toJSONString(entityList));
+//        List<UdmMainTaskEntity> entityList = mainTaskPersistence.queryByControllerId(UdmMainTaskEntity.class, controllerId);
+//        System.out.println(" ***** entityList: " + JSON.toJSONString(entityList));
+
+        String mainTaskId = "DMMTC20170914114800290X8WcFrP";
+        System.out.println("delete mainTask and subTask, mainTaskId:" + mainTaskId);
+        mainTaskPersistence.deleteMainTaskAndSubTasksByMainTaskId(mainTaskId, UdmMainTaskEntity.class, BaseSubTaskEntity.class);
     }
 }

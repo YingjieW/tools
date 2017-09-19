@@ -38,6 +38,7 @@ public class MyJob001 implements Job {
         timerEntity01.setArguments(arguments001);
 //        timerEntity01.setCronExpression("0/2 * * * * ? *");
 //        timerEntity01.setCronExpression("0 1/1 * * * ? *");
+//        timerEntity01.setCronExpression("0 0 1 1 5 ? ");
         timerEntity01.setCronExpression("0 0 1 1 5 ? ");
         timerEntity01.setName(name001);
         timerEntity01.setGroup(group001);
