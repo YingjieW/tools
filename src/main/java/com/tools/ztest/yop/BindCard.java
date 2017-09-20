@@ -50,8 +50,6 @@ public class BindCard {
 //        YopResponse response = YopClient.post("/rest/v1.0/payplus/user/bindCard", request);
         YopResponse response = YopClient.post("/rest/v1.0/user/bindCard", request);
 
-
         System.out.println("绑卡用例执行结果" + response.toString());
-
     }
 }
