@@ -58,7 +58,6 @@ public class TestAnything extends HttpServlet {
 
         // 测试代码 - start
         System.out.println("***************************** START *****************************");
-        testTaskModify();
         System.out.println("*****************************  END  *****************************");
         // 测试代码 - end
 

@@ -57,8 +57,7 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Object obj = null;
-        System.out.println(Long.parseLong((String) obj));
+        listRemoveTest();
     }
 
     private static void testSystemProperty() throws Exception {
@@ -494,20 +493,21 @@ public class Ztest {
     }
 
     private static void listRemoveTest() {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new LinkedList<>();
         list.add("1");
         list.add("2");
         list.add("3");
         System.out.println("list: " + JSON.toJSONString(list));
+//        for (int)
         /** 集合类在进行遍历时, 会检查modCount, 如果该参数在遍历过程中有变化, 则会抛出ConcurrentModificationException */
-        Iterator<String> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            String tmp = iterator.next();
-            if ("1".equals(tmp)) {
-                //list.remove(tmp);
-                iterator.remove();
-            }
-        }
+//        Iterator<String> iterator = list.iterator();
+//        while (iterator.hasNext()) {
+//            String tmp = iterator.next();
+//            if ("1".equals(tmp)) {
+//                //list.remove(tmp);
+//                iterator.remove();
+//            }
+//        }
         System.out.println("list: " + JSON.toJSONString(list));
     }
 
