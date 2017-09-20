@@ -57,7 +57,6 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        listRemoveTest();
     }
 
     private static void testSystemProperty() throws Exception {
