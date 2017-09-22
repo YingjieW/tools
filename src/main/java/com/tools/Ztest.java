@@ -28,7 +28,11 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +61,9 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
+        ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+        lock.tryLock();
     }
 
     private static void testSystemProperty() throws Exception {

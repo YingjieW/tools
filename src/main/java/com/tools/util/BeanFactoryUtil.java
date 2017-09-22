@@ -1,9 +1,15 @@
 package com.tools.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Description:
@@ -13,8 +19,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BeanFactoryUtil implements ApplicationContextAware {
+
+    private static final Logger logger = LoggerFactory.getLogger(BeanFactoryUtil.class);
+
     // spring 上下文对象
     private static ApplicationContext applicationContext;
+    // 本地缓存
+    private static final Map<String, Object> INSTANCE_MAP = new ConcurrentHashMap<String, Object>();
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -57,5 +68,41 @@ public class BeanFactoryUtil implements ApplicationContextAware {
      */
     public static <T> T getBeanByNameAndClass(String beanName, Class<T> requiredType) throws BeansException {
         return applicationContext.getBean(beanName, requiredType);
+    }
+
+    /**
+     * 根据className,获取其实体
+     * @param className
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static Object getInstanceByClassName(String className) throws ClassNotFoundException {
+        Object obj = INSTANCE_MAP.get(className);
+        if (obj != null) {
+            return obj;
+        }
+        Class clazz = null;
+        try {
+            clazz = Class.forName(className);
+            obj = applicationContext.getBean(clazz);
+            if (obj == null) {
+                throw new NoSuchBeanDefinitionException(className);
+            }
+            INSTANCE_MAP.put(className, obj);
+            return obj;
+        } catch (ClassNotFoundException e) {
+            throw e;
+        } catch (BeansException e) {
+            logger.info("no bean[" + className + "] found in spring, create one.");
+            try {
+                obj = clazz.newInstance();
+                INSTANCE_MAP.put(className, obj);
+                return obj;
+            } catch (Exception e1) {
+                throw new RuntimeException(e1);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
