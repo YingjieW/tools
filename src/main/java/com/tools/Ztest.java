@@ -32,7 +32,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,10 +60,36 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        ReentrantLock lock = new ReentrantLock();
-        lock.lock();
-        lock.tryLock();
+        testListStream();
     }
+
+    private static void testListStream() throws Exception {
+        List<Integer> list = new ArrayList<>();
+        list.add(2); list.add(3); list.add(1); list.add(4);
+        System.out.println(list.stream().mapToInt(Integer::intValue).sum());
+    }
+
+    private static void testConcatenateList() throws Exception {
+        String item = "`2017-06-19 17:41:21,`11170619173918806008,`cTrx1497865318103,`1111111110000216,`TRADE,`0.10,`0.05,`,`,`,`WECHAT_SCAN,`,`HELLOWORLD\n";
+        List<String> itemList = new ArrayList<>();
+        for (int i = 0; i < 300; i++) {
+            itemList.add(item);
+        }
+        long startTime1 = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        for (String str : itemList) {
+            sb.append(str);
+        }
+        System.out.println("---> 1.cost: " + (System.currentTimeMillis() - startTime1));
+        long startTime2 = System.currentTimeMillis();
+        itemList.stream().reduce("", String::concat);
+        System.out.println("---> 2.cost: " + (System.currentTimeMillis() - startTime2));
+        long startTime3 = System.currentTimeMillis();
+        itemList.parallelStream().reduce("", String::concat);
+        System.out.println("---> 3.cost: " + (System.currentTimeMillis() - startTime3));
+    }
+
+//        System.out.println(String.format("%,d", 12345679));
 
     private static void testSystemProperty() throws Exception {
         System.out.println(TimeZone.getDefault().getID());

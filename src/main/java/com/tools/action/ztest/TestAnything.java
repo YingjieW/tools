@@ -145,7 +145,7 @@ public class TestAnything extends HttpServlet {
         taskConfigDTO.setId("test_config_id_000");
         taskConfigDTO.setAppId("test_app_id");
         taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
-        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.DB);
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.DB_DB2);
 //        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/20170414.txt;/Users/YJ/Documents/generator/1051100010014250_0828.csv");
 //        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test01.txt");
         taskConfigDTO.setDatasource("select s.create_time, s.id, s.settle_amount from yqtaccounting.TBL_SETTLEMENT_ACCOUNTING s where 1=1 and s.create_time > '2017-07-01' and s.create_time < '2017-08-01' order by id with ur");
@@ -160,7 +160,7 @@ public class TestAnything extends HttpServlet {
         taskConfigDTO1.setId("test_config_id_001");
         taskConfigDTO1.setAppId("test_app_id");
         taskConfigDTO1.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
-        taskConfigDTO1.setTaskDataType(TaskDataTypeEnum.FILE);
+        taskConfigDTO1.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
         taskConfigDTO1.setDatasource("/Users/YJ/Documents/generator/test.txt");
 //        taskConfigDTO1.setDatasource("select s.* from yqtaccounting.TBL_SETTLEMENT_ACCOUNTING s where 1=1 and s.create_time > '2017-07-01' and s.create_time < '2017-08-01' with ur");
         taskConfigDTO1.setTaskConsumersMax(3);
@@ -174,7 +174,7 @@ public class TestAnything extends HttpServlet {
         taskConfigDTO2.setId("test_config_id_002");
         taskConfigDTO2.setAppId("test_app_id");
         taskConfigDTO2.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
-        taskConfigDTO2.setTaskDataType(TaskDataTypeEnum.DB);
+        taskConfigDTO2.setTaskDataType(TaskDataTypeEnum.DB_DB2);
         taskConfigDTO2.setDatasource("select create_time from yqtaccounting.TBL_SETTLEMENT_ACCOUNTING s where 1=1 and s.create_time > '2017-07-01' and s.create_time < '2017-08-01' with ur");
         taskConfigDTO2.setTaskConsumersMax(3);
         taskConfigDTO2.setBatchSize(50);

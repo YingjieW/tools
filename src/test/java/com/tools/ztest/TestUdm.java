@@ -41,7 +41,7 @@ public class TestUdm extends BaseTest {
         taskConfigDTO.setId("cfg_20170905184800");
         taskConfigDTO.setAppId("app_20170905184800");
         taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
-        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE);
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
         taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/20170414.txt");
         taskConfigDTO.setTaskConsumersMax(3);
         taskConfigDTO.setBatchSize(5);
