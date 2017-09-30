@@ -546,6 +546,12 @@
             <artifactId>udm-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>open.framework.bill</groupId>
+            <artifactId>bill-generator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

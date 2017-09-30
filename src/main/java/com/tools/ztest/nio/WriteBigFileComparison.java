@@ -1,5 +1,7 @@
 package com.tools.ztest.nio;
 
+import com.tools.util.CloseUtils;
+
 import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.MappedByteBuffer;
@@ -62,35 +64,63 @@ public class WriteBigFileComparison {
         raf.close();
     }
 
-    public static void writeWithBIO(int itemNum) throws IOException {
+    public static void writeWithBIO(int itemNum, int batch) throws IOException {
         File file = new File("/Users/YJ/Downloads/test/bio.txt");
         if (file.exists()) {
             file.delete();
         }
         file.getParentFile().mkdirs();
-        file.createNewFile();
+//        file.createNewFile();
 
-//        String item = "`2017-06-19 17:41:21,`11170619173918806008,`cTrx1497865318103,`1111111110000216,`TRADE,`0.10,`0.05,`,`,`,`WECHAT_SCAN,`,`HELLOWORLD";
-//        List<String> itemList = new ArrayList<>();
-//        for (int i = 0; i < itemNum; i++) {
-//            itemList.add(item);
-//        }
+        String item = "`2017-06-19 17:41:21,`11170619173918806008,`cTrx1497865318103,`1111111110000216,`TRADE,`0.10,`0.05,`,`,`,`WECHAT_SCAN,`,`HELLOWORLD";
+        List<String> itemList = new ArrayList<>();
+        for (int i = 0; i < itemNum; i++) {
+            itemList.add(item);
+        }
 
         FileOutputStream fos = new FileOutputStream(file, true);
         OutputStreamWriter osw = new OutputStreamWriter(fos, CHARSET);
         BufferedWriter bw = new BufferedWriter(osw);
-        for (int i = 0; i < 50000 * itemNum; i++) {
-//            StringBuilder sb = new StringBuilder();
-//            for (String str : itemList) {
-//                sb.append(str).append(File.separator);
-//            }
-//            bw.write(sb.toString());
-            bw.write(CONTENT);
+        for (int i = 0; i < batch; i++) {
+            StringBuilder sb = new StringBuilder();
+            for (String str : itemList) {
+                sb.append(str).append(File.separator);
+            }
+            bw.write(sb.toString());
+//            bw.write(CONTENT);
             bw.flush();
         }
         fos.close();
         osw.close();
         bw.close();
+    }
+
+    public static void writeWithBIOCloseFilePerBatch(int itemNum, int batch) throws Exception {
+        File file = new File("/Users/YJ/Downloads/test/bio.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+        file.getParentFile().mkdirs();
+
+        String item = "`2017-06-19 17:41:21,`11170619173918806008,`cTrx1497865318103,`1111111110000216,`TRADE,`0.10,`0.05,`,`,`,`WECHAT_SCAN,`,`HELLOWORLD";
+        List<String> itemList = new ArrayList<>();
+        for (int i = 0; i < itemNum; i++) {
+            itemList.add(item);
+        }
+
+        for (int i = 0; i < batch; i++) {
+            FileOutputStream fos = new FileOutputStream(file, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, CHARSET);
+            BufferedWriter bw = new BufferedWriter(osw);
+            StringBuilder sb = new StringBuilder();
+            for (String str : itemList) {
+                sb.append(str).append(File.separator);
+            }
+            bw.write(sb.toString());
+//            bw.write(CONTENT);
+            bw.flush();
+            CloseUtils.close(fos, osw, bw);
+        }
     }
 
 //    ===> FileChannel cost: 21095
@@ -100,7 +130,7 @@ public class WriteBigFileComparison {
      * write big file with MappedByteBuffer
      * @throws IOException
      */
-    public static void writeWithMappedByteBuffer(int itemNum) throws IOException {
+    public static void writeWithMappedByteBuffer(int itemNum, int batch) throws IOException {
         File file = new File("/Users/YJ/Downloads/test/nio.txt");
         if (file.exists()) {
             file.delete();
@@ -119,7 +149,6 @@ public class WriteBigFileComparison {
         int pos = 0;
         MappedByteBuffer mbb = null;
         byte[] data = null;
-        int batch = 50000;
         for (int i = 0; i < batch; i++) {
             StringBuilder sb = new StringBuilder();
             for (String str : itemList) {
@@ -135,6 +164,40 @@ public class WriteBigFileComparison {
         data = null;
         unmap(mbb);   // release MappedByteBuffer
         fileChannel.close();
+    }
+
+    public static void writeWithMappedByteBufferUnmapPerBatch(int itemNum, int batch) throws IOException {
+        File file = new File("/Users/YJ/Downloads/test/nio.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+
+        String item = "`2017-06-19 17:41:21,`11170619173918806008,`cTrx1497865318103,`1111111110000216,`TRADE,`0.10,`0.05,`,`,`,`WECHAT_SCAN,`,`HELLOWORLD";
+        List<String> itemList = new ArrayList<>();
+        for (int i = 0; i < itemNum; i++) {
+            itemList.add(item);
+        }
+
+        for (int i = 0; i < batch; i++) {
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            FileChannel fileChannel = raf.getChannel();
+            long pos = fileChannel.size();
+            MappedByteBuffer mbb = null;
+            byte[] data = null;
+            StringBuilder sb = new StringBuilder();
+            for (String str : itemList) {
+                sb.append(str).append(File.separator);
+            }
+            data = sb.toString().getBytes("utf-8");
+            mbb = fileChannel.map(FileChannel.MapMode.READ_WRITE, pos, data.length);
+            mbb.put(data);
+            pos += data.length;
+            data = null;
+            unmap(mbb);   // release MappedByteBuffer
+            fileChannel.close();
+        }
     }
 
     /**
@@ -160,7 +223,7 @@ public class WriteBigFileComparison {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    System.out.println("clean MappedByteBuffer completed");
+//                    System.out.println("clean MappedByteBuffer completed");
                     return null;
                 }
             });
@@ -174,13 +237,15 @@ public class WriteBigFileComparison {
         List<Long> costTimeList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             long startTime = System.currentTimeMillis();
-//            writeWithMappedByteBuffer(300);
-            writeWithBIO(300);
+//            writeWithMappedByteBuffer(30, 500000);
+            writeWithMappedByteBufferUnmapPerBatch(30, 500000);
+//            writeWithBIO(30, 500000);
+//            writeWithBIOCloseFilePerBatch(30, 500000);
             costTimeList.add((System.currentTimeMillis() - startTime));
         }
         System.out.println(costTimeList);
-        System.out.println(costTimeList.stream().reduce(Long.MAX_VALUE, Long::min));
-        System.out.println(costTimeList.stream().reduce(Long.MIN_VALUE, Long::max));
-        System.out.println(costTimeList.stream().mapToLong(Long::longValue).sum()/costTimeList.size());
+        System.out.println("min: " + costTimeList.stream().reduce(Long.MAX_VALUE, Long::min));
+        System.out.println("max: " + costTimeList.stream().reduce(Long.MIN_VALUE, Long::max));
+        System.out.println("avg: " + costTimeList.stream().mapToLong(Long::longValue).sum()/costTimeList.size());
     }
 }

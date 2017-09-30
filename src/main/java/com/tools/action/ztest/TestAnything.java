@@ -6,7 +6,14 @@ import com.tools.util.BeanFactoryUtil;
 import com.tools.ztest.facade.RmiMockTester;
 import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
+import com.yeepay.utils.jdbc.dal.DALDataSource;
 import javassist.*;
+import open.framework.bill.common.CommonConstants;
+import open.framework.bill.config.BillConfig;
+import open.framework.bill.database.type.ColumnType;
+import open.framework.bill.enums.BillCharsetEnum;
+import open.framework.bill.enums.DatabaseTypeEnum;
+import open.framework.bill.generator.BillGenerator;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.jobs.JobTaskUpdate;
 import open.udm.client.persistence.MainTaskPersistence;
@@ -28,8 +35,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -48,8 +57,6 @@ public class TestAnything extends HttpServlet {
     RmiMockTester rmiMockTester;
     @Autowired
     InterfaceTest interfaceTest;
-    @Autowired
-    MainTaskPersistence mainTaskPersistence;
 
     @RequestMapping("/home")
     public ModelAndView compress(HttpServletRequest request, HttpSession session) {
@@ -62,6 +69,11 @@ public class TestAnything extends HttpServlet {
         // 测试代码 - end
 
         return mav;
+    }
+
+    private void testBillGenerator() throws Exception {
+        DataSource dataSource = BeanFactoryUtil.getBeanByClass(DALDataSource.class);
+
     }
 
     @RequestMapping("/requestParam")

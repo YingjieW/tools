@@ -26,6 +26,8 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -60,7 +62,44 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testListStream();
+        BigDecimal bigDecimal = new BigDecimal("0.00");
+        System.out.println(bigDecimal.toString());
+        System.out.println(BigDecimal.ZERO);
+        System.out.println(BigDecimal.ZERO.equals(bigDecimal));
+    }
+
+    private static void testDate() throws Exception {
+        long time1 = 1490284800000l;
+        java.sql.Date date = new java.sql.Date(time1);
+        System.out.println(date.toString());
+        Date date1 = new Date(time1);
+        System.out.println(date1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        System.out.println(sdf.format((Date) date));
+
+        long time2 = 1490263664009l;
+        Timestamp timestamp = new Timestamp(time2);
+        System.out.println(timestamp.toString());
+        Date date2 = new Date(time2);
+        System.out.println(date2.toString());
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH-mm-ss");
+        System.out.println(sdf1.format((Date) timestamp));
+    }
+
+    private static void testFileChannel() throws Exception {
+        String filePath = "/Users/YJ/Downloads/test/test.txt";
+        File file = new File(filePath);
+        RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        FileChannel fileChannel = raf.getChannel();
+        System.out.println(fileChannel.size());
+        fileChannel.close();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+        String line = reader.readLine();
+        System.out.println(line);
+        System.out.println(line.getBytes("utf-8").length);
+        System.out.println(file.length());
+        String testLine = "123456\n";
+        System.out.println(testLine.getBytes("utf-8").length);
     }
 
     private static void testListStream() throws Exception {
@@ -319,13 +358,6 @@ public class Ztest {
         bw.close();
         os.close();
         osw.close();
-    }
-
-    private static void testDate() throws Exception {
-        Date today = new Date();
-        String todayStr = ThreadSafeDateUtils.formatDate(today);
-        Date noonTime = ThreadSafeDateUtils.parseDateTime(todayStr + " 12:00:00");
-        System.out.println("noonTime: " + ThreadSafeDateUtils.formatDateTimeMillis(noonTime));
     }
 
     private static void testReadFile() throws Exception {
