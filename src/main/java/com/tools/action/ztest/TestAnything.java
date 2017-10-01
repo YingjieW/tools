@@ -8,15 +8,10 @@ import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
 import com.yeepay.utils.jdbc.dal.DALDataSource;
 import javassist.*;
-import open.framework.bill.common.CommonConstants;
-import open.framework.bill.config.BillConfig;
-import open.framework.bill.database.type.ColumnType;
-import open.framework.bill.enums.BillCharsetEnum;
-import open.framework.bill.enums.DatabaseTypeEnum;
-import open.framework.bill.generator.BillGenerator;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.jobs.JobTaskUpdate;
 import open.udm.client.persistence.MainTaskPersistence;
+import open.udm.client.processer.external.TaskProcessor;
 import open.udm.client.processer.taskinfo.ModifyTaskInfoProcessor;
 import open.udm.client.utils.BeanFactoryUtils;
 import open.udm.server.dto.TaskConfigDTO;
@@ -38,7 +33,6 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -65,6 +59,8 @@ public class TestAnything extends HttpServlet {
 
         // 测试代码 - start
         System.out.println("***************************** START *****************************");
+        TaskProcessor taskProcessor = (TaskProcessor) BeanFactoryUtils.getBeanByName("taskProcessor");
+        taskProcessor.process(null, null, null);
         System.out.println("*****************************  END  *****************************");
         // 测试代码 - end
 
