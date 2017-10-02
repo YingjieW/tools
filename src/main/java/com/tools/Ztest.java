@@ -62,10 +62,7 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        BigDecimal bigDecimal = new BigDecimal("0.00");
-        System.out.println(bigDecimal.toString());
-        System.out.println(BigDecimal.ZERO);
-        System.out.println(BigDecimal.ZERO.equals(bigDecimal));
+        System.out.println(String.class.getClassLoader());
     }
 
     private static void testDate() throws Exception {
