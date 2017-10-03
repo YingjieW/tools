@@ -34,5 +34,4 @@ public class TaxCalculator implements Callable<Integer> {
         System.out.println("\nCalculate completely, tax is $[" + future.get() + "].");
         executorService.shutdown();
     }
-
 }
