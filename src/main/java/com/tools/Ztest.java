@@ -17,11 +17,13 @@ import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ClassUtils;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.*;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -39,10 +41,12 @@ import java.util.regex.Pattern;
 
 public class Ztest {
 
-    public Ztest() {};
+    public Ztest() {
+        System.out.println("default constructor...");
+    };
 
     public Ztest(String str) {
-        logger.info("Ztest str : " + str);
+        System.out.println("custom constuctor...");
     }
 
     private static final Logger logger = LoggerFactory.getLogger(Ztest.class);
@@ -62,7 +66,24 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        System.out.println(String.class.getClassLoader());
+    }
+
+    private static void testReflectConstuctor() throws Exception {
+        Constructor constructor = Ztest.class.getDeclaredConstructor(null);
+        System.out.println(JSON.toJSONString(constructor));
+        constructor.newInstance();
+        constructor = Ztest.class.getDeclaredConstructor(String.class);
+        System.out.println(JSON.toJSONString(constructor));
+        constructor.newInstance("test");
+    }
+
+    private static void testClassName() throws Exception {
+        String className = Ztest.class.getName();
+        String shortClassName = ClassUtils.getShortName(className);
+        String deClassName = Introspector.decapitalize(shortClassName);
+        System.out.println(className);
+        System.out.println(shortClassName);
+        System.out.println(deClassName);
     }
 
     private static void testDate() throws Exception {

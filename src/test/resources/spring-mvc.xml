@@ -90,6 +90,10 @@
 					 pointcut="execution(* com.tools.ztest.facade.impl..*(..))" />
 	</aop:config>
 
+    <bean id="initBeanTest" class="com.tools.ztest.javabeans.InitBeanTest" init-method="init">
+        <property name="hello" value="hello"/>
+    </bean>
+
 	<import resource="classpath*:/tools-datasource.xml"/>
 
 	<!--<bean class="open.udm.client.context.UDMClientContextLoad">-->

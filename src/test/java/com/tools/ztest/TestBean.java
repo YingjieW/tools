@@ -1,6 +1,7 @@
 package com.tools.ztest;
 
 import com.tools.BaseTest;
+import com.tools.ztest.javabeans.InitBeanTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,5 +20,11 @@ public class TestBean extends BaseTest {
     @Test
     public void testInstantiation() throws Exception {
         System.out.println(".....");
+    }
+
+    @Test
+    public void testInitBean() throws Exception {
+        InitBeanTest initBeanTest = (InitBeanTest) beanFactory.getBean("initBeanTest");
+        System.out.println("===> initBeanTest: " + initBeanTest.getHello());
     }
 }

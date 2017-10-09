@@ -1,7 +1,5 @@
 package com.tools.ztest.proxy.jdk;
 
-import java.lang.reflect.Method;
-
 /**
  * Descripe:
  *
@@ -23,12 +21,12 @@ public class JdkClient {
 
         proxy.visit();
 
-        Method method = proxy.getClass().getMethod("toCapital", String.class);
-        System.out.println("*** " + method.invoke(proxy, "hello world."));
-        System.out.println("*** " + method.getDeclaringClass().getName());
-
-        JdkDynamicProxy jdkDynamicProxy1 = new JdkDynamicProxy(new JdkRealSubjectX());
-        JdkRealSubjectX jdkRealSubjectX = (JdkRealSubjectX) jdkDynamicProxy1.getProxy();
-        jdkRealSubjectX.visit();
+//        Method method = proxy.getClass().getMethod("toCapital", String.class);
+//        System.out.println("*** " + method.invoke(proxy, "hello world."));
+//        System.out.println("*** " + method.getDeclaringClass().getName());
+//
+//        JdkDynamicProxy jdkDynamicProxy1 = new JdkDynamicProxy(new JdkRealSubjectX());
+//        JdkRealSubjectX jdkRealSubjectX = (JdkRealSubjectX) jdkDynamicProxy1.getProxy();
+//        jdkRealSubjectX.visit();
     }
 }
