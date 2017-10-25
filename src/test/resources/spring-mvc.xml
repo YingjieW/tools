@@ -96,8 +96,8 @@
 
 	<import resource="classpath*:/tools-datasource.xml"/>
 
-	<!--<bean class="open.udm.client.context.UDMClientContextLoad">-->
-		<!--<property name="dataSource" ref="dataSource"/>-->
-		<!--<property name="appName" value="tools"/>-->
-	<!--</bean>-->
+	<bean class="open.udm.client.context.UDMClientContextLoad">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="appName" value="Test"/>
+	</bean>
 </beans>

@@ -167,6 +167,7 @@
 
     <bean class="open.udm.client.context.UDMClientContextLoad">
         <property name="dataSource" ref="dataSource"/>
-		<property name="appName" value="test_tools"/>
+		<!--<property name="appName" value="yqt-accounting"/>-->
+		<property name="appName" value="Test"/>
     </bean>
 </beans>

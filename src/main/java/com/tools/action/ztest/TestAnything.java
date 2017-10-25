@@ -8,12 +8,13 @@ import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
 import com.yeepay.utils.jdbc.dal.DALDataSource;
 import javassist.*;
+import open.udm.client.context.DefaultUDMClientContext;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.jobs.JobTaskUpdate;
 import open.udm.client.persistence.MainTaskPersistence;
-import open.udm.client.processer.external.TaskProcessor;
 import open.udm.client.processer.taskinfo.ModifyTaskInfoProcessor;
 import open.udm.client.utils.BeanFactoryUtils;
+import open.udm.server.dto.ServerInfoDTO;
 import open.udm.server.dto.TaskConfigDTO;
 import open.udm.server.dto.TaskInfoDTO;
 import open.udm.server.enums.TaskConfigStatusEnum;
@@ -57,14 +58,61 @@ public class TestAnything extends HttpServlet {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("ztest/home");
 
-        // 测试代码 - start
-        System.out.println("***************************** START *****************************");
-        TaskProcessor taskProcessor = (TaskProcessor) BeanFactoryUtils.getBeanByName("taskProcessor");
-        taskProcessor.process(null, null, null);
-        System.out.println("*****************************  END  *****************************");
-        // 测试代码 - end
+        try {
+            // 测试代码 - start
+            System.out.println("***************************** START *****************************");
+            testUdmTaskClear();
+            System.out.println("*****************************  END  *****************************");
+            // 测试代码 - end
+        } catch (Exception e) {
+            logger.error("Unknown exception......", e);
+        }
 
         return mav;
+    }
+
+    private void testUdmTaskClear() throws Exception{
+        TaskConfigDTO taskConfigDTO = new TaskConfigDTO();
+        taskConfigDTO.setId("cfg_20170905184800");
+        taskConfigDTO.setAppId("app_20170905184800");
+        taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
+        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/20170414.txt");
+        taskConfigDTO.setTaskConsumersMax(3);
+        taskConfigDTO.setBatchSize(5);
+        taskConfigDTO.setCronExpression("0/1 * * * * ? *");
+        taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+
+        List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
+        taskConfigDTOList.add(taskConfigDTO);
+
+        JobTaskUpdate jobTaskUpdate = BeanFactoryUtil.getBeanByClass(JobTaskUpdate.class);
+        DefaultUDMClientContext defaultUDMClientContext = BeanFactoryUtil.getBeanByClass(DefaultUDMClientContext.class);
+
+        System.out.println("===> serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        jobTaskUpdate.updateTask(taskConfigDTOList);
+        System.out.println("===>sleeping 10s...");
+        Thread.sleep(10*1000);
+        System.out.println("===>sleeping is over...");
+
+        ServerInfoDTO serverInfoDTO = new ServerInfoDTO();
+        serverInfoDTO.setBeta(true);
+        serverInfoDTO.setServerIp("172.19.40.87");
+        List<ServerInfoDTO> serverInfoDTOList = new ArrayList<>();
+        serverInfoDTOList.add(serverInfoDTO);
+        System.out.println("===>.before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+        System.out.println("===>.after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        jobTaskUpdate.updateTask(taskConfigDTOList);
+
+        System.out.println("===>sleeping 10s....");
+        Thread.sleep(10*1000);
+        System.out.println("===>sleeping is over....");
+        serverInfoDTO.setBeta(false);
+        System.out.println("===>..before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+        System.out.println("===>..after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        jobTaskUpdate.updateTask(taskConfigDTOList);
     }
 
     private void testBillGenerator() throws Exception {

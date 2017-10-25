@@ -552,6 +552,12 @@
             <artifactId>bill-generator</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.yeepay.g3.utils</groupId>
+            <artifactId>yeepay-smartcache</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

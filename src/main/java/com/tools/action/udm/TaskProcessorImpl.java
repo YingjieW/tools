@@ -1,5 +1,6 @@
 package com.tools.action.udm;
 
+import com.alibaba.fastjson.JSON;
 import open.udm.client.entity.BaseMainTaskEntity;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.processer.external.TaskProcessor;
@@ -22,7 +23,7 @@ public class TaskProcessorImpl implements TaskProcessor {
 
     @Override
     public boolean process(BaseMainTaskEntity mainTask, BaseSubTaskEntity subTask, List datas) {
-        System.out.println("TaskProcessImpl...001.");
+        System.out.println("datas:" + JSON.toJSONString(datas));
         return false;
     }
 

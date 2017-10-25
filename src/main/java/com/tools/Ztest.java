@@ -12,6 +12,7 @@ import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.test.Animal;
 import com.yeepay.g3.utils.common.DateUtils;
+import open.udm.server.dto.ServerInfoDTO;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -32,10 +33,7 @@ import java.nio.channels.FileChannel;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,7 +64,24 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-    }
+        ServerInfoDTO serverInfoDTO = new ServerInfoDTO();
+        serverInfoDTO.setAppId("testing....");
+        serverInfoDTO.setBeta(true);
+        List<ServerInfoDTO> serverInfoDTOS = new ArrayList<>();
+        serverInfoDTOS.add(serverInfoDTO);
+        String jsonStr = JSON.toJSONString(serverInfoDTOS);
+        System.out.println(jsonStr);
+        List<ServerInfoDTO> serverInfoDTOS1 = JSON.parseArray(jsonStr,ServerInfoDTO.class);
+        System.out.println(JSON.toJSONString(serverInfoDTOS1));
+        System.out.println(serverInfoDTOS1.get(0).isBeta());
+        System.out.println(JSON.toJSONString(ServerInfoDTO.class.getDeclaredMethods()));
+        System.out.println();
+
+        String jsonStr1 = "[{\"appId\":\"NBBBC201709141739570217iYeID7\",\"beta\":true,\"createTime\":1508810437000,\"id\":\"NBBBC201710240939343540y2ESW1\",\"isBeta\":true,\"lastModifyTime\":1508809174000,\"priority\":1,\"serverIp\":\"172.21.0.88\",\"serverName\":\"dev开发服务器\",\"serverStatus\":\"ACTIVE\",\"version\":0},{\"appId\":\"NBBBC201709141739570217iYeID7\",\"beta\":true,\"createTime\":1508813048000,\"id\":\"NBBBC20171024102305425YFEVY2T\",\"isBeta\":true,\"lastModifyTime\":1508811785000,\"priority\":2,\"serverIp\":\"172.19.40.87\",\"serverName\":\"内测测试01\",\"serverStatus\":\"ACTIVE\",\"version\":0}]";
+        List<ServerInfoDTO> serverInfoDTOS2 = JSON.parseArray(jsonStr1, ServerInfoDTO.class);
+        System.out.println(JSON.toJSONString(serverInfoDTOS2));
+        System.out.println(serverInfoDTOS2.get(0).isBeta());
+   }
 
     private static void testReflectConstuctor() throws Exception {
         Constructor constructor = Ztest.class.getDeclaredConstructor(null);

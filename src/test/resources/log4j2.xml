@@ -10,7 +10,7 @@
         <Logger name="open.udm.client" level="DEBUG" />
         <Logger name="com.mchange" level="WARN" />
 
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
