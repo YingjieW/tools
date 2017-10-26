@@ -2,6 +2,7 @@ package com.tools.ztest;
 
 import com.alibaba.fastjson.JSON;
 import com.tools.BaseTest;
+import com.tools.util.BeanFactoryUtil;
 import open.udm.client.context.DefaultUDMClientContext;
 import open.udm.client.entity.BaseMainTaskEntity;
 import open.udm.client.entity.BaseSubTaskEntity;
@@ -61,6 +62,49 @@ public class TestUdm extends BaseTest {
 
     @Test
     public void testMainTask() throws Exception {
+        TaskConfigDTO taskConfigDTO = new TaskConfigDTO();
+        taskConfigDTO.setId("cfg_20170905184800");
+        taskConfigDTO.setAppId("app_20170905184800");
+        taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
+        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test.txt");
+        taskConfigDTO.setTaskConsumersMax(3);
+        taskConfigDTO.setBatchSize(5);
+        taskConfigDTO.setCronExpression("0/1 * * * * ? *");
+        taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+        taskConfigDTO.setTaskPriority(1);
+        taskConfigDTO.setTaskType(open.udm.server.enums.TaskTypeEnum.TIMING);
 
+        List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
+        taskConfigDTOList.add(taskConfigDTO);
+
+        JobTaskUpdate jobTaskUpdate = BeanFactoryUtil.getBeanByClass(JobTaskUpdate.class);
+        DefaultUDMClientContext defaultUDMClientContext = BeanFactoryUtil.getBeanByClass(DefaultUDMClientContext.class);
+
+        System.out.println("*******************************************");
+        System.out.println("===> serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        jobTaskUpdate.updateTask(taskConfigDTOList);
+        System.out.println("===>sleeping 10s...");
+        Thread.sleep(10*1000);
+        System.out.println("===>sleeping is over...");
+
+        ServerInfoDTO serverInfoDTO = new ServerInfoDTO();
+        serverInfoDTO.setBeta(true);
+        serverInfoDTO.setServerIp("172.19.40.87");
+        List<ServerInfoDTO> serverInfoDTOList = new ArrayList<>();
+        serverInfoDTOList.add(serverInfoDTO);
+        System.out.println("===>.before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+        System.out.println("===>.after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        jobTaskUpdate.updateTask(taskConfigDTOList);
+
+        System.out.println("===>sleeping 10s....");
+        Thread.sleep(10*1000);
+        System.out.println("===>sleeping is over....");
+        serverInfoDTO.setBeta(false);
+        System.out.println("===>..before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+        System.out.println("===>..after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
+        jobTaskUpdate.updateTask(taskConfigDTOList);
     }
 }

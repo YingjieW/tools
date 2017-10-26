@@ -1,8 +1,14 @@
 package com.tools.quartz;
 
+import com.alibaba.fastjson.JSON;
 import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description:
@@ -26,7 +32,7 @@ public class MyJob001 implements Job {
     }
 
     public static void main(String[] args) throws Exception {
-        test003();
+        test002();
     }
 
     private static void test003() throws Exception {
@@ -84,24 +90,70 @@ public class MyJob001 implements Job {
 //        System.out.println("^^^^^^^^^^^^^^^");
     }
 
+    private static volatile boolean schedulerClearFlag;
     private static void test002() throws Exception {
+        final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        Scheduler scheduler = schedulerFactory.getScheduler();
+        scheduler.start();
+
+
         MyJob001 myJob001 = new MyJob001();
         String name001 = "name_myJob001";
         String group001 = "group_myJob001";
         Object[] arguments001 = {Integer.MAX_VALUE};
         JobDetail jobDetail001 = TimerManager01.getJobDetail(myJob001, "executeWithParams", name001, group001, arguments001);
         Trigger trigger001 = TimerManager01.getTrigger(jobDetail001, name001, group001, "0/1 * * * * ? *", "testing...");
-        TimerManager01.scheduleJob(jobDetail001, trigger001);
+        scheduler.scheduleJob(jobDetail001, trigger001);
         System.out.println("^^^^^^^^^^^^^^^");
-        TimerManager01.scheduleJob(jobDetail001, trigger001); // would throw ObjectAlreadyExistsException.
+//        TimerManager01.scheduleJob(jobDetail001, trigger001); // would throw ObjectAlreadyExistsException.
         System.out.println("^^^^^^^^^^^^^^^");
+        TimeUnit.SECONDS.sleep(3);
+        System.out.println(".... sleeping(3s) is over.");
 
-        MyJob002 myJob002 = new MyJob002();
-        String name002 = "name_myJob002";
-        String group002 = "group_myJob002";
-        JobDetail jobDetail002 = TimerManager01.getJobDetail(myJob002, "executeWithoutParams", name002, group002, null);
-        Trigger trigger002 = TimerManager01.getTrigger(jobDetail002, name002, group002, "0/2 * * * * ? *", "testing...");
-        TimerManager01.scheduleJob(jobDetail002, trigger002);
+        System.out.println(".before:" + scheduler.isShutdown());
+        System.out.println(".before:" + schedulerClearFlag);
+        if (!schedulerClearFlag) {
+            List<String> groupNameList = scheduler.getTriggerGroupNames();
+            System.out.println("groupNameList: " + JSON.toJSONString(groupNameList));
+            for (String groupName : groupNameList) {
+                Set<JobKey> jobKeySet  = scheduler.getJobKeys(GroupMatcher.groupEquals(groupName));
+                System.out.println("jobKeySet: " + JSON.toJSONString(jobKeySet));
+                for (JobKey jobKey : jobKeySet) {
+                    TriggerKey triggerKey = TriggerKey.triggerKey(jobKey.getName(), jobKey.getGroup());
+                    // 停止触发器
+                    scheduler.pauseTrigger(triggerKey);
+                    // 移除触发器
+                    scheduler.unscheduleJob(triggerKey);
+                    // 删除任务
+                    scheduler.deleteJob(jobKey);
+                }
+            }
+            scheduler.clear();
+            schedulerClearFlag = true;
+        }
+        System.out.println(".after:" + schedulerClearFlag);
+        System.out.println(".after:" + JSON.toJSONString(scheduler.getContext()));
+        TimeUnit.SECONDS.sleep(10);
+        System.out.println(".... sleeping(10s) is over.");
+
+
+        System.out.println(".before:" + schedulerClearFlag);
+        if (schedulerClearFlag) {
+            JobDetail jobDetail002 = TimerManager01.getJobDetail(myJob001, "executeWithParams", name001, group001, arguments001);
+            Trigger trigger002 = TimerManager01.getTrigger(jobDetail001, name001, group001, "0/2 * * * * ? *", "testing...");
+            scheduler.scheduleJob(jobDetail002, trigger002);
+            schedulerClearFlag = false;
+        }
+        System.out.println(".after:" + schedulerClearFlag);
+        System.out.println(".scheduleJob again...");
+
+
+//        MyJob002 myJob002 = new MyJob002();
+//        String name002 = "name_myJob002";
+//        String group002 = "group_myJob002";
+//        JobDetail jobDetail002 = TimerManager01.getJobDetail(myJob002, "executeWithoutParams", name002, group002, null);
+//        Trigger trigger002 = TimerManager01.getTrigger(jobDetail002, name002, group002, "0/2 * * * * ? *", "testing...");
+//        TimerManager01.scheduleJob(jobDetail002, trigger002);
     }
 
     private static void test001() throws Exception {
