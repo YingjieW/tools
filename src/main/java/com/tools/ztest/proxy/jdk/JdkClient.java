@@ -10,7 +10,7 @@ public class JdkClient {
 
     public static void main(String[] args) throws Exception {
         // 创建目标类对象
-        JdkInterface jdkRealSubject = new JdkRealSubject();
+        JdkRealSubject jdkRealSubject = new JdkRealSubject();
         // 创建代理类对象
         JdkDynamicProxy jdkDynamicProxy = new JdkDynamicProxy(jdkRealSubject);
         // 获取代理对象
@@ -19,6 +19,9 @@ public class JdkClient {
 //        JdkInterface proxy = (JdkInterface) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
 //                JdkRealSubject.class.getInterfaces(), jdkDynamicProxy);
 
+        proxy.visit();
+        System.out.println("---- after");
+        jdkRealSubject.testDynamic = "hello world";
         proxy.visit();
 
 //        Method method = proxy.getClass().getMethod("toCapital", String.class);

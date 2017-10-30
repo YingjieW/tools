@@ -36,6 +36,21 @@ public class TestUdm extends BaseTest {
     }
 
     @Test
+    public void testSubTaskIpUpdate() throws Exception {
+        SubTaskPersistence subTaskPersistence = (SubTaskPersistence) beanFactory.getBean("subTaskPersistence");
+        Class clazz = BaseSubTaskEntity.class;
+        String id = "DMSTC20171024115550824YLSLZdU";
+        TaskStatusEnum newStatus = TaskStatusEnum.SUCCESS;
+        TaskStatusEnum oldStatus = TaskStatusEnum.INIT;
+        String remark = "Test_" + System.currentTimeMillis();
+        String ip = "255.255.255.255";
+        System.out.println("remark : " + remark);
+//        int result = subTaskPersistence.updateStatusAndRemark(clazz, id, oldStatus, newStatus, remark, ip);
+        int result = subTaskPersistence.updateStatusAndRemark(clazz, id, oldStatus, newStatus, remark);
+        System.out.println("update : " + result);
+    }
+
+    @Test
     public void testCompensateSubTask() throws Exception {
         SubTaskPersistence subTaskPersistence = (SubTaskPersistence) beanFactory.getBean("subTaskPersistence");
         TaskStatusEnum[] taskStatusArr = {TaskStatusEnum.INIT, TaskStatusEnum.FAIL};
@@ -73,7 +88,7 @@ public class TestUdm extends BaseTest {
         taskConfigDTO.setCronExpression("0/1 * * * * ? *");
         taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
         taskConfigDTO.setTaskPriority(1);
-        taskConfigDTO.setTaskType(open.udm.server.enums.TaskTypeEnum.TIMING);
+//        taskConfigDTO.setTaskType(open.udm.server.enums.TaskTypeEnum.TIMING);
 
         List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
         taskConfigDTOList.add(taskConfigDTO);
@@ -94,7 +109,7 @@ public class TestUdm extends BaseTest {
         List<ServerInfoDTO> serverInfoDTOList = new ArrayList<>();
         serverInfoDTOList.add(serverInfoDTO);
         System.out.println("===>.before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
-        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+//        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
         System.out.println("===>.after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
         jobTaskUpdate.updateTask(taskConfigDTOList);
 
@@ -103,7 +118,7 @@ public class TestUdm extends BaseTest {
         System.out.println("===>sleeping is over....");
         serverInfoDTO.setBeta(false);
         System.out.println("===>..before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
-        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+//        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
         System.out.println("===>..after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
         jobTaskUpdate.updateTask(taskConfigDTOList);
     }

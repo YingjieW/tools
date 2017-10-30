@@ -237,7 +237,7 @@ public class JobTaskManager implements InitializingBean {
         taskConfigDTO.setCronExpression("0/1 * * * * ? *");
         taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
         taskConfigDTO.setTaskPriority(1);
-        taskConfigDTO.setTaskType(open.udm.server.enums.TaskTypeEnum.TIMING);
+//        taskConfigDTO.setTaskType(open.udm.server.enums.TaskTypeEnum.TIMING);
 
         JobTaskManager jobTaskManager = new JobTaskManager();
         jobTaskManager.afterPropertiesSet();

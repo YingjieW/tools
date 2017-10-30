@@ -101,7 +101,7 @@ public class TestAnything extends HttpServlet {
         List<ServerInfoDTO> serverInfoDTOList = new ArrayList<>();
         serverInfoDTOList.add(serverInfoDTO);
         System.out.println("===>.before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
-        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+//        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
         System.out.println("===>.after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
         jobTaskUpdate.updateTask(taskConfigDTOList);
 
@@ -110,7 +110,7 @@ public class TestAnything extends HttpServlet {
         System.out.println("===>sleeping is over....");
         serverInfoDTO.setBeta(false);
         System.out.println("===>..before - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
-        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
+//        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
         System.out.println("===>..after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
         jobTaskUpdate.updateTask(taskConfigDTOList);
     }
