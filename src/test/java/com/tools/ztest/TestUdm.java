@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.tools.BaseTest;
 import com.tools.util.BeanFactoryUtil;
 import open.udm.client.context.DefaultUDMClientContext;
+import open.udm.client.dto.MainTaskProcessDTO;
 import open.udm.client.entity.BaseMainTaskEntity;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.enums.TaskStatusEnum;
 import open.udm.client.jobs.JobTaskUpdate;
 import open.udm.client.persistence.MainTaskPersistence;
 import open.udm.client.persistence.SubTaskPersistence;
+import open.udm.client.processer.maintask.MainTaskProcessor;
 import open.udm.client.utils.ThreadSafeDateUtils;
 import open.udm.server.dto.ServerInfoDTO;
 import open.udm.server.dto.TaskConfigDTO;
@@ -17,10 +19,12 @@ import open.udm.server.enums.TaskConfigStatusEnum;
 import open.udm.server.enums.TaskDataTypeEnum;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Description:
@@ -33,6 +37,32 @@ public class TestUdm extends BaseTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+    }
+
+    @Test
+    public void testLoadResources() throws Exception {
+        String propPath = "runtimecfg/udm-client.properties";
+        Properties prop = PropertiesLoaderUtils.loadAllProperties(propPath);
+    }
+
+    @Test
+    public void testMainTaskProcess() throws Exception {
+        MainTaskProcessor mainTaskProcessor = (MainTaskProcessor) beanFactory.getBean("mainTaskProcessor");
+        MainTaskProcessDTO processDTO = new MainTaskProcessDTO();
+        processDTO.setTaskConfigId("_task_config_id_test_001");
+        processDTO.setAppId("_app_id_test");
+        processDTO.setBatchSize(10);
+        List<String> list = new ArrayList<>();
+        list.add("Hello_world.");
+        processDTO.setDatasource(list);
+        processDTO.setControllerId(null);
+        processDTO.setTaskConsumerClass("com.tools.action.udm.TaskProcessorImpl");
+        processDTO.setTaskConsumerMax(1);
+        processDTO.setTaskDataType(TaskDataTypeEnum.LIST);
+        processDTO.setTaskPriority(5);
+        System.out.println("**********************************************************");
+        mainTaskProcessor.process(processDTO);
+        System.out.println("**********************************************************");
     }
 
     @Test

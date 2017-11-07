@@ -23,7 +23,7 @@ public class TaskProcessorImpl implements TaskProcessor {
 
     @Override
     public boolean process(BaseMainTaskEntity mainTask, BaseSubTaskEntity subTask, List datas) {
-        System.out.println("datas:" + JSON.toJSONString(datas));
+        System.out.println("************ datas:" + JSON.toJSONString(datas));
         return false;
     }
 

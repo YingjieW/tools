@@ -21,6 +21,14 @@ public class Student extends People {
         this.role = role;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public static void main(String[] args) throws Exception {
         Class clazz = Student.class;
         Constructor constructor = clazz.getDeclaredConstructor(String.class, String.class, int.class, String.class);

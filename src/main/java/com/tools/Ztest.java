@@ -12,12 +12,13 @@ import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.test.Animal;
 import com.yeepay.g3.utils.common.DateUtils;
-import open.udm.server.dto.ServerInfoDTO;
+import com.yeepay.g3.utils.common.OrderedProperties;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.ClassUtils;
 
 import java.beans.BeanInfo;
@@ -33,7 +34,10 @@ import java.nio.channels.FileChannel;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,24 +68,82 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        ServerInfoDTO serverInfoDTO = new ServerInfoDTO();
-        serverInfoDTO.setAppId("testing....");
-        serverInfoDTO.setBeta(true);
-        List<ServerInfoDTO> serverInfoDTOS = new ArrayList<>();
-        serverInfoDTOS.add(serverInfoDTO);
-        String jsonStr = JSON.toJSONString(serverInfoDTOS);
-        System.out.println(jsonStr);
-        List<ServerInfoDTO> serverInfoDTOS1 = JSON.parseArray(jsonStr,ServerInfoDTO.class);
-        System.out.println(JSON.toJSONString(serverInfoDTOS1));
-        System.out.println(serverInfoDTOS1.get(0).isBeta());
-        System.out.println(JSON.toJSONString(ServerInfoDTO.class.getDeclaredMethods()));
-        System.out.println();
+        testCollectionsSort();
+    }
 
-        String jsonStr1 = "[{\"appId\":\"NBBBC201709141739570217iYeID7\",\"beta\":true,\"createTime\":1508810437000,\"id\":\"NBBBC201710240939343540y2ESW1\",\"isBeta\":true,\"lastModifyTime\":1508809174000,\"priority\":1,\"serverIp\":\"172.21.0.88\",\"serverName\":\"dev开发服务器\",\"serverStatus\":\"ACTIVE\",\"version\":0},{\"appId\":\"NBBBC201709141739570217iYeID7\",\"beta\":true,\"createTime\":1508813048000,\"id\":\"NBBBC20171024102305425YFEVY2T\",\"isBeta\":true,\"lastModifyTime\":1508811785000,\"priority\":2,\"serverIp\":\"172.19.40.87\",\"serverName\":\"内测测试01\",\"serverStatus\":\"ACTIVE\",\"version\":0}]";
-        List<ServerInfoDTO> serverInfoDTOS2 = JSON.parseArray(jsonStr1, ServerInfoDTO.class);
-        System.out.println(JSON.toJSONString(serverInfoDTOS2));
-        System.out.println(serverInfoDTOS2.get(0).isBeta());
+    public static void testCollectionsSort() throws Exception {
+        String[] alphabets = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+                "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        int bound = alphabets.length;
+        Random random = new Random(System.currentTimeMillis());
+        List<String> list = new ArrayList<>();
+        int length = 0;
+        StringBuilder sb = null;
+        for (int l = 0; l < 20000; l++) {
+            length = random.nextInt(bound) + 1;
+            sb = new StringBuilder();
+            for (int i = 0; i < length; i++) {
+                sb.append(alphabets[random.nextInt(bound)]);
+            }
+            list.add(sb.toString());
+        }
+        long start = System.currentTimeMillis();
+        Collections.sort(list);
+        System.out.println(System.currentTimeMillis() - start);
+    }
+
+    /**
+     * 从实际测试来看，classLoader.getResources(name)方法会搜索所有路径，包括导入的jar包
+     * 而classLoader.getResouce(name)方法，先找父级，若存在则返回，否则，查找自身（同委托代理相同
+     * @throws Exception
+     */
+   public static void testGetResources() throws Exception {
+//       String propPath = "runtimecfg/udm-client.properties";
+       String propPath = "config-util-conf/zkConfig.properties";
+       Properties prop = PropertiesLoaderUtils.loadAllProperties(propPath, Thread.currentThread().getContextClassLoader());
+       System.out.println(JSON.toJSONString(prop));
+       System.out.println("-----");
+
+       ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+       System.out.println(classLoader.getResource(propPath).getPath());
+       Map<String, String> result = loadProps(propPath, classLoader);
+       System.out.println(JSON.toJSONString(result));
+
+       ClassLoader classLoader1 = classLoader.getParent();
+       Map<String, String> result1 = loadProps(propPath, classLoader1);
+       System.out.println(JSON.toJSONString(result1));
+
+       System.out.println("**********");
+       Enumeration<URL> urls = classLoader.getResources(propPath);
+       System.out.println(urls.getClass().getName());
+       while (urls.hasMoreElements()) {
+           URL url = urls.nextElement();
+           System.out.println("__" + JSON.toJSONString(url));
+       }
+       System.out.println("\n" + JSON.toJSONString(urls));
    }
+
+    public static Map<String,String> loadProps(String uri, ClassLoader classLoader){
+        OrderedProperties props = new OrderedProperties();
+        Map result = new LinkedHashMap();
+        InputStream is = classLoader.getResourceAsStream(uri);
+        if (is == null) {
+            return null;
+        }
+        try {
+            props.loadMap(is, result);
+        } catch (Exception e) {
+            throw new RuntimeException("load resource fail, uri:"+uri+" errorMsg:"+e.getMessage(), e);
+        }finally{
+            if(is !=null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+        return result;
+    }
 
     private static void testReflectConstuctor() throws Exception {
         Constructor constructor = Ztest.class.getDeclaredConstructor(null);
@@ -845,4 +907,7 @@ public class Ztest {
             System.out.println(text);
         }
     }
+
+    @Override
+    public String toString() {return null;}
 }
