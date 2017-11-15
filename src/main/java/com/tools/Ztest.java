@@ -68,7 +68,9 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testCollectionsSort();
+        Class clazz = Class.forName("com.tools.Ztest");
+        Class clazz1 = Class.forName("com.tools.Ztest");
+        System.out.println(clazz == clazz1);
     }
 
     public static void testCollectionsSort() throws Exception {

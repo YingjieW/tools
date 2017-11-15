@@ -7,6 +7,7 @@ import open.udm.client.processer.external.TaskProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description:
@@ -15,15 +16,22 @@ import java.util.List;
  * @since 17/9/5 下午6:41
  */
 @Component("taskProcessor")
-public class TaskProcessorImpl implements TaskProcessor {
+public class TaskProcessorImpl implements TaskProcessor<String> {
     @Override
     public BaseMainTaskEntity createMainTaskEntity(String controllerId) {
         return null;
     }
 
     @Override
-    public boolean process(BaseMainTaskEntity mainTask, BaseSubTaskEntity subTask, List datas) {
+    public boolean process(BaseMainTaskEntity mainTask, BaseSubTaskEntity subTask, List<String> datas) {
         System.out.println("************ datas:" + JSON.toJSONString(datas));
+        try {
+//            TimeUnit.MINUTES.sleep(3);
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("************ Sleeping is over");
         return false;
     }
 

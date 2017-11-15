@@ -17,6 +17,7 @@ import open.udm.server.dto.ServerInfoDTO;
 import open.udm.server.dto.TaskConfigDTO;
 import open.udm.server.enums.TaskConfigStatusEnum;
 import open.udm.server.enums.TaskDataTypeEnum;
+import open.udm.server.enums.TaskInvokeTypeEnum;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -86,9 +87,9 @@ public class TestUdm extends BaseTest {
         TaskStatusEnum[] taskStatusArr = {TaskStatusEnum.INIT, TaskStatusEnum.FAIL};
         Date endCreateTime = ThreadSafeDateUtils.getFetchDelayDate(24*60);
         Date startCreateTime = ThreadSafeDateUtils.getFetchDelayDate(endCreateTime, 24*7*60);
-        List<BaseSubTaskEntity> taskEntityList =
-                subTaskPersistence.queryByStatusAndCreateTime(BaseSubTaskEntity.class, startCreateTime, endCreateTime, taskStatusArr, 50);
-        System.out.println(JSON.toJSONString(taskEntityList));
+//        List<BaseSubTaskEntity> taskEntityList =
+//                subTaskPersistence.queryByStatusAndCreateTime(BaseSubTaskEntity.class, startCreateTime, endCreateTime, taskStatusArr, 50);
+//        System.out.println(JSON.toJSONString(taskEntityList));
     }
 
     @Test
@@ -114,7 +115,7 @@ public class TestUdm extends BaseTest {
         taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
         taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test.txt");
         taskConfigDTO.setTaskConsumersMax(3);
-        taskConfigDTO.setBatchSize(5);
+        taskConfigDTO.setBatchSize(20);
         taskConfigDTO.setCronExpression("0/1 * * * * ? *");
         taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
         taskConfigDTO.setTaskPriority(1);
@@ -151,5 +152,28 @@ public class TestUdm extends BaseTest {
 //        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
         System.out.println("===>..after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
         jobTaskUpdate.updateTask(taskConfigDTOList);
+    }
+
+    @Test
+    public void testExecNum() throws Exception {
+        TaskConfigDTO taskConfigDTO = new TaskConfigDTO();
+        taskConfigDTO.setId("cfg_20170905184800");
+        taskConfigDTO.setAppId("app_20170905184800");
+        taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TaskProcessorImpl");
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
+        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test.txt");
+        taskConfigDTO.setTaskConsumersMax(3);
+        taskConfigDTO.setBatchSize(20);
+        taskConfigDTO.setCronExpression("0/1 * * * * ? *");
+        taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+        taskConfigDTO.setTaskPriority(1);
+        taskConfigDTO.setTaskType(TaskInvokeTypeEnum.TIMING);
+
+        List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
+        taskConfigDTOList.add(taskConfigDTO);
+
+        JobTaskUpdate jobTaskUpdate = BeanFactoryUtil.getBeanByClass(JobTaskUpdate.class);
+        jobTaskUpdate.updateTask(taskConfigDTOList);
+        System.out.println("Invoke successfully...");
     }
 }

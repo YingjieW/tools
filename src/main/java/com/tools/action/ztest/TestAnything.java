@@ -19,6 +19,7 @@ import open.udm.server.dto.TaskConfigDTO;
 import open.udm.server.dto.TaskInfoDTO;
 import open.udm.server.enums.TaskConfigStatusEnum;
 import open.udm.server.enums.TaskDataTypeEnum;
+import open.udm.server.enums.TaskInvokeTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class TestAnything extends HttpServlet {
         try {
             // 测试代码 - start
             System.out.println("***************************** START *****************************");
-            testUdmTaskClear();
+            testExecNum();
             System.out.println("*****************************  END  *****************************");
             // 测试代码 - end
         } catch (Exception e) {
@@ -69,6 +70,28 @@ public class TestAnything extends HttpServlet {
         }
 
         return mav;
+    }
+
+    private void testExecNum() throws Exception {
+        TaskConfigDTO taskConfigDTO = new TaskConfigDTO();
+        taskConfigDTO.setId("cfg_20170905184800");
+        taskConfigDTO.setAppId("app_20170905184800");
+        taskConfigDTO.setTaskConsumersClass("com.tools.action.udm.TestTaskProcessor");
+        taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
+        taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test.txt");
+        taskConfigDTO.setTaskConsumersMax(3);
+        taskConfigDTO.setBatchSize(50);
+        taskConfigDTO.setCronExpression("0/1 * * * * ? *");
+        taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
+        taskConfigDTO.setTaskPriority(1);
+        taskConfigDTO.setTaskType(TaskInvokeTypeEnum.TIMING);
+
+        List<TaskConfigDTO> taskConfigDTOList = new ArrayList<TaskConfigDTO>();
+        taskConfigDTOList.add(taskConfigDTO);
+
+        JobTaskUpdate jobTaskUpdate = BeanFactoryUtil.getBeanByClass(JobTaskUpdate.class);
+        jobTaskUpdate.updateTask(taskConfigDTOList);
+        System.out.println("Invoke successfully...");
     }
 
     private void testUdmTaskClear() throws Exception{
