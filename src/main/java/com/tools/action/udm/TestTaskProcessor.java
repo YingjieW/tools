@@ -1,12 +1,12 @@
 package com.tools.action.udm;
 
-import com.alibaba.fastjson.JSON;
 import open.udm.client.entity.BaseMainTaskEntity;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.processer.external.adapter.AbstractDbTaskProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description:
@@ -23,7 +23,14 @@ public class TestTaskProcessor extends AbstractDbTaskProcessor<String> {
 
     @Override
     public boolean process(BaseMainTaskEntity mainTask, BaseSubTaskEntity subTask, List<String> datas) {
-        System.out.println("________TestTaskProcessor_datas: " + JSON.toJSONString(datas));
+//        System.out.println("________TestTaskProcessor_datas: " + JSON.toJSONString(datas));
+        int sleepSeconds = 5;
+        System.out.println("[" + subTask.getId() + "]________TestTaskProcessor sleep_seconds: " + sleepSeconds);
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

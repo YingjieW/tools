@@ -1,5 +1,6 @@
 package com.tools.action.ztest;
 
+import com.alibaba.fastjson.JSON;
 import com.tools.action.udm.TaskProcessorImpl;
 import com.tools.action.udm.UdmMainTaskEntity;
 import com.tools.util.BeanFactoryUtil;
@@ -9,9 +10,11 @@ import com.tools.ztest.javabeans.Dog;
 import com.yeepay.utils.jdbc.dal.DALDataSource;
 import javassist.*;
 import open.udm.client.context.DefaultUDMClientContext;
+import open.udm.client.dto.MainTaskBizDTO;
 import open.udm.client.entity.BaseSubTaskEntity;
 import open.udm.client.jobs.JobTaskUpdate;
 import open.udm.client.persistence.MainTaskPersistence;
+import open.udm.client.processer.maintask.MainTaskProcessor;
 import open.udm.client.processer.taskinfo.ModifyTaskInfoProcessor;
 import open.udm.client.utils.BeanFactoryUtils;
 import open.udm.server.dto.ServerInfoDTO;
@@ -62,7 +65,7 @@ public class TestAnything extends HttpServlet {
         try {
             // 测试代码 - start
             System.out.println("***************************** START *****************************");
-            testExecNum();
+            testServerConsumersMax();
             System.out.println("*****************************  END  *****************************");
             // 测试代码 - end
         } catch (Exception e) {
@@ -70,6 +73,17 @@ public class TestAnything extends HttpServlet {
         }
 
         return mav;
+    }
+
+    private void testServerConsumersMax() throws Exception {
+        MainTaskBizDTO mainTaskBizDTO = new MainTaskBizDTO();
+        mainTaskBizDTO.setTaskConfigId("NBBBC20171115152336674TgWFwJ5");
+        mainTaskBizDTO.setDatasource("/Users/YJ/Documents/generator/test.txt");
+        mainTaskBizDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
+
+        MainTaskProcessor mainTaskProcessor = BeanFactoryUtils.getBeanByClass(MainTaskProcessor.class);
+        logger.info("______请求UDM开始文件解析,mainTaskBizDTO:{}", JSON.toJSONString(mainTaskBizDTO));
+        mainTaskProcessor.processByBiz(mainTaskBizDTO);
     }
 
     private void testExecNum() throws Exception {
@@ -80,7 +94,7 @@ public class TestAnything extends HttpServlet {
         taskConfigDTO.setTaskDataType(TaskDataTypeEnum.FILE_UTF8);
         taskConfigDTO.setDatasource("/Users/YJ/Documents/generator/test.txt");
         taskConfigDTO.setTaskConsumersMax(3);
-        taskConfigDTO.setBatchSize(50);
+        taskConfigDTO.setBatchSize(10);
         taskConfigDTO.setCronExpression("0/1 * * * * ? *");
         taskConfigDTO.setTaskStatus(TaskConfigStatusEnum.ACTIVE);
         taskConfigDTO.setTaskPriority(1);
