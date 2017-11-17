@@ -16,5 +16,7 @@ public class CglibClient {
         Method method = proxy.getClass().getMethod("toCapital", String.class);
         System.out.println("*** " + method.invoke(proxy, "hello world."));
         System.out.println("*** " + method.getDeclaringClass().getName());
+
+        System.out.println();
     }
 }

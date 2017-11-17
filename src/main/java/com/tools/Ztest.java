@@ -34,12 +34,7 @@ import java.nio.channels.FileChannel;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.*;
 
 public class Ztest {
 
@@ -68,13 +63,45 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        Class clazz = Class.forName("com.tools.Ztest");
-        Class clazz1 = Class.forName("com.tools.Ztest");
-        System.out.println(clazz == clazz1);
+        testThreadPool();
     }
 
-    private static void testError() {
-        System.out.println(null instanceof Ztest);
+    private static void testThreadPool() throws Exception {
+        ArrayBlockingQueue waitQueue = new ArrayBlockingQueue(1);
+        ExecutorService threadPool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.MINUTES, waitQueue, new ThreadPoolExecutor.AbortPolicy());
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(".....first thread...");
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                };
+            }
+        });
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(".....second thread...");
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(".....third thread...");
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public static void testCollectionsSort() throws Exception {
@@ -728,29 +755,6 @@ public class Ztest {
         // 利用反射调用非静态方法是,必须指定具体的对象,否则报错。
         Method method2 = Ztest.class.getDeclaredMethod("reflectNonStaticMethod", String.class);
         method2.invoke(null, "world"); // 该句会抛出NullPointerException.
-    }
-
-    public static void reflectStaticMethod(String text) {
-        System.out.println("===> static.methcod...text: " + text);
-    }
-
-    public void reflectNonStaticMethod(String text) {
-        System.out.println("===> non.static.method...text: " + text);
-    }
-
-    private static void testPayApiAmount() throws Exception {
-        String amount = "10000000.09";
-        double amountD = Double.valueOf(amount);
-        amount = String.valueOf(amountD);
-        Pattern pattern = Pattern.compile("^[0-9]+(.[0-9]{0,2})?");
-        Matcher matcher = pattern.matcher(amount);
-        System.out.println("amountD = " + amountD);
-        System.out.println("amount = " + amount);
-        if (!matcher.matches()) {
-            System.out.println("参数[amount]格式不合法,小数点位数超限");
-        } else {
-            System.out.println("success");
-        }
     }
 
     private static void testJavaBean() throws Throwable {

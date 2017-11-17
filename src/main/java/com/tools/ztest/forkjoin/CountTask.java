@@ -38,12 +38,17 @@ public class CountTask extends RecursiveTask<Integer> {
         int middle = (start + end) / 2;
         CountTask leftTask = new CountTask(start, middle);
         CountTask rightTask = new CountTask(middle + 1, end);
-        // 执行子任务
+        // fork子任务
         leftTask.fork();
         rightTask.fork();
         // 等待子任务执行完毕，获取结果
         int leftResult = leftTask.join();
         int rightResult = rightTask.join();
+        System.out.println(".......currentThreadId: " + Thread.currentThread().getName());
+//        try {
+//            System.out.println(".......currentThreadId: " + Thread.currentThread().getName());
+//            TimeUnit.SECONDS.sleep(10);
+//        } catch (InterruptedException e) {e.printStackTrace();}
         // 合并子任务结果
         sum = leftResult + rightResult;
         return sum;
@@ -51,7 +56,8 @@ public class CountTask extends RecursiveTask<Integer> {
 
     public static void main(String[] args) throws Exception {
         ForkJoinPool pool = new ForkJoinPool();
-        int count = 10000;
+        ForkJoinPool.commonPool();
+        int count = 100;
         CountTask task = new CountTask(1, count);
         long start = System.currentTimeMillis();
         Future<Integer> result = pool.submit(task);
@@ -65,5 +71,6 @@ public class CountTask extends RecursiveTask<Integer> {
         }
         System.out.println(sum);
         System.out.println(".." + (System.currentTimeMillis() - start1));
+        System.out.println("..." + Runtime.getRuntime().availableProcessors());
     }
 }
