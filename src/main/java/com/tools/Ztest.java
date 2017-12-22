@@ -31,6 +31,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -63,7 +64,19 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testThreadPool();
+//        System.out.println(new BigDecimal(2d / 3).setScale(2));
+//        System.out.println(new BigDecimal(2).divide(new BigDecimal(3), 4, RoundingMode.HALF_UP));
+    }
+
+    private static void testGbkRead() throws Exception {
+        String filePath = "/Users/YJ/Documents/generator/retbatup112017122101.txt";
+        File fileFrom = new File(filePath);
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileFrom), Charset.forName("GBK")));
+        System.out.println(br.readLine());
+        System.out.println(br.readLine());
+        System.out.println(br.readLine());
+        System.out.println(br.readLine());
     }
 
     private static void testThreadPool() throws Exception {
@@ -233,7 +246,7 @@ public class Ztest {
     private static void testListStream() throws Exception {
         List<Integer> list = new ArrayList<>();
         list.add(2); list.add(3); list.add(1); list.add(4);
-        System.out.println(list.stream().mapToInt(Integer::intValue).sum());
+//        System.out.println(list.stream().mapToInt(Integer::intValue).sum());
     }
 
     private static void testConcatenateList() throws Exception {
@@ -249,10 +262,10 @@ public class Ztest {
         }
         System.out.println("---> 1.cost: " + (System.currentTimeMillis() - startTime1));
         long startTime2 = System.currentTimeMillis();
-        itemList.stream().reduce("", String::concat);
+//        itemList.stream().reduce("", String::concat);
         System.out.println("---> 2.cost: " + (System.currentTimeMillis() - startTime2));
         long startTime3 = System.currentTimeMillis();
-        itemList.parallelStream().reduce("", String::concat);
+//        itemList.parallelStream().reduce("", String::concat);
         System.out.println("---> 3.cost: " + (System.currentTimeMillis() - startTime3));
     }
 
