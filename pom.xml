@@ -564,6 +564,14 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.14</version>
         </dependency>
+
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>com.google.code.kaptcha</groupId>
+            <artifactId>kaptcha</artifactId>
+            <classifier>jdk15</classifier>
+            <version>2.3</version>
+        </dependency>
     </dependencies>
 
     <build>

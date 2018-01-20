@@ -30,6 +30,16 @@
 			</td>
 		</tr>
 	</table>
+	<img title="点击刷新" alt="点击刷新" id="kaptchaImage" onclick="javascript:changeImage();"
+		 src="/tools/captcha/show_image" height="33" width="80" style="border: #cccccc solid 1px;"/>
 	<hr>
+
+	<script>
+        function changeImage() {
+//            $("#kaptchaImage").attr("src" ,'/tools/captcha/show_image?n=' + Math.floor(Math.random()*100));
+            var kaptchaImage = document.getElementById("kaptchaImage");
+            kaptchaImage.src = "/tools/captcha/show_image?n=" + Math.floor(Math.random()*100);
+        }
+	</script>
 </body>
 </html>

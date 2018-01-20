@@ -64,17 +64,11 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        String text = "迪丽热巴·迪丽";
-//        String text = "迪丽热巴·迪丽";
-        System.out.println(text.getBytes("utf-8").length);
-        System.out.println(text.getBytes("unicode").length);
-        System.out.println(text.getBytes("gbk").length);
-        System.out.println("·".getBytes("utf-8"));
-
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            System.out.println("\\u" + Integer.toHexString(c));
-        }
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        String result = list.iterator().next();
+        System.out.println(result);
     }
 
     private static void testGbkRead() throws Exception {
