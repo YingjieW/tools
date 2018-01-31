@@ -146,4 +146,25 @@ public class CheckUtils {
         }
         return false;
     }
+
+    /**
+     * 校验枚举字符串
+     *
+     * @param enumClass
+     * @param enumStr
+     * @return
+     */
+    public static boolean checkEnumStr(Class enumClass, String enumStr) {
+        if (enumClass == null || enumStr == null) {
+            return false;
+        }
+        Enum[] enums = (Enum[]) enumClass.getEnumConstants();
+        for (int i = 0, l = enums.length; i < l; i++) {
+            Enum _enum = enums[i];
+            if (enumStr.equals(_enum.name())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -64,11 +64,7 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        List<String> list = new ArrayList<>();
-        list.add("a");
-        list.add("b");
-        String result = list.iterator().next();
-        System.out.println(result);
+        System.out.println(Ztest.class.getSimpleName());
     }
 
     private static void testGbkRead() throws Exception {
