@@ -32,13 +32,13 @@ public class InitBeanTest implements InitializingBean, BeanPostProcessor, BeanFa
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("=====> 调用BeanPostProcessor的postProcessBeforeInitialization()...");
+//        System.out.println("=====> 调用BeanPostProcessor的postProcessBeforeInitialization()...");
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("=====> 调用BeanPostProcessor的postProcessAfterInitialization()...");
+//        System.out.println("=====> 调用BeanPostProcessor的postProcessAfterInitialization()...");
         return bean;
     }
 

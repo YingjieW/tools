@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.quartz.task.jobMannager.dao.TaskJobDAO">
+
+  <resultMap id="taskResultMap"
+             type="com.tools.quartz.task.jobMannager.entity.TaskEntity">
+    <result column="TASK_KEY" jdbcType="BIGINT" property="taskKey" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="LAST_UPDATE_TIME" jdbcType="TIMESTAMP"
+            property="lastUpdateTime" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    TASK_KEY,TASK_STATUS,CREATE_TIME,LAST_UPDATE_TIME
+  </sql>
+
+
+  <insert id="insertJob"  parameterType="com.tools.quartz.task.jobMannager.entity.TaskEntity" >
+
+    insert into TBL_TASK_JOB (TASK_KEY,TASK_STATUS
+      )
+    values (
+      #{taskKey,jdbcType=VARCHAR}, #{taskStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+  <update id="updateJob" parameterType="map">
+
+    update TBL_TASK_JOB
+    set
+       TASK_STATUS = #{newStatus,jdbcType=VARCHAR},
+        LAST_UPDATE_TIME = CURRENT_TIMESTAMP
+    where TASK_STATUS = #{lastStatus,jdbcType=VARCHAR} and TASK_KEY= #{taskKey,jdbcType=VARCHAR}
+
+  </update>
+
+
+  <update id="updateJobByKey" parameterType="map">
+
+    update TBL_TASK_JOB
+    set
+    TASK_STATUS = #{newStatus,jdbcType=VARCHAR}
+    ,LAST_UPDATE_TIME = CURRENT_TIMESTAMP
+    where TASK_KEY= #{taskKey,jdbcType=VARCHAR}
+
+  </update>
+
+
+
+
+
+  <select id="queryTask" resultMap="taskResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM TBL_TASK_JOB
+    where TASK_KEY= #{taskKey,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="queryOverTimeTask" resultMap="taskResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM TBL_TASK_JOB
+    where   task_status='WORKING'  AND   now()-interval 10 minute>LAST_UPDATE_TIME
+
+  </select>
+
+
+
+</mapper>

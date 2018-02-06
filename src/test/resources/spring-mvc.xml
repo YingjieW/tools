@@ -96,8 +96,33 @@
 
 	<import resource="classpath*:/tools-datasource.xml"/>
 
-	<bean class="open.udm.client.context.UDMClientContextLoad">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="appName" value="Test"/>
+	<!--<bean class="open.udm.client.context.UDMClientContextLoad">-->
+		<!--<property name="dataSource" ref="dataSource"/>-->
+		<!--<property name="appName" value="Test"/>-->
+	<!--</bean>-->
+
+
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.background.clear.from">255,255,255</prop>
+						<prop key="kaptcha.background.clear.to">255,255,255</prop>
+						<prop key="kaptcha.border">no</prop>
+						<prop key="kaptcha.border.color">105,179,90</prop>
+						<prop key="kaptcha.session.key">REMOTE_KAPTCHA_SESSION_KEY</prop>
+						<prop key="kaptcha.textproducer.font.color">10,10,10</prop>
+						<prop key="kaptcha.textproducer.font.size">70</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.textproducer.font.names">Arial,Helvetica,Courier,TimesRoma</prop>
+						<prop key="kaptcha.textproducer.char.space">10</prop>
+						<prop key="kaptcha.image.width">220</prop>
+						<prop key="kaptcha.image.height">90</prop>
+						<prop key="kaptcha.noise.color">100,116,122</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
 	</bean>
 </beans>

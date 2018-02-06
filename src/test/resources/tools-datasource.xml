@@ -19,19 +19,27 @@
 		  <!--class="com.yeepay.g3.utils.common.datasource.DataSourceFactoryBean">-->
 		<!--<property name="name" value="YQTORDER" />-->
 	<!--</bean>-->
+
+
 	<!-- 分表数据源 -->
-	<bean id="dataSourceOrg"
+	<!--<bean id="dataSourceOrg"-->
+		  <!--class="com.yeepay.g3.utils.common.datasource.DataSourceFactoryBean">-->
+		<!--<property name="name" value="YQTACCOUNTING" />-->
+	<!--</bean>-->
+	<!--<bean id="dataSource" class="com.yeepay.utils.jdbc.dal.DALDataSource"-->
+		  <!--init-method="afterPropertiesSet">-->
+		<!--<property name="appId" value="ppaccounting"></property>-->
+		<!--<property name="openShardsPlug" value="false"></property>-->
+		<!--<property name="dataSourceMap">-->
+			<!--<map>-->
+				<!--<entry key="ds01" value-ref="dataSourceOrg"></entry>-->
+			<!--</map>-->
+		<!--</property>-->
+	<!--</bean>-->
+
+
+	<bean id="dataSource"
 		  class="com.yeepay.g3.utils.common.datasource.DataSourceFactoryBean">
-		<property name="name" value="YQTACCOUNTING" />
-	</bean>
-	<bean id="dataSource" class="com.yeepay.utils.jdbc.dal.DALDataSource"
-		  init-method="afterPropertiesSet">
-		<property name="appId" value="ppaccounting"></property>
-		<property name="openShardsPlug" value="false"></property>
-		<property name="dataSourceMap">
-			<map>
-				<entry key="ds01" value-ref="dataSourceOrg"></entry>
-			</map>
-		</property>
+		<property name="name" value="PAYBAR" />
 	</bean>
 </beans>

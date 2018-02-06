@@ -64,7 +64,20 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        System.out.println(Ztest.class.getSimpleName());
+        System.out.println( Runtime.getRuntime().availableProcessors());
+
+        System.out.println(JSON.toJSONString("".split(",")));
+
+//        BigDecimal amount = new BigDecimal("0.0908");
+        BigDecimal amount = new BigDecimal("0.090");
+        BigDecimal fee = amount.setScale(2, BigDecimal.ROUND_UP);
+        System.out.println(amount);
+        System.out.println(fee);
+
+//        int feeInt = fee.multiply(new BigDecimal(1000)).toBigInteger().intValue();
+//
+//        System.out.println(feeInt);
+//        System.out.println(feeInt % 100);
     }
 
     private static void testGbkRead() throws Exception {

@@ -31,7 +31,7 @@ public class TestBillGenerator extends BaseTest {
     }
 
     @Test
-    public void testGenerate() throws Exception {
+    public void testDb2Generate() throws Exception {
         DataSource dataSource = beanFactory.getBean(DALDataSource.class);
         BillConfig billConfig = new BillConfig();
         billConfig.setDataSource(dataSource);
@@ -75,11 +75,56 @@ public class TestBillGenerator extends BaseTest {
             if (i == merchantNos.length - 1) {
                 billStatistics.setLast(true);
             }
-            BillGenerator.generateExtend(billConfig, billStatistics);
+            BillGenerator.generateExt(billConfig, billStatistics);
             System.out.println("===> billStatistics: " + JSON.toJSONString(billStatistics));
         }
 
 //        BillGenerator.generate(billConfig, true);
         System.out.println("=======================> SUCCESS.....");
+    }
+
+    @Test
+    public void testMySqlGenerator() throws Exception {
+        DataSource dataSource = beanFactory.getBean(DataSource.class);
+        BillConfig billConfig = new BillConfig();
+        billConfig.setDataSource(dataSource);
+        billConfig.setDatabaseType(DatabaseTypeEnum.MYSQL);
+        billConfig.setBillCharset(BillCharsetEnum.UTF8);
+        billConfig.setLeftSeparator("`");
+        billConfig.setRightSeparator(",");
+        billConfig.setEmptyFileMark("no data today...");
+        billConfig.setBillHeadTitle("交易时间,完成时间,交易金额（元）,交易手续费,商户编号,银行卡号, 卡类型, 身份证号");
+        billConfig.setBillTailTitle("交易总笔数,交易总金额,交易总手续费");
+        billConfig.setBillFilePath("/Users/YJ/Documents/generator/mysql_bill_2018_01_31.csv");
+        billConfig.setSql("select order_time, completed_time, amount, fee, merchant_no,bank_card_no, card_type, id_card\n" +
+                "from paybar.tbl_pay_accounting p\n" +
+                "where p.merchant_no = ?\n " +
+                "and p.CREATE_TIME >= ?\n" +
+                "and p.CREATE_TIME <= ?");
+        // columnPatternConfigMap
+        LinkedHashMap<String, ColumnValueConfig> configLinkedHashMap = new LinkedHashMap<>();
+        configLinkedHashMap.put("ORDER_TIME", new ColumnValueConfig("yyyy-MM-dd HH:mm:ss"));
+        configLinkedHashMap.put("COMPLETED_TIME", new ColumnValueConfig("yyyy-MM-dd HH:mm:ss"));
+        configLinkedHashMap.put("AMOUNT", new ColumnValueConfig("0.00"));
+        configLinkedHashMap.put("FEE", new ColumnValueConfig("0.00", "尚未计费"));
+        billConfig.setColumnPatternConfigMap(configLinkedHashMap);
+        // tailColumnsNeedStatistic
+        LinkedHashMap<String, ColumnType> tailColumnsNeedStatistic = new LinkedHashMap<>();
+        tailColumnsNeedStatistic.put(CommonConstants.TOTAL_COUNT_MARK, ColumnType.LONG);
+        tailColumnsNeedStatistic.put("AMOUNT", ColumnType.DECIMAL);
+        tailColumnsNeedStatistic.put("FEE", ColumnType.DECIMAL);
+        billConfig.setTailColumnsNeedStatistic(tailColumnsNeedStatistic);
+        // sqlParams
+        Object[] params = new Object[] {"", "2018-01-30 00:00:00", "2018-01-30 23:59:59"};
+        billConfig.setSqlParams(params);
+
+        String[] merchantNos = {"1318012823236834", "1318012823236835", "1318012823236836", "1318012823236837", "1318012823236838"};
+        BillStatistics billStatistics = new BillStatistics();
+        for (int i = 0; i < merchantNos.length; i++) {
+            params[0] = merchantNos[i];
+            billStatistics.setLast(i == (merchantNos.length - 1));
+            BillGenerator.generateExt(billConfig, billStatistics);
+            System.out.println("####### billStatistics: " + JSON.toJSONString(billStatistics));
+        }
     }
 }
