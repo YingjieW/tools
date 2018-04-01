@@ -14,6 +14,9 @@ import java.util.Date;
  * @since 16/7/27 下午6:20
  */
 public class HttpSessionListenerImpl implements HttpSessionListener{
+    /**
+     * 存在并发问题，需要加锁。
+     */
     // 利用HttpSessionListener统计最多在线用户人数
     // from: http://tianweili.github.io/blog/2015/01/27/java-listener/
     public void sessionCreated(HttpSessionEvent event) {
