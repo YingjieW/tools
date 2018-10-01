@@ -3,9 +3,6 @@ package com.tools.util;
 import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.tools.constant.SessionConstants;
-import com.yeepay.g3.utils.common.StringUtils;
-import com.yeepay.g3.utils.common.ThreadContextUtils;
-import com.yeepay.g3.utils.common.threadcontext.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -201,19 +198,19 @@ public class UrlUtils {
      *
      * @return
      */
-    public static String getServerNameIp() {
-        String ip = null;
-        try {
-            ip = getServerIp();
-            if (StringUtils.isEmpty(ip)) {
-                ip = getLocalIp();
-            }
-        } catch (Throwable e) {
-            // 有异常时获得本地ip
-            ip = getLocalIp();
-        }
-        return ip;
-    }
+//    public static String getServerNameIp() {
+//        String ip = null;
+//        try {
+//            ip = getServerIp();
+//            if (StringUtils.isEmpty(ip)) {
+//                ip = getLocalIp();
+//            }
+//        } catch (Throwable e) {
+//            // 有异常时获得本地ip
+//            ip = getLocalIp();
+//        }
+//        return ip;
+//    }
 
     /**
      * 获得本机ip
@@ -321,20 +318,20 @@ public class UrlUtils {
 
     }
 
-    public static String getGuid() {
-        String threadUID = "";
-        try {
-            ThreadContext context = ThreadContextUtils.getContext();
-            if (context != null) {
-                threadUID = context.getThreadUID();
-            } else {
-                logger.info("this context is null");
-            }
-        } catch (Throwable e) {
-            logger.error("get guid is error", e);
-        }
-        return threadUID;
-    }
+//    public static String getGuid() {
+//        String threadUID = "";
+//        try {
+//            ThreadContext context = ThreadContextUtils.getContext();
+//            if (context != null) {
+//                threadUID = context.getThreadUID();
+//            } else {
+//                logger.info("this context is null");
+//            }
+//        } catch (Throwable e) {
+//            logger.error("get guid is error", e);
+//        }
+//        return threadUID;
+//    }
 
     /**
      * 获取本地静态资源
@@ -365,11 +362,11 @@ public class UrlUtils {
      * 获取自定义应用路径
      *
      * @return
-     */
-    public static String getAppDefineContext(String appUrl, String context) {
-        if (StringUtils.isNotEmpty(appUrl)) {
-            context = appUrl.substring(0, appUrl.lastIndexOf("/")) + "/" + context;
-        }
-        return context;
-    }
+//     */
+//    public static String getAppDefineContext(String appUrl, String context) {
+//        if (StringUtils.isNotEmpty(appUrl)) {
+//            context = appUrl.substring(0, appUrl.lastIndexOf("/")) + "/" + context;
+//        }
+//        return context;
+//    }
 }

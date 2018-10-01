@@ -81,13 +81,13 @@ public class ConvertUtils {
     }
 
     public static Object convert(Type toType, String value){
-        com.yeepay.g3.utils.common.CheckUtils.notNull(toType, "toType");
-        if(Type.STRING.equals(toType)){
-            return value;
-        }
-        if(com.yeepay.g3.utils.common.CheckUtils.isEmpty(value)){
-            return null;
-        }
+//        CheckUtils.notNull(toType, "toType");
+//        if(Type.STRING.equals(toType)){
+//            return value;
+//        }
+//        if(com.yeepay.g3.utils.common.CheckUtils.isEmpty(value)){
+//            return null;
+//        }
         switch(toType){
             case INT : return Integer.parseInt(value);
             case LONG : return Long.parseLong(value);

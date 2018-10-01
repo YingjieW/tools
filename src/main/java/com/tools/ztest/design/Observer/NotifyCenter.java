@@ -1,6 +1,6 @@
 package com.tools.ztest.design.Observer;
 
-import com.yeepay.g3.utils.common.CollectionUtils;
+import open.framework.bill.utils.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

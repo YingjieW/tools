@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class DigestUtil {
 	private static String encodingCharset = "UTF-8";
-	private static Log log = LogFactory.getLog(com.yeepay.g3.yqt.common.security.DigestUtil.class);
+	private static Log log = LogFactory.getLog(DigestUtil.class);
 
 	/**
 	 * @param aValue

@@ -230,17 +230,17 @@
             <version>1.1.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.mbi</groupId>
-            <artifactId>mbi-common-utils</artifactId>
-            <version>0.0.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.mbi</groupId>-->
+            <!--<artifactId>mbi-common-utils</artifactId>-->
+            <!--<version>0.0.1</version>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-utils-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.yeepay.g3.utils</groupId>-->
+            <!--<artifactId>yeepay-utils-common</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
             <!--<groupId>net.sf.cglib</groupId>-->
@@ -298,11 +298,11 @@
             <version>3.11</version>
         </dependency>
 
-        <dependency>
-            <groupId>net.sourceforge</groupId>
-            <artifactId>javacsv</artifactId>
-            <version>2.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>net.sourceforge</groupId>-->
+            <!--<artifactId>javacsv</artifactId>-->
+            <!--<version>2.0</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -314,17 +314,6 @@
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
             <version>3.6.1</version>
-        </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>com.yeepay</groupId>-->
-            <!--<artifactId>yop-sdk</artifactId>-->
-            <!--<version>1.0</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>com.yeepay.g3.yop</groupId>
-            <artifactId>yop-sdk</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -417,12 +406,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.yeepay.g3.facade.accounting</groupId>
-            <artifactId>accounting-facade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>2.9.0</version>
@@ -486,10 +469,11 @@
             <version>3.3.4</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
         <dependency>
-            <groupId>com.yeepay.g3.yqt</groupId>
-            <artifactId>yqt-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
         </dependency>
 
         <dependency>
@@ -523,23 +507,23 @@
             <version>1.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-dal-jdbc</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.yeepay.g3.utils</groupId>-->
+            <!--<artifactId>yeepay-dal-jdbc</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-dal-jdbc-driver-monitor</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.yeepay.g3.utils</groupId>-->
+            <!--<artifactId>yeepay-dal-jdbc-driver-monitor</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-dal-jdbc-driver</artifactId>
-            <version>2.0-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.yeepay.g3.utils</groupId>-->
+            <!--<artifactId>yeepay-dal-jdbc-driver</artifactId>-->
+            <!--<version>2.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>open.framework.udm</groupId>
@@ -550,12 +534,6 @@
         <dependency>
             <groupId>open.framework.bill</groupId>
             <artifactId>bill-generator</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.yeepay.g3.utils</groupId>
-            <artifactId>yeepay-smartcache</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -572,6 +550,14 @@
             <classifier>jdk15</classifier>
             <version>2.3</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

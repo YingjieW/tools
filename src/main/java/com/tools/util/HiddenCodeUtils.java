@@ -1,6 +1,5 @@
 package com.tools.util;
 
-import com.yeepay.g3.utils.common.json.JSONUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
@@ -125,26 +124,26 @@ public class HiddenCodeUtils {
 		}
 		return verifyCode;
 	}
-	
-	public static String hiddenJsonString(String jsonStr) {
-		if (StringUtils.isBlank(jsonStr)) {
-			return jsonStr;
-		}
-		String hiddenStr;
-		try {
-			Map<String,String> map = JSONUtils.jsonToMap(jsonStr, String.class, String.class);
-			String accountNo = map.get("accountNo");
-			if (StringUtils.isNotBlank(accountNo)) {
-				map.put("accountNo", hiddenBankCardNO(accountNo));
-			}
-			String cvv = map.get("cvv");
-			if (StringUtils.isNotBlank(cvv)) {
-				map.put("cvv", hiddenCvv(cvv));
-			}
-			hiddenStr = JSONUtils.toJsonString(map);
-		} catch (Exception e) {
-			hiddenStr=jsonStr;
-		}
-		return hiddenStr;
-	} 
+//
+//	public static String hiddenJsonString(String jsonStr) {
+//		if (StringUtils.isBlank(jsonStr)) {
+//			return jsonStr;
+//		}
+//		String hiddenStr;
+//		try {
+//			Map<String,String> map = JSONUtils.jsonToMap(jsonStr, String.class, String.class);
+//			String accountNo = map.get("accountNo");
+//			if (StringUtils.isNotBlank(accountNo)) {
+//				map.put("accountNo", hiddenBankCardNO(accountNo));
+//			}
+//			String cvv = map.get("cvv");
+//			if (StringUtils.isNotBlank(cvv)) {
+//				map.put("cvv", hiddenCvv(cvv));
+//			}
+//			hiddenStr = JSONUtils.toJsonString(map)map;
+//		} catch (Exception e) {
+//			hiddenStr=jsonStr;
+//		}
+//		return hiddenStr;
+//	}
 }

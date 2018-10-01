@@ -1,7 +1,5 @@
 package com.tools.util;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.UnsupportedEncodingException;
 
 /**

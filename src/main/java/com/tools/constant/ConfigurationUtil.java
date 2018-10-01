@@ -6,8 +6,8 @@ import com.tools.constant.enums.ConfigTypeEnum;
 import com.tools.quartz.task.BaseTaskJobProxy;
 import com.tools.quartz.task.jobMannager.Job;
 import com.tools.util.CheckUtils;
-import com.yeepay.g3.utils.common.log.Logger;
-import com.yeepay.g3.utils.common.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 

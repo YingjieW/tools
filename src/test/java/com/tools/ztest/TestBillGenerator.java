@@ -2,7 +2,6 @@ package com.tools.ztest;
 
 import com.alibaba.fastjson.JSON;
 import com.tools.BaseTest;
-import com.yeepay.utils.jdbc.dal.DALDataSource;
 import open.framework.bill.common.CommonConstants;
 import open.framework.bill.config.BillConfig;
 import open.framework.bill.config.ColumnValueConfig;
@@ -32,7 +31,8 @@ public class TestBillGenerator extends BaseTest {
 
     @Test
     public void testDb2Generate() throws Exception {
-        DataSource dataSource = beanFactory.getBean(DALDataSource.class);
+//        DataSource dataSource = beanFactory.getBean(DALDataSource.class);
+        DataSource dataSource = null;
         BillConfig billConfig = new BillConfig();
         billConfig.setDataSource(dataSource);
         billConfig.setDatabaseType(DatabaseTypeEnum.DB2);

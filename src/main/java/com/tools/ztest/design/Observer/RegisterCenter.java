@@ -1,6 +1,6 @@
 package com.tools.ztest.design.Observer;
 
-import com.yeepay.g3.utils.common.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

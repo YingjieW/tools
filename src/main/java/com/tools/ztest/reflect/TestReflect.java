@@ -2,7 +2,6 @@ package com.tools.ztest.reflect;
 
 import com.alibaba.fastjson.JSON;
 import com.tools.ztest.reflect.enumtype.CommonType;
-import com.tools.ztest.yop.entity.YeepayProductEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,16 +141,11 @@ public class TestReflect {
         System.out.println("name : " + name + ",  pwd : " + pwd);
     }
 
-    private static YeepayProductEntity testMethod2() {
-        YeepayProductEntity yeepayProductEntity = new YeepayProductEntity();
-        return yeepayProductEntity;
-    }
 
     private static String testMethod3() {
         return "testMethod3";
     }
 
-    private static void testMethod4(YeepayProductEntity yeepayProductEntity) {}
 
     private static Map<String, String> testMethod5(Map<String, String> map) {
         return map;

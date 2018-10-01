@@ -71,7 +71,7 @@ public class FlowNoGenerator {
 		int count = 0;
 		long total = 10000000;
 		for(int i=0;i<total;i++){
-			String no = com.yeepay.g3.yqt.common.generator.FlowNoGenerator.generateForMarketingCoupon("ABC");
+			String no = FlowNoGenerator.generateForMarketingCoupon("ABC");
 			System.out.println(no);
 			if(!nos.contains(no)){
 				nos.add(no);

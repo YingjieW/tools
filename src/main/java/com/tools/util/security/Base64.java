@@ -1,7 +1,5 @@
 package com.tools.util.security;
 
-import com.yeepay.g3.yqt.common.security.Digest;
-
 import java.io.UnsupportedEncodingException;
 
 public class Base64 {
@@ -449,12 +447,12 @@ public class Base64 {
 		return encodeBase64(pArray, false);
 	}
 
-	public static String encode(String str) throws UnsupportedEncodingException {
-		String baseStr = new String(encode(str.getBytes("UTF-8")));
-		String tempStr = Digest.digest(str).toUpperCase();
-		String result = tempStr + baseStr;
-		return new String(encode(result.getBytes("UTF-8")));
-	}
+//	public static String encode(String str) throws UnsupportedEncodingException {
+//		String baseStr = new String(encode(str.getBytes("UTF-8")));
+//		String tempStr = Digest.digest(str).toUpperCase();
+//		String result = tempStr + baseStr;
+//		return new String(encode(result.getBytes("UTF-8")));
+//	}
 
 	public static String decode(String cryptoStr)
 			throws UnsupportedEncodingException {

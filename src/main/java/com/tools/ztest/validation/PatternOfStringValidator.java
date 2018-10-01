@@ -1,6 +1,6 @@
 package com.tools.ztest.validation;
 
-import com.yeepay.g3.utils.common.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

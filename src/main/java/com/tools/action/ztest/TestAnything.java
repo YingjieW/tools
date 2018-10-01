@@ -7,7 +7,6 @@ import com.tools.util.BeanFactoryUtil;
 import com.tools.ztest.facade.RmiMockTester;
 import com.tools.ztest.facade.impl.InterfaceTest;
 import com.tools.ztest.javabeans.Dog;
-import com.yeepay.utils.jdbc.dal.DALDataSource;
 import javassist.*;
 import open.udm.client.context.DefaultUDMClientContext;
 import open.udm.client.dto.MainTaskBizDTO;
@@ -150,11 +149,6 @@ public class TestAnything extends HttpServlet {
 //        defaultUDMClientContext.updateServerBetaFlag(serverInfoDTOList, null);
         System.out.println("===>..after  - serverBetaFlag:" + defaultUDMClientContext.getServerBetaFlag());
         jobTaskUpdate.updateTask(taskConfigDTOList);
-    }
-
-    private void testBillGenerator() throws Exception {
-        DataSource dataSource = BeanFactoryUtil.getBeanByClass(DALDataSource.class);
-
     }
 
     @RequestMapping("/requestParam")

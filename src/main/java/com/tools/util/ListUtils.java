@@ -1,7 +1,7 @@
 package com.tools.util;
 
 import com.alibaba.fastjson.JSON;
-import com.yeepay.g3.utils.common.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

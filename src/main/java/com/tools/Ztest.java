@@ -5,14 +5,13 @@ import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.tools.util.BeanUtils;
+import com.tools.util.DateUtils;
 import com.tools.util.SerializeUtils;
 import com.tools.util.ThreadSafeDateUtils;
 import com.tools.ztest.javabeans.PersonDTO;
 import com.tools.ztest.javabeans.PersonEntity;
 import com.tools.ztest.reflect.enumtype.CommonType;
 import com.tools.ztest.test.Animal;
-import com.yeepay.g3.utils.common.DateUtils;
-import com.yeepay.g3.utils.common.OrderedProperties;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -151,12 +150,12 @@ public class Ztest {
 
        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
        System.out.println(classLoader.getResource(propPath).getPath());
-       Map<String, String> result = loadProps(propPath, classLoader);
-       System.out.println(JSON.toJSONString(result));
+//       Map<String, String> result = loadProps(propPath, classLoader);
+//       System.out.println(JSON.toJSONString(result));
 
        ClassLoader classLoader1 = classLoader.getParent();
-       Map<String, String> result1 = loadProps(propPath, classLoader1);
-       System.out.println(JSON.toJSONString(result1));
+//       Map<String, String> result1 = loadProps(propPath, classLoader1);
+//       System.out.println(JSON.toJSONString(result1));
 
        System.out.println("**********");
        Enumeration<URL> urls = classLoader.getResources(propPath);
@@ -167,28 +166,6 @@ public class Ztest {
        }
        System.out.println("\n" + JSON.toJSONString(urls));
    }
-
-    public static Map<String,String> loadProps(String uri, ClassLoader classLoader){
-        OrderedProperties props = new OrderedProperties();
-        Map result = new LinkedHashMap();
-        InputStream is = classLoader.getResourceAsStream(uri);
-        if (is == null) {
-            return null;
-        }
-        try {
-            props.loadMap(is, result);
-        } catch (Exception e) {
-            throw new RuntimeException("load resource fail, uri:"+uri+" errorMsg:"+e.getMessage(), e);
-        }finally{
-            if(is !=null){
-                try {
-                    is.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-        return result;
-    }
 
     private static void testReflectConstuctor() throws Exception {
         Constructor constructor = Ztest.class.getDeclaredConstructor(null);
