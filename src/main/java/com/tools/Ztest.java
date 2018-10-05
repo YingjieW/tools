@@ -35,6 +35,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Ztest {
 
@@ -64,6 +66,43 @@ public class Ztest {
 
     public static void main(String[] args) throws Throwable {
         ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+    }
+
+
+    private static void testPlaceholder() {
+//        String regex = "\\$\\{([^}]+)\\}";
+//        String replacement = "666";
+        String text = "${test} 今天[${test}][${{}}]是个好天气: ${test}, ${}-${kkk}";
+//
+//        String result = Pattern.compile(regex).matcher(text).replaceAll(replacement);
+//        System.out.println(result);
+        Map<String, String> tokensMap = new HashMap<>();
+        tokensMap.put("test", "999${kk}");
+        String regex = "\\$\\{([^}]+)\\}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        String result = text;
+        while(matcher.find()) {
+            String token = matcher.group();     // Ex: ${fizz}
+            String tokenKey = matcher.group(1); // Ex: fizz
+            String replacementValue = null;
+            System.out.println("token: " + token);
+            System.out.println("tokenKey: " + tokenKey);
+            System.out.println("quote: " + Pattern.quote(token));
+
+            if(tokensMap.containsKey(tokenKey)) {
+                replacementValue = tokensMap.get(tokenKey);
+                System.out.println("replacementValue: " + replacementValue);
+                System.out.println("result: " + result);
+                try {
+                    result = result.replaceFirst(Pattern.quote(token), replacementValue);
+                } catch (Exception e) {
+
+                }
+                System.out.println("result: " + result);
+                System.out.println();
+            }
+        }
     }
 
     private static void testGbkRead() throws Exception {
@@ -256,11 +295,6 @@ public class Ztest {
             final String prtvalue = System.getProperty(prt);
             System.out.println(prt + ":" + prtvalue);
         }
-    }
-
-    private static void test(Object... obj) throws Exception {
-        System.out.println(obj.getClass());
-        System.out.println(obj.length);
     }
 
     private static void testTreeMap() throws Exception {
