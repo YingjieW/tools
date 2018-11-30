@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPoolUtil {
 
-    private static ExecutorService threadPool;
+    private volatile static ExecutorService threadPool;
 
     //保持最少corePoolSize个线程
     private static int corePoolSize = 0;
@@ -30,9 +30,13 @@ public class ThreadPoolUtil {
     /* 任务处理线程池 */
     public static ExecutorService getThreadPool() {
         if (threadPool == null) {
-            threadPool = new ThreadPoolExecutor(
-                    corePoolSize, maxPoolSize, threadLiveTime, TimeUnit.MINUTES, waitQueue,
-                    new ThreadPoolExecutor.CallerRunsPolicy());
+            synchronized (ThreadPoolUtil.class) {
+                if (threadPool == null) {
+                    threadPool = new ThreadPoolExecutor(
+                            corePoolSize, maxPoolSize, threadLiveTime, TimeUnit.MINUTES, waitQueue,
+                            new ThreadPoolExecutor.DiscardPolicy());
+                }
+            }
         }
         return threadPool;
     }

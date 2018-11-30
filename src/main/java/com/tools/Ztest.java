@@ -65,19 +65,65 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+        testThreadPool();
+    }
+
+
+    private static void testThreadPool() throws Exception {
+        ArrayBlockingQueue waitQueue = new ArrayBlockingQueue(1);
+        ExecutorService threadPool = new ThreadPoolExecutor(1, 1, 5,
+                TimeUnit.MINUTES, waitQueue, new ThreadPoolExecutor.DiscardPolicy());
+        ((ThreadPoolExecutor) threadPool).allowCoreThreadTimeOut(true);
+        System.out.println("--- start first thread ---");
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(".....first thread...");
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                };
+            }
+        });
+        System.out.println("--- start second thread ---");
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(".....second thread...");
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println("--- start third thread ---");
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(".....third thread...");
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
     private static void testPlaceholder() {
 //        String regex = "\\$\\{([^}]+)\\}";
 //        String replacement = "666";
-        String text = "${test} 今天[${test}][${{}}]是个好天气: ${test}, ${}-${kkk}";
+//        String text = "${test} 今天[${test}][${{}}]是个好天气: ${test}, ${}-${kkk}";
+        String text = "${test} 今天[${test}]是个好天气: ${test}, ${detailMsg}";
+//        String text = "${detailMsg}";
 //
 //        String result = Pattern.compile(regex).matcher(text).replaceAll(replacement);
 //        System.out.println(result);
         Map<String, String> tokensMap = new HashMap<>();
-        tokensMap.put("test", "999${kk}");
+        tokensMap.put("test", "999\r\n\t999\r\n\t");
         String regex = "\\$\\{([^}]+)\\}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
@@ -95,13 +141,13 @@ public class Ztest {
                 System.out.println("replacementValue: " + replacementValue);
                 System.out.println("result: " + result);
                 try {
-                    result = result.replaceFirst(Pattern.quote(token), replacementValue);
+                    result = result.replaceFirst(Pattern.quote(token), Matcher.quoteReplacement(replacementValue));
                 } catch (Exception e) {
 
                 }
-                System.out.println("result: " + result);
-                System.out.println();
             }
+            System.out.println("result: " + result);
+            System.out.println();
         }
     }
 
@@ -116,43 +162,6 @@ public class Ztest {
         System.out.println(br.readLine());
     }
 
-    private static void testThreadPool() throws Exception {
-        ArrayBlockingQueue waitQueue = new ArrayBlockingQueue(1);
-        ExecutorService threadPool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.MINUTES, waitQueue, new ThreadPoolExecutor.AbortPolicy());
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(".....first thread...");
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                };
-            }
-        });
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(".....second thread...");
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(".....third thread...");
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     public static void testCollectionsSort() throws Exception {
         String[] alphabets = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
