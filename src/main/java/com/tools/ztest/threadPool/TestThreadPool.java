@@ -1,5 +1,10 @@
 package com.tools.ztest.threadPool;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Descripe:
  *
@@ -8,10 +13,43 @@ package com.tools.ztest.threadPool;
  */
 public class TestThreadPool {
 
-    public static void main(String[] args) {
-        ThreadPoolUtil.getThreadPool().execute(new SleepThread(50000));
-//        for(int i = 0; i < 9; i++ ) {
-//            ThreadPoolUtil.getThreadPool().execute(new SleepThread(0));
+    public static void main(String[] args) throws Exception {
+        ArrayList<Callable<Object>> list = new ArrayList<>();
+        list.add(new SleepThreadCallable());
+        list.add(new SleepThreadCallable());
+        list.add(new SleepThreadCallable());
+
+        list.add(new SleepThreadCallable());
+        list.add(new SleepThreadCallable());
+        list.add(new SleepThreadCallable());
+
+        list.add(new SleepThreadCallable());
+        long start = System.currentTimeMillis();
+        System.out.println(start);
+
+        // invokeAll是同步的，需要等待执行完毕
+        ThreadPoolUtil.getThreadPool().invokeAll(list);
+
+        // 循环submit是ok的，异步的
+//        for (Callable callable : list) {
+//            ThreadPoolUtil.getThreadPool().submit(callable);
 //        }
+
+        // 单独submit是ok的，异步的
+//        ThreadPoolUtil.getThreadPool().submit(() -> {
+//            System.out.println("1 - start to sleep 10s");
+//            try {
+//                TimeUnit.SECONDS.sleep(10);
+//            } catch (Exception e) {}
+//            System.out.println("1 - end sleep 10s");
+//        });
+//        System.out.println("1.........");
+//        ThreadPoolUtil.getThreadPool().submit(new SleepThreadCallable());
+//
+
+
+        long end = System.currentTimeMillis();
+        System.out.println(end);
+        System.out.println("-------------------> cost: " + (start - end));
     }
 }

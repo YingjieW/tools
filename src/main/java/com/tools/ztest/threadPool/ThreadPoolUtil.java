@@ -16,9 +16,9 @@ public class ThreadPoolUtil {
     private volatile static ExecutorService threadPool;
 
     //保持最少corePoolSize个线程
-    private static int corePoolSize = 0;
+    private static int corePoolSize = 3;
     //如果corePoolSize都在工作，新任务放入到queue中等待
-    private static int waitQueueSize = 5;
+    private static int waitQueueSize = 50;
     //如果queue中等待任务已满，则继续创建新线程处理任务,如果工作线程数达到maxPoolSize依然不够处理，则拒绝最新的请求(本处将抛出异常)
     private static int maxPoolSize = 3;
     //空闲线程存活时间,根据定时分布配置

@@ -65,7 +65,9 @@ public class Ztest {
     }
 
     public static void main(String[] args) throws Throwable {
-        testThreadPool();
+        System.out.println(Integer.valueOf("-1"));
+        System.out.println(Integer.valueOf("987654321999"));
+        System.out.println(Integer.valueOf("2.0"));
     }
 
 

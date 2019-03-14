@@ -23,4 +23,15 @@
 
     <!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="com.tools.ztest.dubbo.ProviderService" ref="providerService" />
+
+
+    <!-- 提供者配置 -->
+    <dubbo:service interface="com.wyj.testFacade" ref="testfacade" timeout="30000" version="CLEARING-INNER-1.0.0">
+        <dubbo:method name="test" timeout="1" retries="2"></dubbo:method>
+    </dubbo:service>
+
+    <!-- 消费者配置 -->
+    <dubbo:reference interface="com.wyj.testfacade" check="false" version="CLEARINN-INNER-1.0.0" timeout="1000" retries="5">
+    </dubbo:reference>
+
 </beans>
