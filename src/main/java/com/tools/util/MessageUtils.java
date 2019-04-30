@@ -71,8 +71,8 @@ final public class MessageUtils {
 
     public static void main(String[] args) throws Exception {
         System.out.println();
-        System.out.println(MessageUtils.format("Test...."));
-        System.out.println(MessageUtils.format("Test:{}", false));
+        System.out.println(MessageUtils.format("Test....", "8"));
+        System.out.println(MessageUtils.format("Test:{},{}", false));
         System.out.println(MessageUtils.format("Test:{}, a:{}, {}", false, 1, "kkkk"));
         System.out.println(MessageUtils.format("Test:\\{}, a:{}, {}", false, 1, "kkkk"));
         System.out.println(MessageUtils.format("Test:\\\\{}, a:{}, {}", false, 1, "kkkk"));

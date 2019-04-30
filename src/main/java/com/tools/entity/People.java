@@ -1,6 +1,12 @@
 package com.tools.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description:
@@ -8,6 +14,9 @@ import java.io.Serializable;
  * @author yingjie.wang
  * @since 17/3/23 下午5:21
  */
+@Setter
+@Getter
+@ToString
 public class People implements Serializable {
 
     private String id;
@@ -15,6 +24,8 @@ public class People implements Serializable {
     private String name;
 
     private Integer age;
+
+    private List<Student> studentList;
 
     public People() {}
 
@@ -24,31 +35,15 @@ public class People implements Serializable {
         this.age = age;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
+    public static void main(String[] args) throws Exception {
+        Student student = new Student("S001", "Tom", 119, "role");
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        People people = new People("P001", "Mr.Zhou", 19);
+        people.setStudentList(students);
+        System.out.println(people);
+        people = null;
+        System.out.println(people);
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-//    public static void main(String[] args) {
-////        People.getSingleton();
-//    }
 }

@@ -1,6 +1,7 @@
 package com.tools.entity;
 
 import com.alibaba.fastjson.JSON;
+import lombok.ToString;
 
 import java.lang.reflect.Constructor;
 
@@ -10,6 +11,7 @@ import java.lang.reflect.Constructor;
  * @author yingjie.wang
  * @since 17/7/26 下午8:49
  */
+@ToString
 public class Student extends People {
 
     private String role;
