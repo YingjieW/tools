@@ -1,7 +1,10 @@
 package com.tools.leetcode;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,41 +24,32 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TwoSum {
 
-    // map key、value 的 null 问题
-    public static void main(String[] args) {
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(1,1);
-        map.put(null,1);
-        map.put(1,null);
-        System.out.println(map.get(1));
-        System.out.println(map.get(3));
-
-        Map<Integer, Integer> cMap = new ConcurrentHashMap<>();
-        cMap.put(1, 2);
-        System.out.println(cMap.get(1));
-        System.out.println(cMap.get(5));
-
-        Map<Integer, Integer> tMap = new TreeMap<>();
-        tMap.put(1, 2);
-        System.out.println(tMap.get(1));
-        System.out.println(tMap.get(5));
-    }
-
-    private static int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> tmpMap = new HashMap<>();
+    public static int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> hash = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            tmpMap.put(nums[i], i);
-        }
-        int tmp;
-        for (int i = 0; i < nums.length; i++) {
-            tmp = target - nums[i];
-            if (tmpMap.containsKey(tmp)) {
-                int[] result = new int[2];
-                result[0] = i;
-                result[1] = tmpMap.get(tmp);
+            Integer diff = target - nums[i];
+            if (hash.containsKey(diff)) {
+                int[] result = {hash.get(diff), i};
                 return result;
             }
+            hash.put(nums[i], i);
         }
         return null;
     }
+
+    public static void main(String[] args) {
+        int[] nums = {2, 7, 11, 15};
+        int target = 18;
+        int[] result = twoSum(nums, target);
+        System.out.println("result: " + JSON.toJSONString(result));
+
+        nums = new int[] {3, 3};
+        target = 6;
+        result = twoSum(nums, target);
+        System.out.println("result: " + JSON.toJSONString(result));
+    }
 }
+/* -----------------------------------------------------
+result: [1,2]
+result: [0,1]
+------------------------------------------------------*/

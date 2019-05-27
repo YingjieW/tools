@@ -24,8 +24,8 @@ public class TestPeople extends BaseTest {
     public void testPeople() throws Exception {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("/test/xsd_test.xml");
         People p = (People)ctx.getBean("id...");
-        System.out.println(p.getId());
-        System.out.println(p.getName());
-        System.out.println(p.getAge());
+//        System.out.println(p.getId());
+//        System.out.println(p.getName());
+//        System.out.println(p.getAge());
     }
 }
