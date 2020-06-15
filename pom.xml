@@ -11,7 +11,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.version>3.2.9.RELEASE</spring.version>
+        <spring.version>5.2.7.RELEASE</spring.version>
         <mybatis.version>3.0.5</mybatis.version>
         <slf4j.version>1.6.1</slf4j.version>
         <log4j.version>1.2.14</log4j.version>
@@ -396,7 +396,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>3.2.9.RELEASE</version>
+            <version>5.2.7.RELEASE</version>
         </dependency>
 
         <dependency>
